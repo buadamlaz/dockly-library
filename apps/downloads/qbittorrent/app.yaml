@@ -1,0 +1,88 @@
+id: downloads.qbittorrent
+name:
+  en: qBittorrent
+  tr: qBittorrent
+description:
+  en: Open-source BitTorrent client with a web UI, built on the LinuxServer.io base image.
+  tr: Web arayüzlü, açık kaynak BitTorrent istemcisi — LinuxServer.io taban imajı üzerine kurulu.
+category: [Downloads]
+tags: [torrent, downloads, webui]
+version: "latest"
+license: GPL-2.0
+website: https://www.qbittorrent.org
+repository: https://github.com/qbittorrent/qBittorrent
+documentation: https://docs.linuxserver.io/images/docker-qbittorrent/
+icon: https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/qBittorrent/icon.png
+maintainer:
+  name: Dockly Community
+  source: community
+
+architectures: [amd64, arm64]
+
+images:
+  - repository: lscr.io/linuxserver/qbittorrent
+    tag: "latest"
+
+requirements:
+  ram_min: 512MB
+  ram_recommended: 1GB
+  storage_min: 1GB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 8080
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 8080
+    protocol: tcp
+  - container: 6881
+    protocol: tcp
+  - container: 6881
+    protocol: udp
+
+volumes:
+  - container: /config
+    description: qBittorrent configuration
+  - container: /downloads
+    description: Downloaded files
+
+environment:
+  - name: PUID
+    description: User ID files are written as
+    secret: false
+    default: "1000"
+  - name: PGID
+    description: Group ID files are written as
+    secret: false
+    default: "1000"
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+  - name: WEBUI_PORT
+    description: Web UI port (must match the published port above if changed)
+    secret: false
+    default: "8080"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://www.qbittorrent.org
+  documentation: https://docs.linuxserver.io/images/docker-qbittorrent/
+  repository: https://github.com/qbittorrent/qBittorrent
+
+screenshots:
+  - 01.png
+  - 02.png
+  - 03.png

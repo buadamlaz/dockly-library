@@ -1,0 +1,11 @@
+services:
+  nextcloud:
+    image: nextcloud:latest
+    container_name: nextcloud
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - /home/nextcloud/data:/var/www/html
+    environment:
+      TZ: "Etc/UTC"

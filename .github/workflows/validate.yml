@@ -1,0 +1,31 @@
+name: Validate library
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install validator dependencies
+        run: pip install -r scripts/requirements.txt
+
+      - name: Validate manifests, compose files, and index.json
+        run: python scripts/validate.py
+
+      - name: Validate compose files with the real Docker Compose parser
+        run: |
+          set -e
+          for f in apps/*/*/docker-compose.yml; do
+            echo "== $f =="
+            docker compose -f "$f" config --quiet
+          done

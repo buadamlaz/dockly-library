@@ -1,0 +1,70 @@
+id: productivity.nextcloud
+name:
+  en: Nextcloud
+  tr: Nextcloud
+description:
+  en: Self-hosted file sync, sharing, and collaboration platform. This entry runs the lightweight single-container variant with SQLite — fine for personal/small use, not the multi-container production setup Nextcloud itself recommends for larger deployments.
+  tr: Kendi sunucundan dosya senkronizasyonu, paylaşım ve iş birliği platformu. Bu kayıt, SQLite ile çalışan hafif tek-konteyner sürümünü çalıştırır — kişisel/küçük kullanım için uygundur, Nextcloud'un büyük kurulumlar için önerdiği çok konteynerli production kurulumu değildir.
+category: [Productivity]
+tags: [files, sync, collaboration, webui]
+version: "latest"
+license: AGPL-3.0
+website: https://nextcloud.com
+repository: https://github.com/nextcloud/server
+documentation: https://docs.nextcloud.com
+icon: https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Nextcloud/icon.png
+maintainer:
+  name: Dockly Community
+  source: community
+
+architectures: [amd64, arm64]
+
+images:
+  - repository: nextcloud
+    tag: "latest"
+
+requirements:
+  ram_min: 512MB
+  ram_recommended: 2GB
+  storage_min: 5GB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 80
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 80
+    protocol: tcp
+
+volumes:
+  - container: /var/www/html
+    description: Nextcloud application data, config, and the SQLite database
+
+environment:
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://nextcloud.com
+  documentation: https://docs.nextcloud.com
+  repository: https://github.com/nextcloud/server
+
+screenshots:
+  - 01.png
+  - 02.png
+  - 03.png

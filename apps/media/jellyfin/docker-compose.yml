@@ -1,0 +1,14 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+    ports:
+      - "8096:8096"
+      - "8920:8920"
+    volumes:
+      - /home/jellyfin/config:/config
+      - /home/jellyfin/cache:/cache
+      - /home/jellyfin/media:/media
+    environment:
+      TZ: "Etc/UTC"

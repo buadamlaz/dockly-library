@@ -1,0 +1,78 @@
+id: networking.adguardhome
+name:
+  en: AdGuard Home
+  tr: AdGuard Home
+description:
+  en: Network-wide ad and tracker blocking DNS server. Protects every device on your network without installing anything on them.
+  tr: Ağ genelinde reklam ve izleyici engelleyen DNS sunucusu. Ağındaki her cihazı, üzerlerine hiçbir şey kurmadan korur.
+category: [Networking]
+tags: [dns, adblock, networking, webui]
+version: "latest"
+license: GPL-3.0
+website: https://adguard.com/adguard-home
+repository: https://github.com/AdguardTeam/AdGuardHome
+documentation: https://github.com/AdguardTeam/AdGuardHome/wiki
+icon: https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/AdGuardHome/icon.png
+maintainer:
+  name: Dockly Community
+  source: community
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: adguard/adguardhome
+    tag: "latest"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 1GB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 3000
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 53
+    protocol: tcp
+  - container: 53
+    protocol: udp
+  - container: 3000
+    protocol: tcp
+  - container: 80
+    protocol: tcp
+
+volumes:
+  - container: /opt/adguardhome/work
+    description: Runtime data (query log, filter cache)
+  - container: /opt/adguardhome/conf
+    description: Configuration
+
+environment:
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://adguard.com/adguard-home
+  documentation: https://github.com/AdguardTeam/AdGuardHome/wiki
+  repository: https://github.com/AdguardTeam/AdGuardHome
+
+screenshots:
+  - 01.png
+  - 02.png
+  - 03.png

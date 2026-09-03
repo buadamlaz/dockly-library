@@ -1,0 +1,76 @@
+id: media.jellyfin
+name:
+  en: Jellyfin
+  tr: Jellyfin
+description:
+  en: Free software media system that puts you in control of managing and streaming your media. No cloud connection or fees required.
+  tr: Medyanı kendi sunucundan yönetip yayınlamana olanak tanıyan, bulut bağlantısı ya da ücret gerektirmeyen ücretsiz medya sistemi.
+category: [Media]
+tags: [media, streaming, video, webui]
+version: "latest"
+license: GPL-2.0
+website: https://jellyfin.org
+repository: https://github.com/jellyfin/jellyfin
+documentation: https://jellyfin.org/docs
+icon: https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Jellyfin/icon.png
+maintainer:
+  name: Dockly Community
+  source: community
+
+architectures: [amd64, arm64]
+
+images:
+  - repository: jellyfin/jellyfin
+    tag: "latest"
+
+requirements:
+  ram_min: 1GB
+  ram_recommended: 4GB
+  storage_min: 5GB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 8096
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 8096
+    protocol: tcp
+  - container: 8920
+    protocol: tcp
+
+volumes:
+  - container: /config
+    description: Jellyfin server configuration and metadata
+  - container: /cache
+    description: Transcoding cache
+  - container: /media
+    description: Your media library (host-provided path)
+
+environment:
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://jellyfin.org
+  documentation: https://jellyfin.org/docs
+  repository: https://github.com/jellyfin/jellyfin
+
+screenshots:
+  - 01.png
+  - 02.png
+  - 03.png

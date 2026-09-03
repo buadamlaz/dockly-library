@@ -1,0 +1,130 @@
+id: photos.immich
+name:
+  en: Immich
+  tr: Immich
+description:
+  en: Self-hosted photo and video backup with machine-learning search, albums, and mobile apps — a self-hosted replacement for cloud photo services.
+  tr: Makine öğrenmesi destekli arama, albümler ve mobil uygulamalarla kendi sunucundan foto/video yedekleme — bulut foto servislerine kendi barındırdığın bir alternatif.
+category: [Photos]
+tags: [photos, backup, media, webui]
+version: "v3.1.0"
+license: AGPL-3.0
+website: https://immich.app
+repository: https://github.com/immich-app/immich
+documentation: https://immich.app/docs
+icon: https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Immich/icon.png
+maintainer:
+  name: Dockly Community
+  source: community
+
+architectures: [amd64, arm64]
+
+# A real multi-container stack — server, machine learning, redis, and a
+# postgres database — matching the official install method exactly
+# (https://docs.immich.app/install/docker-compose/, verified against the
+# current docker-compose.yml + example.env from
+# github.com/immich-app/immich's latest release, 2026-09-01). Dockly has no
+# .env-file mechanism and no shared-variable substitution — the shared DB
+# password is a plain "##CREATE_PASSWORD##" placeholder default on both
+# services below (POSTGRES_PASSWORD, DB_PASSWORD); the installer types the
+# same real password into each, same as hand-editing a compose file.
+requirements:
+  ram_min: 2GB
+  ram_recommended: 6GB
+  storage_min: 10GB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 2283
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+services:
+  - name: database
+    image:
+      repository: ghcr.io/immich-app/postgres
+      tag: "14-vectorchord0.4.3-pgvectors0.2.0"
+      digest: "sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23"
+    volumes:
+      - container: /var/lib/postgresql/data
+        name: postgresql
+        description: Database files. Must be on local storage — network shares (NFS, SMB) are not supported here.
+    environment:
+      - name: POSTGRES_PASSWORD
+        description: Set your own password here, letters and numbers only (no special characters or spaces — the official docs call this out explicitly). Must match immich-server's DB_PASSWORD below.
+        secret: true
+        default: "##CREATE_PASSWORD##"
+      - name: POSTGRES_USER
+        description: Database user.
+        default: "postgres"
+      - name: POSTGRES_DB
+        description: Database name.
+        default: "immich"
+      - name: POSTGRES_INITDB_ARGS
+        description: Required by Immich's Postgres image.
+        default: "--data-checksums"
+
+  - name: redis
+    image:
+      repository: docker.io/valkey/valkey
+      tag: "9"
+      digest: "sha256:8e8d64b405ce18f41b8e5ee20aa4687a8ed0022d1298f2ce31cdcf3a76e09411"
+    # No volume: Immich only uses this as a job queue/cache, losing it on
+    # restart is harmless (matches the official compose, which doesn't
+    # persist it either).
+
+  - name: immich-machine-learning
+    image:
+      repository: ghcr.io/immich-app/immich-machine-learning
+      tag: "v3.1.0"
+    volumes:
+      - container: /cache
+        description: Machine-learning model cache — safe to lose, just gets re-downloaded.
+
+  - name: immich-server
+    primary: true
+    depends_on: [redis, database]
+    image:
+      repository: ghcr.io/immich-app/immich-server
+      tag: "v3.1.0"
+    ports:
+      - container: 2283
+        protocol: tcp
+    volumes:
+      - container: /usr/src/app/upload
+        description: Your photo and video library — the actual backed-up media.
+    environment:
+      - name: DB_PASSWORD
+        description: Must match the database service's POSTGRES_PASSWORD above — same password, typed in both places.
+        secret: true
+        default: "##CREATE_PASSWORD##"
+      - name: DB_USERNAME
+        description: Must match the database service's user.
+        default: "postgres"
+      - name: DB_DATABASE_NAME
+        description: Must match the database service's name.
+        default: "immich"
+      - name: TZ
+        description: Timezone, e.g. Etc/UTC — used for display/organizing by local time.
+        default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://immich.app
+  documentation: https://immich.app/docs
+  repository: https://github.com/immich-app/immich
+
+screenshots:
+  - 01.png
+  - 02.png
+  - 03.png

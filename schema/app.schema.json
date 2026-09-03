@@ -1,0 +1,257 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/buadamlaz/dockly-library/schema/app.schema.json",
+  "title": "Dockly Library app manifest",
+  "type": "object",
+  "required": ["id", "name", "description", "category", "version", "maintainer", "compose"],
+  "additionalProperties": false,
+  "oneOf": [
+    { "required": ["images"], "description": "Single-container app — the original, still-default shape." },
+    { "required": ["services"], "description": "Multi-container app (a \"stack\") — server+database+... as one install. See services below." }
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Stable identifier, never changes across versions. dotted.lowercase form, e.g. media.jellyfin.",
+      "pattern": "^[a-z0-9]+(\\.[a-z0-9-]+)+$"
+    },
+    "name": {
+      "type": "object",
+      "description": "Display name per locale. Must include at least English.",
+      "required": ["en"],
+      "additionalProperties": { "type": "string" }
+    },
+    "description": {
+      "type": "object",
+      "required": ["en"],
+      "additionalProperties": { "type": "string" }
+    },
+    "category": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "version": { "type": "string" },
+    "license": { "type": "string" },
+    "website": { "type": "string", "format": "uri" },
+    "repository": { "type": "string", "format": "uri" },
+    "documentation": { "type": "string", "format": "uri" },
+    "icon": { "type": "string", "format": "uri" },
+    "maintainer": {
+      "type": "object",
+      "required": ["name", "source"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "source": { "type": "string", "enum": ["official", "community"] }
+      }
+    },
+    "architectures": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["amd64", "arm64", "arm/v7"] },
+      "minItems": 1
+    },
+    "images": {
+      "type": "array",
+      "description": "Single-container apps only — mutually exclusive with services below.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["repository", "tag"],
+        "additionalProperties": false,
+        "properties": {
+          "repository": { "type": "string" },
+          "tag": { "type": "string" },
+          "digest": { "type": "string" }
+        }
+      }
+    },
+    "services": {
+      "type": "array",
+      "description": "Multi-container apps only — mutually exclusive with images/ports/volumes/environment above, which describe the single implicit service when this is absent.",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["name", "image"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Short, stable service name (e.g. \"database\") — becomes this container's DNS name on the stack's own network, so OTHER services can reach it by this exact string.",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "image": {
+            "type": "object",
+            "required": ["repository", "tag"],
+            "additionalProperties": false,
+            "properties": {
+              "repository": { "type": "string" },
+              "tag": { "type": "string" },
+              "digest": { "type": "string" }
+            }
+          },
+          "primary": {
+            "type": "boolean",
+            "description": "At most one service should set this true — the one whose Web UI (if any) represents the whole stack."
+          },
+          "depends_on": {
+            "type": "array",
+            "description": "Other services[].name entries that must be started before this one (start-order only, no health-check gating).",
+            "items": { "type": "string" }
+          },
+          "ports": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["container", "protocol"],
+              "additionalProperties": false,
+              "properties": {
+                "container": { "type": "integer", "minimum": 1, "maximum": 65535 },
+                "protocol": { "type": "string", "enum": ["tcp", "udp"] }
+              }
+            }
+          },
+          "volumes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["container", "description"],
+              "additionalProperties": false,
+              "properties": {
+                "container": { "type": "string" },
+                "description": { "type": "string" },
+                "name": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9-]*$",
+                  "description": "Folder name under this app's /DATA/dockly/<slug>/ data root. Defaults to the last path segment of `container` when omitted."
+                }
+              }
+            }
+          },
+          "environment": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "description"],
+              "additionalProperties": false,
+              "properties": {
+                "name": { "type": "string" },
+                "description": { "type": "string" },
+                "secret": { "type": "boolean" },
+                "default": {
+                  "type": "string",
+                  "description": "A literal default value, e.g. a placeholder like \"##CREATE_PASSWORD##\" for a secret the installer should type their own value into."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ram_min": { "type": "string" },
+        "ram_recommended": { "type": "string" },
+        "storage_min": { "type": "string" }
+      }
+    },
+    "hardware": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "gpu": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "required": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "web": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "path": { "type": "string" }
+      }
+    },
+    "security": {
+      "type": "object",
+      "required": ["privileged", "host_network", "host_pid", "host_ipc", "docker_socket"],
+      "additionalProperties": false,
+      "properties": {
+        "privileged": { "type": "boolean" },
+        "host_network": { "type": "boolean" },
+        "host_pid": { "type": "boolean" },
+        "host_ipc": { "type": "boolean" },
+        "docker_socket": { "type": "boolean" },
+        "capabilities_added": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "ports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["container", "protocol"],
+        "additionalProperties": false,
+        "properties": {
+          "container": { "type": "integer", "minimum": 1, "maximum": 65535 },
+          "protocol": { "type": "string", "enum": ["tcp", "udp"] }
+        }
+      }
+    },
+    "volumes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["container", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "container": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "environment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "secret": { "type": "boolean" },
+          "default": { "type": "string" }
+        }
+      }
+    },
+    "compose": {
+      "type": "object",
+      "required": ["file"],
+      "additionalProperties": false,
+      "properties": {
+        "file": { "type": "string" }
+      }
+    },
+    "screenshots": {
+      "type": "array",
+      "description": "Filenames only (e.g. \"01-dashboard.png\"), living in this app's own screenshots/ folder — not full URLs. See README's Screenshots section.",
+      "items": { "type": "string", "pattern": "^[a-zA-Z0-9_-]+\\.(png|jpg|jpeg|webp)$" }
+    },
+    "links": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "format": "uri" }
+    }
+  }
+}

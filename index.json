@@ -103,6 +103,16 @@
       "description": "Runs automated internet speed tests and keeps up to 30 days of history.",
       "image": "germannewsmaker/myspeed",
       "path": "apps/myspeed"
+    },
+    {
+      "id": "downloads.jackett",
+      "name": "Jackett",
+      "category": "Downloads",
+      "tags": ["torrent", "indexer", "downloads"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/jackett/icon.svg",
+      "description": "Translates search queries from apps like Sonarr/Radarr into indexer-specific requests — one API for dozens of trackers.",
+      "image": "lscr.io/linuxserver/jackett",
+      "path": "apps/jackett"
     }
   ]
 }

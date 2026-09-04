@@ -1,0 +1,77 @@
+id: downloads.jackett
+name:
+  en: Jackett
+  tr: Jackett
+description:
+  en: Proxy that translates queries from apps like Sonarr/Radarr/Prowlarr into torrent/usenet indexer-specific search requests — one API for dozens of trackers.
+  tr: Sonarr/Radarr/Prowlarr gibi uygulamalardan gelen arama isteklerini torrent/usenet indexer'larına özel sorgulara çeviren proxy — onlarca tracker için tek bir API.
+category: [Downloads]
+tags: [torrent, indexer, downloads, webui]
+version: "latest"
+license: GPL-2.0
+website: https://github.com/Jackett/Jackett
+repository: https://github.com/linuxserver/docker-jackett
+documentation: https://docs.linuxserver.io/images/docker-jackett/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/jackett/icon.svg
+maintainer:
+  name: linuxserver
+  source: community
+
+architectures: [amd64, arm64]
+
+images:
+  - repository: lscr.io/linuxserver/jackett
+    tag: "latest"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 500MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 9117
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 9117
+    protocol: tcp
+
+volumes:
+  - container: /config
+    description: Jackett configuration and indexer setup
+    name: config
+  - container: /downloads
+    description: Torrent blackhole directory (for clients that watch a folder instead of using the API)
+    name: downloads
+
+environment:
+  - name: PUID
+    description: User ID files are written as
+    secret: false
+    default: "1000"
+  - name: PGID
+    description: Group ID files are written as
+    secret: false
+    default: "1000"
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://github.com/Jackett/Jackett
+  documentation: https://docs.linuxserver.io/images/docker-jackett/
+  repository: https://github.com/linuxserver/docker-jackett

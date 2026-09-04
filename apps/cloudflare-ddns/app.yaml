@@ -1,0 +1,77 @@
+id: networking.cloudflare-ddns
+name:
+  en: Cloudflare DDNS
+  tr: Cloudflare DDNS
+description:
+  en: Keeps your Cloudflare DNS records pointed at your home server's current IP (IPv4 and/or IPv6) — updates automatically on a schedule, so your domain keeps working even after your home internet connection drops and comes back with a new address. No web UI; runs quietly in the background.
+  tr: Cloudflare'daki DNS kayıtlarını sunucunun güncel IP adresine (IPv4 ve/veya IPv6) sabit tutar — belirli aralıklarla otomatik günceller, böylece internet bağlantısı kesilip yeni bir IP ile geri geldiğinde bile domainin çalışmaya devam eder. Web arayüzü yok, arka planda sessizce çalışır.
+category: [Networking]
+tags: [dns, ddns, cloudflare, networking]
+version: "latest"
+license: Apache-2.0
+website: https://github.com/favonia/cloudflare-ddns
+repository: https://github.com/favonia/cloudflare-ddns
+documentation: https://github.com/favonia/cloudflare-ddns#readme
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/cloudflare-ddns/icon.svg
+maintainer:
+  name: Dockly Community
+  source: community
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: favonia/cloudflare-ddns
+    tag: "latest"
+
+requirements:
+  ram_min: 32MB
+  ram_recommended: 64MB
+  storage_min: 50MB
+hardware:
+  gpu: { required: false }
+
+security:
+  privileged: false
+  host_network: true
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+environment:
+  - name: CLOUDFLARE_API_TOKEN
+    description: Cloudflare API token with DNS edit permission for the zones you want updated
+    secret: true
+    default: "##CREATE_PASSWORD##"
+  - name: DOMAINS
+    description: Comma-separated domains to keep pointed at this server, e.g. example.org,home.example.org
+    secret: false
+    default: ""
+  - name: PROXIED
+    description: Route the domain's traffic through Cloudflare's proxy (orange cloud) instead of DNS-only
+    secret: false
+    default: "true"
+  - name: IP4_PROVIDER
+    description: How to detect the IPv4 address to publish (cloudflare.trace, local, url:<...>, none to disable IPv4)
+    secret: false
+    default: "cloudflare.trace"
+  - name: IP6_PROVIDER
+    description: How to detect the IPv6 address to publish (cloudflare.trace, local, url:<...>, none to disable IPv6)
+    secret: false
+    default: "cloudflare.trace"
+  - name: UPDATE_CRON
+    description: Cron schedule for re-checking the IP and updating DNS, e.g. "@every 5m"
+    secret: false
+    default: "@every 5m"
+  - name: TZ
+    description: Timezone used for log timestamps, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://github.com/favonia/cloudflare-ddns
+  documentation: https://github.com/favonia/cloudflare-ddns#readme
+  repository: https://github.com/favonia/cloudflare-ddns

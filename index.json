@@ -76,6 +76,17 @@
       "featured": true,
       "image": "ghcr.io/sharevb/it-tools",
       "path": "apps/it-tools"
+    },
+    {
+      "id": "networking.cloudflare-ddns",
+      "name": "Cloudflare DDNS",
+      "category": "Networking",
+      "tags": ["dns", "ddns", "cloudflare", "networking"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/cloudflare-ddns/icon.svg",
+      "description": "Keeps a Cloudflare domain pointed at your home server's current IP — updates automatically after reboots or IP changes.",
+      "featured": true,
+      "image": "favonia/cloudflare-ddns",
+      "path": "apps/cloudflare-ddns"
     }
   ]
 }

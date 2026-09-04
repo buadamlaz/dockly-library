@@ -1,0 +1,26 @@
+services:
+  cloudflare-ddns:
+    image: favonia/cloudflare-ddns:latest
+    container_name: cloudflare-ddns
+    network_mode: host
+    # Bypasses network isolation — simplest, most reliable way for the
+    # updater to detect this host's own real IPv4/IPv6 address.
+    restart: unless-stopped
+    user: "1000:1000"
+    read_only: true
+    cap_drop: [all]
+    security_opt: [no-new-privileges:true]
+    # Extra hardening (read-only rootfs, no capabilities, no privilege
+    # escalation) — reference only. Dockly's installer currently applies
+    # privileged/host_network/host_pid/host_ipc/docker_socket/added
+    # capabilities from app.yaml's security block, not read_only/cap_drop/
+    # security_opt/user — those stay manual if you deploy with this file
+    # directly via `docker compose up`.
+    environment:
+      CLOUDFLARE_API_TOKEN: "##CREATE_PASSWORD##"
+      DOMAINS: ""
+      PROXIED: "true"
+      IP4_PROVIDER: "cloudflare.trace"
+      IP6_PROVIDER: "cloudflare.trace"
+      UPDATE_CRON: "@every 5m"
+      TZ: "Etc/UTC"

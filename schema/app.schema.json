@@ -40,7 +40,11 @@
     "website": { "type": "string", "format": "uri" },
     "repository": { "type": "string", "format": "uri" },
     "documentation": { "type": "string", "format": "uri" },
-    "icon": { "type": "string", "format": "uri" },
+    "icon": {
+      "type": "string",
+      "format": "uri",
+      "description": "Full URL to this app's own icon.svg (preferred) — lives at apps/<id>/icon.svg alongside a icon.png fallback, not a third-party CDN link."
+    },
     "maintainer": {
       "type": "object",
       "required": ["name", "source"],
@@ -218,7 +222,12 @@
         "additionalProperties": false,
         "properties": {
           "container": { "type": "string" },
-          "description": { "type": "string" }
+          "description": { "type": "string" },
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$",
+            "description": "Folder name under this app's /DATA/dockly/<slug>/ data root. Defaults to the last path segment of `container` when omitted."
+          }
         }
       }
     },

@@ -25,7 +25,7 @@ jobs:
       - name: Validate compose files with the real Docker Compose parser
         run: |
           set -e
-          for f in apps/*/*/docker-compose.yml; do
+          for f in apps/*/docker-compose.yml; do
             echo "== $f =="
             docker compose -f "$f" config --quiet
           done

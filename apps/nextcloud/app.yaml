@@ -12,7 +12,7 @@ license: AGPL-3.0
 website: https://nextcloud.com
 repository: https://github.com/nextcloud/server
 documentation: https://docs.nextcloud.com
-icon: https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Nextcloud/icon.png
+icon: https://raw.githubusercontent.com/buadamlaz/dockly-library/main/apps/nextcloud/icon.svg
 maintainer:
   name: Dockly Community
   source: community
@@ -49,6 +49,7 @@ ports:
 volumes:
   - container: /var/www/html
     description: Nextcloud application data, config, and the SQLite database
+    name: data
 
 environment:
   - name: TZ

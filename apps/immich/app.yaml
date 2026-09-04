@@ -12,7 +12,7 @@ license: AGPL-3.0
 website: https://immich.app
 repository: https://github.com/immich-app/immich
 documentation: https://immich.app/docs
-icon: https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Immich/icon.png
+icon: https://raw.githubusercontent.com/buadamlaz/dockly-library/main/apps/immich/icon.svg
 maintainer:
   name: Dockly Community
   source: community

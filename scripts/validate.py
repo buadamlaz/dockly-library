@@ -37,7 +37,7 @@ def main() -> int:
     schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
     validator = Draft7Validator(schema)
 
-    manifest_paths = sorted(APPS_DIR.glob("*/*/app.yaml"))
+    manifest_paths = sorted(APPS_DIR.glob("*/app.yaml"))
     if not manifest_paths:
         fail("No app.yaml manifests found under apps/.")
 

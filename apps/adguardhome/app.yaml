@@ -12,7 +12,7 @@ license: GPL-3.0
 website: https://adguard.com/adguard-home
 repository: https://github.com/AdguardTeam/AdGuardHome
 documentation: https://github.com/AdguardTeam/AdGuardHome/wiki
-icon: https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/AdGuardHome/icon.png
+icon: https://raw.githubusercontent.com/buadamlaz/dockly-library/main/apps/adguardhome/icon.svg
 maintainer:
   name: Dockly Community
   source: community
@@ -55,8 +55,10 @@ ports:
 volumes:
   - container: /opt/adguardhome/work
     description: Runtime data (query log, filter cache)
+    name: data
   - container: /opt/adguardhome/conf
     description: Configuration
+    name: config
 
 environment:
   - name: TZ

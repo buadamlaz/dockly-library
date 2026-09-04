@@ -1,0 +1,3 @@
+# Local source pool of app icons (png+svg) we pick from when adding icon.svg/
+# icon.png to each app's own folder — not part of the published catalog itself.
+/apps-logolar/

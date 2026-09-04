@@ -15,56 +15,56 @@
       "name": "Jellyfin",
       "category": "Media",
       "tags": ["media", "streaming", "video"],
-      "icon": "https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Jellyfin/icon.png",
+      "icon": "https://raw.githubusercontent.com/buadamlaz/dockly-library/main/apps/jellyfin/icon.svg",
       "description": "Free software media system that puts you in control of managing and streaming your media.",
       "featured": true,
       "image": "jellyfin/jellyfin",
-      "path": "apps/media/jellyfin"
+      "path": "apps/jellyfin"
     },
     {
       "id": "photos.immich",
       "name": "Immich",
       "category": "Photos",
       "tags": ["photos", "backup", "media"],
-      "icon": "https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Immich/icon.png",
+      "icon": "https://raw.githubusercontent.com/buadamlaz/dockly-library/main/apps/immich/icon.svg",
       "description": "Self-hosted photo and video backup with machine-learning search, albums, and mobile apps.",
       "featured": true,
       "installable": true,
       "image": "ghcr.io/immich-app/immich-server",
-      "path": "apps/photos/immich"
+      "path": "apps/immich"
     },
     {
       "id": "networking.adguardhome",
       "name": "AdGuard Home",
       "category": "Networking",
       "tags": ["dns", "adblock", "networking"],
-      "icon": "https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/AdGuardHome/icon.png",
+      "icon": "https://raw.githubusercontent.com/buadamlaz/dockly-library/main/apps/adguardhome/icon.svg",
       "description": "Network-wide ad and tracker blocking DNS server.",
       "featured": true,
       "image": "adguard/adguardhome",
-      "path": "apps/networking/adguardhome"
+      "path": "apps/adguardhome"
     },
     {
       "id": "downloads.qbittorrent",
       "name": "qBittorrent",
       "category": "Downloads",
       "tags": ["torrent", "downloads"],
-      "icon": "https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/qBittorrent/icon.png",
+      "icon": "https://raw.githubusercontent.com/buadamlaz/dockly-library/main/apps/qbittorrent/icon.svg",
       "description": "Open-source BitTorrent client with a web UI.",
       "featured": true,
-      "image": "lscr.io/linuxserver/qbittorrent",
-      "path": "apps/downloads/qbittorrent"
+      "image": "ghcr.io/hotio/qbittorrent",
+      "path": "apps/qbittorrent"
     },
     {
       "id": "productivity.nextcloud",
       "name": "Nextcloud",
       "category": "Productivity",
       "tags": ["files", "sync", "collaboration"],
-      "icon": "https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Nextcloud/icon.png",
+      "icon": "https://raw.githubusercontent.com/buadamlaz/dockly-library/main/apps/nextcloud/icon.svg",
       "description": "Self-hosted file sync, sharing, and collaboration platform.",
       "featured": true,
       "image": "nextcloud",
-      "path": "apps/productivity/nextcloud"
+      "path": "apps/nextcloud"
     }
   ]
 }

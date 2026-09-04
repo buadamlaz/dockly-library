@@ -51,7 +51,6 @@
       "tags": ["torrent", "downloads"],
       "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/qbittorrent/icon.svg",
       "description": "Open-source BitTorrent client with a web UI.",
-      "featured": true,
       "image": "ghcr.io/hotio/qbittorrent",
       "path": "apps/qbittorrent"
     },
@@ -62,7 +61,6 @@
       "tags": ["files", "sync", "collaboration"],
       "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/nextcloud/icon.svg",
       "description": "Self-hosted file sync, sharing, and collaboration platform.",
-      "featured": true,
       "image": "nextcloud",
       "path": "apps/nextcloud"
     },
@@ -73,7 +71,6 @@
       "tags": ["developer-tools", "utilities", "network-tools"],
       "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/it-tools/icon.svg",
       "description": "Handy online tools for developers — JSON/YAML formatters, encoders, hash generators, regex tester, and more.",
-      "featured": true,
       "image": "ghcr.io/sharevb/it-tools",
       "path": "apps/it-tools"
     },
@@ -84,7 +81,6 @@
       "tags": ["dns", "ddns", "cloudflare", "networking"],
       "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/cloudflare-ddns/icon.svg",
       "description": "Keeps a Cloudflare domain pointed at your home server's current IP — updates automatically after reboots or IP changes.",
-      "featured": true,
       "image": "favonia/cloudflare-ddns",
       "path": "apps/cloudflare-ddns"
     }

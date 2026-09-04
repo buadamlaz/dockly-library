@@ -1,0 +1,67 @@
+id: networking.nginx-proxy-manager
+name:
+  en: Nginx Proxy Manager
+  tr: Nginx Proxy Manager
+description:
+  en: Reverse proxy with a web UI for managing your domains, free Let's Encrypt SSL certificates, and access lists — no need to write nginx config by hand. First login uses the default admin@example.com / changeme, which it forces you to change immediately.
+  tr: Domainlerini, ücretsiz Let's Encrypt SSL sertifikalarını ve erişim listelerini yöneten, web arayüzlü ters proxy — elle nginx config yazmana gerek yok. İlk girişte varsayılan admin@example.com / changeme kullanılır, hemen değiştirmen isteniyor.
+category: [Networking]
+tags: [proxy, ssl, nginx, networking, webui]
+version: "latest"
+license: MIT
+website: https://nginxproxymanager.com
+repository: https://github.com/NginxProxyManager/nginx-proxy-manager
+documentation: https://nginxproxymanager.com/setup/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/nginx-proxy-manager/icon.svg
+maintainer:
+  name: jc21
+  source: community
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: jc21/nginx-proxy-manager
+    tag: "latest"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 500MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 81
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 80
+    protocol: tcp
+  - container: 81
+    protocol: tcp
+  - container: 443
+    protocol: tcp
+
+volumes:
+  - container: /data
+    description: Proxy hosts, users, and app configuration
+    name: data
+  - container: /etc/letsencrypt
+    description: Let's Encrypt SSL certificates
+    name: letsencrypt
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://nginxproxymanager.com
+  documentation: https://nginxproxymanager.com/setup/
+  repository: https://github.com/NginxProxyManager/nginx-proxy-manager

@@ -83,6 +83,16 @@
       "description": "Keeps a Cloudflare domain pointed at your home server's current IP — updates automatically after reboots or IP changes.",
       "image": "favonia/cloudflare-ddns",
       "path": "apps/cloudflare-ddns"
+    },
+    {
+      "id": "networking.nginx-proxy-manager",
+      "name": "Nginx Proxy Manager",
+      "category": "Networking",
+      "tags": ["proxy", "ssl", "nginx", "networking"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/nginx-proxy-manager/icon.svg",
+      "description": "Reverse proxy with a web UI for managing domains, free Let's Encrypt SSL certificates, and access lists.",
+      "image": "jc21/nginx-proxy-manager",
+      "path": "apps/nginx-proxy-manager"
     }
   ]
 }

@@ -1,0 +1,11 @@
+services:
+  myspeed:
+    image: germannewsmaker/myspeed:latest
+    container_name: myspeed
+    restart: unless-stopped
+    ports:
+      - "5216:5216"
+    volumes:
+      - /home/myspeed/data:/myspeed/data
+    environment:
+      TZ: "Etc/UTC"

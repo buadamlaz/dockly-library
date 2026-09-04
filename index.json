@@ -93,6 +93,16 @@
       "description": "Reverse proxy with a web UI for managing domains, free Let's Encrypt SSL certificates, and access lists.",
       "image": "jc21/nginx-proxy-manager",
       "path": "apps/nginx-proxy-manager"
+    },
+    {
+      "id": "networking.myspeed",
+      "name": "MySpeed",
+      "category": "Networking",
+      "tags": ["speedtest", "networking", "monitoring"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/myspeed/icon.svg",
+      "description": "Runs automated internet speed tests and keeps up to 30 days of history.",
+      "image": "germannewsmaker/myspeed",
+      "path": "apps/myspeed"
     }
   ]
 }

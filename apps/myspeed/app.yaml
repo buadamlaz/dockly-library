@@ -1,0 +1,66 @@
+id: networking.myspeed
+name:
+  en: MySpeed
+  tr: MySpeed
+description:
+  en: Internet speed test analysis tool — runs automated speed tests on a schedule and keeps up to 30 days of history so you can see how your connection actually performs over time, not just a single snapshot.
+  tr: İnternet hız testi analiz aracı — belirli aralıklarla otomatik hız testi çalıştırır, bağlantının gerçek performansını tek bir anlık ölçüm yerine 30 güne kadar geçmişiyle görebilmen için kaydeder.
+category: [Networking]
+tags: [speedtest, networking, monitoring]
+version: "latest"
+license: MIT
+website: https://myspeed.dev
+repository: https://github.com/gnmyt/myspeed
+documentation: https://github.com/gnmyt/myspeed#readme
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/myspeed/icon.svg
+maintainer:
+  name: germannewsmaker
+  source: community
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: germannewsmaker/myspeed
+    tag: "latest"
+
+requirements:
+  ram_min: 128MB
+  ram_recommended: 256MB
+  storage_min: 200MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 5216
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 5216
+    protocol: tcp
+
+volumes:
+  - container: /myspeed/data
+    description: Speed test history and app settings
+    name: data
+
+environment:
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://myspeed.dev
+  documentation: https://github.com/gnmyt/myspeed#readme
+  repository: https://github.com/gnmyt/myspeed

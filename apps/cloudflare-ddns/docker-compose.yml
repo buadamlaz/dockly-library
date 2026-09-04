@@ -20,7 +20,5 @@ services:
       CLOUDFLARE_API_TOKEN: "##CREATE_PASSWORD##"
       DOMAINS: ""
       PROXIED: "true"
-      IP4_PROVIDER: "cloudflare.trace"
-      IP6_PROVIDER: "cloudflare.trace"
       UPDATE_CRON: "@every 5m"
       TZ: "Etc/UTC"

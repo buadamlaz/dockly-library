@@ -1,0 +1,55 @@
+id: utilities.it-tools
+name:
+  en: IT Tools
+  tr: IT Tools
+description:
+  en: A collection of handy online tools for developers and sysadmins — JSON/YAML formatters, encoders, hash generators, regex tester, network calculators, and more, all in one page. No login, no built-in authentication — put it behind a reverse proxy with auth (or Dockly's own network) if you expose it beyond your LAN.
+  tr: Geliştiriciler ve sistem yöneticileri için pratik online araçlar koleksiyonu — JSON/YAML biçimlendirici, kod çözücüler, hash üreticiler, regex test aracı, ağ hesaplayıcıları ve daha fazlası tek sayfada. Giriş ekranı ve dahili kimlik doğrulama YOK — LAN dışına açacaksan bir reverse proxy'nin arkasına, kimlik doğrulamalı olarak koy (ya da Dockly'nin kendi ağında tut).
+category: [Utilities]
+tags: [developer-tools, utilities, network-tools]
+version: "latest"
+license: GPL-3.0
+website: https://it-tools.tech
+repository: https://github.com/CorentinTh/it-tools
+documentation: https://github.com/CorentinTh/it-tools#readme
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/it-tools/icon.svg
+maintainer:
+  name: Dockly Community
+  source: community
+
+architectures: [amd64, arm64]
+
+images:
+  - repository: ghcr.io/sharevb/it-tools
+    tag: "latest"
+
+requirements:
+  ram_min: 128MB
+  ram_recommended: 256MB
+  storage_min: 200MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 8080
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 8080
+    protocol: tcp
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://it-tools.tech
+  documentation: https://github.com/CorentinTh/it-tools#readme
+  repository: https://github.com/CorentinTh/it-tools

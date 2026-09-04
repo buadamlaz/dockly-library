@@ -65,6 +65,17 @@
       "featured": true,
       "image": "nextcloud",
       "path": "apps/nextcloud"
+    },
+    {
+      "id": "utilities.it-tools",
+      "name": "IT Tools",
+      "category": "Utilities",
+      "tags": ["developer-tools", "utilities", "network-tools"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/it-tools/icon.svg",
+      "description": "Handy online tools for developers — JSON/YAML formatters, encoders, hash generators, regex tester, and more.",
+      "featured": true,
+      "image": "ghcr.io/sharevb/it-tools",
+      "path": "apps/it-tools"
     }
   ]
 }

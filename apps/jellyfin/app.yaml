@@ -12,7 +12,7 @@ license: GPL-2.0
 website: https://jellyfin.org
 repository: https://github.com/jellyfin/jellyfin
 documentation: https://jellyfin.org/docs
-icon: https://raw.githubusercontent.com/buadamlaz/dockly-library/main/apps/jellyfin/icon.svg
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/jellyfin/icon.svg
 maintainer:
   name: Dockly Community
   source: community

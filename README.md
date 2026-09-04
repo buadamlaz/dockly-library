@@ -6,7 +6,7 @@ This repo is metadata only: no image binaries, nothing built here. `index.json` 
 
 - `app.yaml` — the manifest (name, description, image(s), ports, volumes, environment, security posture), validated against `schema/app.schema.json`
 - `docker-compose.yml` — reference only, for humans comparing against the upstream deployment method; Dockly's installer reads `app.yaml` directly, never this file
-- `icon.svg` + `icon.png` — this app's own icon, self-hosted (no third-party CDN dependency); `app.yaml`'s `icon` field is the full raw.githubusercontent.com URL to the `.svg`
+- `icon.svg` + `icon.png` — this app's own icon, living in this repo (not a third-party icon pack); `app.yaml`'s `icon` field is the full jsDelivr CDN URL to the `.svg` (`cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/<app-id>/icon.svg`)
 - `screenshots/` — optional PNG/JPG/WebP files, filenames listed in `app.yaml`
 
 An app is either single-container (`images: [...]`) or a multi-container stack (`services: [...]`, e.g. an app plus its own database) — the schema's `oneOf` enforces exactly one shape.

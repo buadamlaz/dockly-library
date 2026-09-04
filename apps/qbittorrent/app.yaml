@@ -12,7 +12,7 @@ license: GPL-2.0
 website: https://www.qbittorrent.org
 repository: https://github.com/qbittorrent/qBittorrent
 documentation: https://hotio.dev/containers/qbittorrent/
-icon: https://raw.githubusercontent.com/buadamlaz/dockly-library/main/apps/qbittorrent/icon.svg
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/qbittorrent/icon.svg
 maintainer:
   name: Dockly Community
   source: community

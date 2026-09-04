@@ -43,7 +43,7 @@
     "icon": {
       "type": "string",
       "format": "uri",
-      "description": "Full URL to this app's own icon.svg (preferred) — lives at apps/<id>/icon.svg alongside a icon.png fallback, not a third-party CDN link."
+      "description": "Full jsDelivr CDN URL to this app's own icon.svg (lives at apps/<id>/icon.svg in this repo, alongside an icon.png fallback) — not a third-party icon pack."
     },
     "maintainer": {
       "type": "object",

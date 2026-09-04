@@ -14,7 +14,7 @@ repository: https://github.com/favonia/cloudflare-ddns
 documentation: https://github.com/favonia/cloudflare-ddns#readme
 icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/cloudflare-ddns/icon.svg
 maintainer:
-  name: Dockly Community
+  name: favonia
   source: community
 
 architectures: [amd64, arm64, arm/v7]
@@ -44,9 +44,9 @@ environment:
     secret: true
     default: "##CREATE_PASSWORD##"
   - name: DOMAINS
-    description: Comma-separated domains to keep pointed at this server, e.g. example.org,home.example.org
+    description: Comma-separated domains to keep pointed at this server
     secret: false
-    default: ""
+    default: "example.org,dockly.app"
   - name: PROXIED
     description: Route the domain's traffic through Cloudflare's proxy (orange cloud) instead of DNS-only
     secret: false

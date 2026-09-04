@@ -18,7 +18,7 @@ services:
     # directly via `docker compose up`.
     environment:
       CLOUDFLARE_API_TOKEN: "##CREATE_PASSWORD##"
-      DOMAINS: ""
+      DOMAINS: "example.org,dockly.app"
       PROXIED: "true"
       UPDATE_CRON: "@every 5m"
       TZ: "Etc/UTC"

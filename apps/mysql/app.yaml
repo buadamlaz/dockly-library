@@ -1,0 +1,80 @@
+id: development.mysql
+name:
+  en: MySQL
+  tr: MySQL
+description:
+  en: Standalone MySQL database server — point your own apps or the *arr-style tools at it, or use it for local development. No web UI of its own; manage it with a client like Adminer, phpMyAdmin, or the mysql CLI.
+  tr: Bağımsız MySQL veritabanı sunucusu — kendi uygulamalarını buna bağla ya da yerel geliştirme için kullan. Kendi web arayüzü yok; Adminer, phpMyAdmin veya mysql CLI gibi bir istemciyle yönet.
+category: [Development]
+tags: [database, mysql, sql, development]
+version: "8.0"
+license: GPL-2.0
+website: https://www.mysql.com
+repository: https://github.com/mysql/mysql-server
+documentation: https://dev.mysql.com/doc/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/mysql/icon.svg
+maintainer:
+  name: mysql
+  source: community
+
+architectures: [amd64, arm64]
+
+images:
+  - repository: mysql
+    tag: "8.0"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 1GB
+hardware:
+  gpu: { required: false }
+
+# No `web:` block — MySQL has no web UI (plain TCP protocol, not HTTP), so
+# there's nothing meaningful for an "Open" button to point at.
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 3306
+    protocol: tcp
+
+volumes:
+  - container: /var/lib/mysql
+    description: All databases and tables — this is your actual data
+    name: data
+
+environment:
+  - name: MYSQL_ROOT_PASSWORD
+    description: Root account password — required
+    secret: true
+    default: "##CREATE_PASSWORD##"
+  - name: MYSQL_DATABASE
+    description: Optional — creates an empty database with this name on first startup
+    secret: false
+    default: "app"
+  - name: MYSQL_USER
+    description: Optional — creates a non-root user with full access to MYSQL_DATABASE (leave both this and MYSQL_PASSWORD empty to skip)
+    secret: false
+    default: "app"
+  - name: MYSQL_PASSWORD
+    description: Password for MYSQL_USER above
+    secret: true
+    default: "##CREATE_PASSWORD##"
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://www.mysql.com
+  documentation: https://dev.mysql.com/doc/
+  repository: https://github.com/mysql/mysql-server

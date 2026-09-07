@@ -126,13 +126,13 @@
     },
     {
       "id": "development.php-nginx",
-      "name": "PHP + Nginx",
+      "name": "PHP + Nginx (multi-domain)",
       "category": "Development",
-      "tags": ["php", "nginx", "web", "hosting", "development", "webserver"],
+      "tags": ["php", "nginx", "web", "hosting", "development", "webserver", "multi-domain", "vhost"],
       "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/php-nginx/icon.svg",
-      "description": "Ready-to-use PHP web hosting stack — separate Nginx and PHP-FPM containers, with almost every common PHP extension (gd, curl, mysqli, pdo_mysql, zip, intl, opcache, and more) preinstalled. Drop your site's files into the shared volume and it's live.",
+      "description": "Multi-domain PHP web hosting stack — separate Nginx and PHP-FPM containers, with almost every common PHP extension (gd, curl, mysqli, pdo_mysql, zip, intl, opcache, and more) preinstalled. Nginx's config folder is exposed as a volume, so you add one server block per domain and host as many sites as you want from one install.",
       "installable": true,
-      "image": "webdevops/nginx",
+      "image": "nginx",
       "path": "apps/php-nginx"
     },
     {

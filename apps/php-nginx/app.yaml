@@ -1,17 +1,17 @@
 id: development.php-nginx
 name:
-  en: PHP + Nginx
-  tr: PHP + Nginx
+  en: PHP + Nginx (multi-domain)
+  tr: PHP + Nginx (çoklu domain)
 description:
-  en: Ready-to-use PHP web hosting stack — separate Nginx and PHP-FPM containers (same split a real production setup uses), with almost every common PHP extension (gd, curl, mysqli, pdo_mysql, zip, intl, opcache, and more) preinstalled. Drop your site's files into the shared volume and it's live.
-  tr: Kullanıma hazır PHP web hosting yığını — gerçek bir production kurulumunun kullandığı aynı ayrım, Nginx ve PHP-FPM için ayrı container'lar, yaygın kullanılan neredeyse tüm PHP eklentileri (gd, curl, mysqli, pdo_mysql, zip, intl, opcache ve daha fazlası) önceden kurulu. Site dosyalarını paylaşılan volume'e koy, yayında.
+  en: Multi-domain PHP web hosting stack — separate Nginx and PHP-FPM containers, with almost every common PHP extension (gd, curl, mysqli, pdo_mysql, zip, intl, opcache, and more) preinstalled. Nginx's config folder is exposed as a volume, so you add one server block per domain (each pointing at its own folder under the shared web root) and host as many sites as you want from one install.
+  tr: Çoklu domain PHP web hosting yığını — Nginx ve PHP-FPM için ayrı container'lar, yaygın kullanılan neredeyse tüm PHP eklentileri (gd, curl, mysqli, pdo_mysql, zip, intl, opcache ve daha fazlası) önceden kurulu. Nginx'in config klasörü volume olarak açık — her domain için bir server bloğu ekleyerek (paylaşılan web root altında kendi klasörüne işaret eden), tek kurulumdan istediğin kadar site yayınlayabilirsin.
 category: [Development]
-tags: [php, nginx, web, hosting, development, webserver]
+tags: [php, nginx, web, hosting, development, webserver, multi-domain, vhost]
 version: "8.5-alpine"
 license: MIT
 website: https://webdevops.io
 repository: https://github.com/webdevops/Dockerfile
-documentation: https://webdevops.gitbook.io/webdevops-docker-images/docker-images/dockerfiles/php-nginx
+documentation: https://webdevops.gitbook.io/webdevops-docker-images/docker-images/dockerfiles/php
 icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/php-nginx/icon.svg
 maintainer:
   name: webdevops
@@ -19,15 +19,21 @@ maintainer:
 
 architectures: [amd64, arm64]
 
-# Two containers instead of webdevops' own combined "php-nginx" image, so
-# each half can be reasoned about/restarted independently, matching how a
-# real production PHP deployment is split. webdevops/nginx and webdevops/php
-# are designed by the same maintainer specifically to pair this way: nginx's
-# WEB_PHP_SOCKET env var points at the php-fpm container's service name (our
-# stack's own docker-network DNS alias, exactly like Immich's DB_HOSTNAME
-# convention) on port 9000, and both containers share the same /app volume
-# (same volume `name: www` on both services => same host folder) so nginx
-# can serve static files directly while proxying *.php to php-fpm.
+# Two containers, and nginx is now the STANDARD nginx:alpine image (not
+# webdevops/nginx) so its /etc/nginx/conf.d is a real editable volume — one
+# server{} block per domain, matching a real multi-site setup (Sonarr-style
+# indexer-per-tracker: one .conf per domain). php stays on webdevops/php for
+# the wide extension set (gd/curl/mysqli/pdo_mysql/zip/intl/opcache/...).
+# Both containers mount the SAME /var/www volume (same volume `name: www`
+# on both services => same host folder), so a server block's `root
+# /var/www/example.com;` resolves to real files in both containers — nginx
+# serves static assets directly and proxies *.php to php:9000 (php-fpm,
+# reached via the stack's own docker-network DNS alias, same mechanism as
+# Immich's DB_HOSTNAME). IMPORTANT: conf.d starts EMPTY on a fresh install
+# (Dockly creates plain empty folders, it doesn't seed volume content) — add
+# at least one <domain>.conf file there via the Files page before nginx will
+# serve anything. See this app's documentation link for an example server
+# block.
 requirements:
   ram_min: 256MB
   ram_recommended: 512MB
@@ -53,9 +59,9 @@ services:
       repository: webdevops/php
       tag: "8.5-alpine"
     volumes:
-      - container: /app
+      - container: /var/www
         name: www
-        description: Web root — your site's files (e.g. index.php), shared with the nginx container.
+        description: Web root — put one folder per domain here (e.g. /var/www/example.com), shared with the nginx container.
     environment:
       - name: PHP_DISPLAY_ERRORS
         description: Show PHP errors in the response (turn on only while developing)
@@ -86,29 +92,50 @@ services:
     primary: true
     depends_on: [php]
     image:
-      repository: webdevops/nginx
+      repository: nginx
       tag: "alpine"
     ports:
       - container: 80
         protocol: tcp
     volumes:
-      - container: /app
+      - container: /etc/nginx/conf.d
+        name: conf-d
+        description: One .conf file per domain (server blocks) goes here — starts empty, see this app's documentation link for an example. proxy_pass/fastcgi_pass to php:9000 for .php files.
+      - container: /var/www
         name: www
-        description: Web root — same folder as the php container's /app, so nginx can see and serve the same files.
-    environment:
-      - name: WEB_PHP_SOCKET
-        description: Address of the PHP-FPM container to proxy *.php requests to. Leave as-is — must match the php service's name above.
-        secret: false
-        default: "php:9000"
-      - name: WEB_DOCUMENT_INDEX
-        description: Index document served for /
-        secret: false
-        default: "index.php"
+        description: Web root — same folder as the php container's /var/www, so nginx can serve the same files it hands off to php-fpm.
+      - container: /var/log/nginx
+        name: log
+        description: Nginx access and error logs, one pair per domain if your server blocks set their own log paths.
 
 compose:
   file: docker-compose.yml
 
 links:
   website: https://webdevops.io
-  documentation: https://webdevops.gitbook.io/webdevops-docker-images/docker-images/dockerfiles/php-nginx
+  documentation: https://webdevops.gitbook.io/webdevops-docker-images/docker-images/dockerfiles/php
   repository: https://github.com/webdevops/Dockerfile
+
+# Example server block (create as e.g. example.com.conf in the conf.d
+# volume via the Files page — copy this once per domain and adjust the
+# server_name/root):
+#
+#   server {
+#       listen 80;
+#       server_name example.com www.example.com;
+#       root /var/www/example.com;
+#       index index.php index.html;
+#       access_log /var/log/nginx/example.com.access.log;
+#       error_log  /var/log/nginx/example.com.error.log;
+#
+#       location / {
+#           try_files $uri $uri/ /index.php?$query_string;
+#       }
+#
+#       location ~ \.php$ {
+#           fastcgi_pass php:9000;
+#           fastcgi_index index.php;
+#           include fastcgi_params;
+#           fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+#       }
+#   }

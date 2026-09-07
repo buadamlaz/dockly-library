@@ -2,13 +2,16 @@
 # Reference only — NOT parsed or used by Dockly's own install pipeline,
 # which reads this app's app.yaml `services:` list instead.
 #
+# ./conf.d starts empty — add one <domain>.conf server block per domain you
+# want to host (see app.yaml's trailing comment for an example block).
+#
 services:
   php:
     image: webdevops/php:8.5-alpine
     container_name: php-nginx-php
     restart: unless-stopped
     volumes:
-      - ./www:/app
+      - ./www:/var/www
     environment:
       PHP_DISPLAY_ERRORS: "0"
       PHP_MEMORY_LIMIT: "512M"
@@ -18,7 +21,7 @@ services:
       PHP_DATE_TIMEZONE: "Etc/UTC"
 
   nginx:
-    image: webdevops/nginx:alpine
+    image: nginx:alpine
     container_name: php-nginx-nginx
     restart: unless-stopped
     depends_on:
@@ -26,7 +29,6 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./www:/app
-    environment:
-      WEB_PHP_SOCKET: "php:9000"
-      WEB_DOCUMENT_INDEX: "index.php"
+      - ./conf.d:/etc/nginx/conf.d
+      - ./www:/var/www
+      - ./log:/var/log/nginx

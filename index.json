@@ -296,6 +296,16 @@
       "description": "Standalone MySQL database server — point your own apps at it, or use it for local development. No web UI of its own.",
       "image": "mysql",
       "path": "apps/mysql"
+    },
+    {
+      "id": "utilities.dashy",
+      "name": "Dashy",
+      "category": "Utilities",
+      "tags": ["dashboard", "homepage", "launcher", "utilities"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/dashy/icon.svg",
+      "description": "Self-hosted homepage/dashboard — a customizable launcher for links to all your other self-hosted apps and services, with status checks, search, and themes.",
+      "image": "lissy93/dashy",
+      "path": "apps/dashy"
     }
   ]
 }

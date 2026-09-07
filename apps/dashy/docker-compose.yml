@@ -1,0 +1,35 @@
+#
+# Reference only — NOT parsed or used by Dockly's own install pipeline,
+# which reads this app's app.yaml `services:`/`images:` list instead.
+#
+# ./user-data starts EMPTY after install — Dashy's own baked-in default
+# conf.yml is hidden by the bind mount, and Dashy reads conf.yml
+# synchronously with no fallback, so a missing file crashes the container
+# in a restart loop. Create ./user-data/conf.yml (via Dockly's Files page)
+# BEFORE it settles into a crash loop, or right after if it already has —
+# a minimal working example:
+#
+#   pageInfo:
+#     title: My Dashboard
+#   appConfig:
+#     theme: colorful
+#   sections:
+#     - name: Home Server
+#       items:
+#         - title: Dockly
+#           url: http://localhost:9090
+#
+# Then restart the container. See https://dashy.to/docs/configuring for
+# the full config reference (widgets, status checks, auth, themes, etc.).
+#
+services:
+  dashy:
+    image: lissy93/dashy:latest
+    container_name: dashy
+    restart: unless-stopped
+    ports:
+      - "8090:8080"
+    volumes:
+      - ./user-data:/app/user-data
+    environment:
+      NODE_ENV: "production"

@@ -61,7 +61,7 @@ services:
     volumes:
       - container: /var/www
         name: www
-        description: Web root — put one folder per domain here (e.g. /var/www/example.com), shared with the nginx container.
+        description: Web root — one folder per domain (e.g. example.com/, shop.example.net/), each holding that site's PHP files. Shared with the nginx container.
     environment:
       - name: PHP_DISPLAY_ERRORS
         description: Show PHP errors in the response (turn on only while developing)
@@ -100,10 +100,10 @@ services:
     volumes:
       - container: /etc/nginx/conf.d
         name: conf-d
-        description: One .conf file per domain (server blocks) goes here — starts empty, see this app's documentation link for an example. proxy_pass/fastcgi_pass to php:9000 for .php files.
+        description: Starts EMPTY — add one <domain>.conf server block per site here (via the Files page). Each block sets root /var/www/<domain> and fastcgi_pass php:9000 for .php files. Full example in this app's "View YAML" reference file.
       - container: /var/www
         name: www
-        description: Web root — same folder as the php container's /var/www, so nginx can serve the same files it hands off to php-fpm.
+        description: Web root — same folder as the php container's /var/www, one subfolder per domain, so nginx can serve the same files it hands off to php-fpm.
       - container: /var/log/nginx
         name: log
         description: Nginx access and error logs, one pair per domain if your server blocks set their own log paths.
@@ -116,26 +116,7 @@ links:
   documentation: https://webdevops.gitbook.io/webdevops-docker-images/docker-images/dockerfiles/php
   repository: https://github.com/webdevops/Dockerfile
 
-# Example server block (create as e.g. example.com.conf in the conf.d
-# volume via the Files page — copy this once per domain and adjust the
-# server_name/root):
-#
-#   server {
-#       listen 80;
-#       server_name example.com www.example.com;
-#       root /var/www/example.com;
-#       index index.php index.html;
-#       access_log /var/log/nginx/example.com.access.log;
-#       error_log  /var/log/nginx/example.com.error.log;
-#
-#       location / {
-#           try_files $uri $uri/ /index.php?$query_string;
-#       }
-#
-#       location ~ \.php$ {
-#           fastcgi_pass php:9000;
-#           fastcgi_index index.php;
-#           include fastcgi_params;
-#           fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-#       }
-#   }
+# Full multi-domain setup walkthrough + example server block: see
+# docker-compose.yml in this same folder (also reachable from the app's
+# install screen via "View YAML" before installing — app.yaml's own
+# comments, this one included, are parsed away and never shown in the UI).

@@ -2,8 +2,50 @@
 # Reference only — NOT parsed or used by Dockly's own install pipeline,
 # which reads this app's app.yaml `services:` list instead.
 #
-# ./conf.d starts empty — add one <domain>.conf server block per domain you
-# want to host (see app.yaml's trailing comment for an example block).
+# ================================================================
+# MULTI-DOMAIN SETUP
+# ================================================================
+# ./conf.d starts completely EMPTY after install — Dockly creates plain
+# empty folders, it doesn't seed volume content. Before nginx will serve
+# anything, add one <domain>.conf file per site under conf.d (via Dockly's
+# Files page — right-click > New file) and one matching folder for that
+# site's code under www:
+#
+#   www/
+#     example.com/        <- this site's PHP files (index.php, etc.)
+#     shop.example.net/   <- a second, completely separate site
+#   conf.d/
+#     example.com.conf
+#     shop.example.net.conf
+#   log/
+#     (nginx writes access/error logs here, per the paths each .conf sets)
+#
+# Example conf.d/example.com.conf — copy this once per domain and change
+# server_name + root:
+#
+#   server {
+#       listen 80;
+#       server_name example.com www.example.com;
+#       root /var/www/example.com;
+#       index index.php index.html;
+#       access_log /var/log/nginx/example.com.access.log;
+#       error_log  /var/log/nginx/example.com.error.log;
+#
+#       location / {
+#           try_files $uri $uri/ /index.php?$query_string;
+#       }
+#
+#       location ~ \.php$ {
+#           fastcgi_pass php:9000;
+#           fastcgi_index index.php;
+#           include fastcgi_params;
+#           fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+#       }
+#   }
+#
+# nginx auto-reloads config on container restart (not on the fly) — restart
+# the nginx container from Dockly after adding/editing a .conf file.
+# ================================================================
 #
 services:
   php:

@@ -1,0 +1,80 @@
+id: development.mariadb
+name:
+  en: MariaDB
+  tr: MariaDB
+description:
+  en: Standalone MariaDB database server — point your own apps at it, or use it for local development. No web UI of its own.
+  tr: Bağımsız MariaDB veritabanı sunucusu — kendi uygulamalarını buna bağla ya da yerel geliştirme için kullan. Kendi web arayüzü yok.
+category: [Development]
+tags: [database, mariadb, mysql, sql, development]
+version: "latest"
+license: GPL-2.0
+website: https://mariadb.org
+repository: https://github.com/MariaDB/server
+documentation: https://mariadb.com/kb/en/documentation/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/mariadb/icon.svg
+maintainer:
+  name: mariadb
+  source: community
+
+architectures: [amd64, arm64]
+
+images:
+  - repository: mariadb
+    tag: "latest"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 1GB
+hardware:
+  gpu: { required: false }
+
+# No `web:` block — MariaDB has no web UI (plain TCP protocol, not HTTP),
+# same reasoning as this catalog's MySQL entry.
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 3306
+    protocol: tcp
+
+volumes:
+  - container: /var/lib/mysql
+    description: All databases and tables — this is your actual data
+    name: data
+
+environment:
+  - name: MARIADB_ROOT_PASSWORD
+    description: Root account password — required
+    secret: true
+    default: "##CREATE_PASSWORD##"
+  - name: MARIADB_DATABASE
+    description: Optional — creates an empty database with this name on first startup
+    secret: false
+    default: "app"
+  - name: MARIADB_USER
+    description: Optional — creates a non-root user with full access to MARIADB_DATABASE (leave both this and MARIADB_PASSWORD empty to skip)
+    secret: false
+    default: "app"
+  - name: MARIADB_PASSWORD
+    description: Password for MARIADB_USER above
+    secret: true
+    default: "##CREATE_PASSWORD##"
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://mariadb.org
+  documentation: https://mariadb.com/kb/en/documentation/
+  repository: https://github.com/MariaDB/server

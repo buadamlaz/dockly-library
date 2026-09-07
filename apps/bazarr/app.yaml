@@ -1,0 +1,80 @@
+id: downloads.bazarr
+name:
+  en: Bazarr
+  tr: Bazarr
+description:
+  en: Subtitle manager for Sonarr and Radarr — automatically finds, downloads, and syncs subtitles for your TV shows and movies in the languages you want.
+  tr: Sonarr ve Radarr için altyazı yöneticisi — dizi ve filmlerin için istediğin dillerde otomatik olarak altyazı bulur, indirir ve senkronize eder.
+category: [Downloads]
+tags: [subtitles, media, automation, arr]
+version: "latest"
+license: GPL-3.0
+website: https://www.bazarr.media
+repository: https://github.com/morpheus65535/bazarr
+documentation: https://wiki.bazarr.media
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/bazarr/icon.svg
+maintainer:
+  name: linuxserver
+  source: community
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: lscr.io/linuxserver/bazarr
+    tag: "latest"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 500MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 6767
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 6767
+    protocol: tcp
+
+volumes:
+  - container: /config
+    description: Bazarr database and settings
+    name: config
+  - container: /movies
+    description: Same movie library Radarr organizes — must be the same path/content so Bazarr can find and place subtitle files alongside each movie
+    name: movies
+  - container: /tv
+    description: Same TV library Sonarr organizes — must be the same path/content so Bazarr can find and place subtitle files alongside each episode
+    name: tv
+
+environment:
+  - name: PUID
+    description: User ID files are written as
+    secret: false
+    default: "1000"
+  - name: PGID
+    description: Group ID files are written as
+    secret: false
+    default: "1000"
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://www.bazarr.media
+  documentation: https://wiki.bazarr.media
+  repository: https://github.com/morpheus65535/bazarr

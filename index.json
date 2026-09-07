@@ -306,6 +306,26 @@
       "description": "Self-hosted homepage/dashboard — a customizable launcher for links to all your other self-hosted apps and services, with status checks, search, and themes.",
       "image": "lissy93/dashy",
       "path": "apps/dashy"
+    },
+    {
+      "id": "downloads.bazarr",
+      "name": "Bazarr",
+      "category": "Downloads",
+      "tags": ["subtitles", "media", "automation", "arr"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/bazarr/icon.svg",
+      "description": "Subtitle manager for Sonarr and Radarr — automatically finds, downloads, and syncs subtitles for your TV shows and movies.",
+      "image": "lscr.io/linuxserver/bazarr",
+      "path": "apps/bazarr"
+    },
+    {
+      "id": "development.mariadb",
+      "name": "MariaDB",
+      "category": "Development",
+      "tags": ["database", "mariadb", "mysql", "sql", "development"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/mariadb/icon.svg",
+      "description": "Standalone MariaDB database server — point your own apps at it, or use it for local development. No web UI of its own.",
+      "image": "mariadb",
+      "path": "apps/mariadb"
     }
   ]
 }

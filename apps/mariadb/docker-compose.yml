@@ -1,0 +1,15 @@
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: unless-stopped
+    ports:
+      - "3307:3306"
+    volumes:
+      - /home/mariadb/data:/var/lib/mysql
+    environment:
+      MARIADB_ROOT_PASSWORD: "##CREATE_PASSWORD##"
+      MARIADB_DATABASE: "app"
+      MARIADB_USER: "app"
+      MARIADB_PASSWORD: "##CREATE_PASSWORD##"
+      TZ: "Etc/UTC"

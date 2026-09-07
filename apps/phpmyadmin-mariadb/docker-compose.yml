@@ -1,13 +1,19 @@
 #
-# Straight from Docker Hub's official phpMyAdmin page
-# (https://hub.docker.com/_/phpmyadmin) — reference only, NOT parsed or
-# used by Dockly's own install pipeline, which reads this app's
-# app.yaml `services:` list instead.
+# Based on Docker Hub's official phpMyAdmin page
+# (https://hub.docker.com/_/phpmyadmin), with one addition: the db
+# service's port is exposed to the host so apps outside this stack can
+# connect to it directly. Reference only, NOT parsed or used by
+# Dockly's own install pipeline, which reads this app's app.yaml
+# `services:` list instead.
 #
 services:
   db:
     image: mariadb:10.11
     restart: always
+    # Optional: only needed if an app OUTSIDE this stack connects directly
+    # to this database. phpMyAdmin itself uses the internal Docker network.
+    ports:
+      - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: notSecureChangeMe
 

@@ -48,6 +48,12 @@ services:
     image:
       repository: mariadb
       tag: "10.11"
+    # Exposed so an app OUTSIDE this stack (e.g. your own PHP app) can
+    # connect directly to this database. phpMyAdmin itself reaches it
+    # over the internal Docker network and doesn't need this port open.
+    ports:
+      - container: 3306
+        protocol: tcp
     volumes:
       - container: /var/lib/mysql
         description: All databases and tables — this is your actual data

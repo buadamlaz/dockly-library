@@ -326,6 +326,17 @@
       "description": "Standalone MariaDB database server — point your own apps at it, or use it for local development. No web UI of its own.",
       "image": "mariadb",
       "path": "apps/mariadb"
+    },
+    {
+      "id": "development.phpmyadmin-mariadb",
+      "name": "phpMyAdmin + MariaDB",
+      "category": "Development",
+      "tags": ["database", "mariadb", "mysql", "sql", "phpmyadmin", "development"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/phpmyadmin-mariadb/icon.svg",
+      "description": "A ready-to-use MariaDB database paired with phpMyAdmin's web UI to manage it — the official Docker Hub phpMyAdmin example, as one install.",
+      "installable": true,
+      "image": "phpmyadmin",
+      "path": "apps/phpmyadmin-mariadb"
     }
   ]
 }

@@ -1,0 +1,82 @@
+id: development.phpmyadmin-mariadb
+name:
+  en: phpMyAdmin + MariaDB
+  tr: phpMyAdmin + MariaDB
+description:
+  en: A ready-to-use MariaDB database paired with phpMyAdmin's web UI to manage it — exactly the two-service setup from Docker Hub's official phpMyAdmin page, as one install.
+  tr: phpMyAdmin web arayüzüyle yönetilen, kullanıma hazır bir MariaDB veritabanı — Docker Hub'ın resmi phpMyAdmin sayfasındaki iki-servisli kurulumun birebir aynısı, tek kurulum olarak.
+category: [Development]
+tags: [database, mariadb, mysql, sql, phpmyadmin, development]
+version: "10.11"
+license: GPL-2.0
+website: https://www.phpmyadmin.net
+repository: https://github.com/phpmyadmin/phpmyadmin
+documentation: https://docs.phpmyadmin.net
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/phpmyadmin-mariadb/icon.svg
+maintainer:
+  name: phpmyadmin
+  source: community
+
+architectures: [amd64, arm64]
+
+# Mirrors Docker Hub's own official phpMyAdmin compose example
+# (https://hub.docker.com/_/phpmyadmin) as closely as this catalog's
+# format allows — same image tags, same PMA_ARBITRARY=1 (lets the login
+# screen connect to any host, not just this paired db, e.g. this
+# catalog's own standalone MySQL/MariaDB apps too), same minimal env set.
+requirements:
+  ram_min: 384MB
+  ram_recommended: 768MB
+  storage_min: 1GB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 80
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+services:
+  - name: db
+    image:
+      repository: mariadb
+      tag: "10.11"
+    volumes:
+      - container: /var/lib/mysql
+        description: All databases and tables — this is your actual data
+        name: data
+    environment:
+      - name: MYSQL_ROOT_PASSWORD
+        description: Root account password — required
+        secret: true
+        default: "##CREATE_PASSWORD##"
+
+  - name: phpmyadmin
+    primary: true
+    depends_on: [db]
+    image:
+      repository: phpmyadmin
+      tag: "latest"
+    ports:
+      - container: 80
+        protocol: tcp
+    environment:
+      - name: PMA_ARBITRARY
+        description: "1 lets you type any server address on the login screen (not just this stack's own db) — e.g. to also manage this catalog's standalone MySQL/MariaDB apps from the same phpMyAdmin"
+        secret: false
+        default: "1"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://www.phpmyadmin.net
+  documentation: https://docs.phpmyadmin.net
+  repository: https://github.com/phpmyadmin/phpmyadmin

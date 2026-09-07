@@ -1,0 +1,20 @@
+#
+# Straight from Docker Hub's official phpMyAdmin page
+# (https://hub.docker.com/_/phpmyadmin) — reference only, NOT parsed or
+# used by Dockly's own install pipeline, which reads this app's
+# app.yaml `services:` list instead.
+#
+services:
+  db:
+    image: mariadb:10.11
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: notSecureChangeMe
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1

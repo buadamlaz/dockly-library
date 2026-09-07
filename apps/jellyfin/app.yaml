@@ -14,7 +14,7 @@ repository: https://github.com/jellyfin/jellyfin
 documentation: https://jellyfin.org/docs
 icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/jellyfin/icon.svg
 maintainer:
-  name: Dockly Community
+  name: jellyfin
   source: community
 
 architectures: [amd64, arm64]

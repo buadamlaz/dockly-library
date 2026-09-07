@@ -14,7 +14,7 @@ repository: https://github.com/AdguardTeam/AdGuardHome
 documentation: https://github.com/AdguardTeam/AdGuardHome/wiki
 icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/adguardhome/icon.svg
 maintainer:
-  name: Dockly Community
+  name: AdguardTeam
   source: community
 
 architectures: [amd64, arm64, arm/v7]

@@ -14,7 +14,7 @@ repository: https://github.com/nextcloud/server
 documentation: https://docs.nextcloud.com
 icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/nextcloud/icon.svg
 maintainer:
-  name: Dockly Community
+  name: nextcloud
   source: community
 
 architectures: [amd64, arm64]

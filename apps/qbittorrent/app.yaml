@@ -14,7 +14,7 @@ repository: https://github.com/qbittorrent/qBittorrent
 documentation: https://hotio.dev/containers/qbittorrent/
 icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/qbittorrent/icon.svg
 maintainer:
-  name: Dockly Community
+  name: hotio
   source: community
 
 architectures: [amd64, arm64]

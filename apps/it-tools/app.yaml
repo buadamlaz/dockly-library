@@ -14,7 +14,7 @@ repository: https://github.com/CorentinTh/it-tools
 documentation: https://github.com/CorentinTh/it-tools#readme
 icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/it-tools/icon.svg
 maintainer:
-  name: Dockly Community
+  name: sharevb
   source: community
 
 architectures: [amd64, arm64]

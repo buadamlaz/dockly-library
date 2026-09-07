@@ -14,7 +14,7 @@ repository: https://github.com/immich-app/immich
 documentation: https://immich.app/docs
 icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/immich/icon.svg
 maintainer:
-  name: Dockly Community
+  name: immich-app
   source: community
 
 architectures: [amd64, arm64]

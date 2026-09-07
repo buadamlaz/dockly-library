@@ -1,0 +1,41 @@
+#
+# Reference only — NOT parsed or used by Dockly's own install pipeline,
+# which reads this app's app.yaml `services:` list instead.
+#
+# After installing: open Home Assistant > Settings > Devices & Services >
+# Add Integration > Z-Wave, and point it at ws://zwave-js-ui:3000 — the
+# service name resolves automatically on Dockly's internal stack network.
+#
+services:
+  zwave-js-ui:
+    image: zwavejs/zwave-js-ui:latest
+    container_name: homeassistant-zwave-zwave-js-ui
+    restart: unless-stopped
+    tty: true
+    stop_signal: SIGINT
+    devices:
+      # Use /dev/serial/by-id/<your-stick> instead of /dev/ttyUSB0 — the
+      # latter can change numbering across reboots. List yours with:
+      # ls -la /dev/serial/by-id/
+      - /dev/serial/by-id/REPLACE_WITH_YOUR_STICK:/dev/zwave
+    ports:
+      - "8091:8091"
+      - "3000:3000"
+    volumes:
+      - ./zwave-store:/usr/src/app/store
+    environment:
+      SESSION_SECRET: "##CREATE_PASSWORD##"
+      TZ: "Etc/UTC"
+
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: homeassistant-zwave-homeassistant
+    restart: unless-stopped
+    depends_on:
+      - zwave-js-ui
+    ports:
+      - "8123:8123"
+    volumes:
+      - ./config:/config
+    environment:
+      TZ: "Etc/UTC"

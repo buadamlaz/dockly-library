@@ -1,0 +1,75 @@
+id: automation.homeassistant
+name:
+  en: Home Assistant
+  tr: Home Assistant
+description:
+  en: Open-source home automation platform — connects and automates your smart home devices, keeping everything local and under your control. This is a plain Home Assistant install with no Z-Wave add-on (see "HomeAssistant + ZWave" in the catalog for that).
+  tr: Açık kaynak akıllı ev otomasyon platformu — akıllı ev cihazlarını bağlar ve otomatikleştirir, her şey yerelde ve senin kontrolünde kalır. Bu, Z-Wave eklentisi olmayan düz bir Home Assistant kurulumu (Z-Wave için katalogdaki "HomeAssistant + ZWave" uygulamasına bak).
+category: [Automation]
+tags: [home-automation, smart-home, iot]
+version: "stable"
+license: Apache-2.0
+website: https://www.home-assistant.io
+repository: https://github.com/home-assistant/core
+documentation: https://www.home-assistant.io/docs/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/homeassistant/icon.svg
+maintainer:
+  name: home-assistant
+  source: community
+
+architectures: [amd64, arm64]
+
+# Home Assistant's own docs mark Host networking as "required" — it's what
+# lets many integrations discover devices on your LAN automatically
+# (HomeKit, Sonos, Chromecast, other SSDP/mDNS-based devices). Installed
+# here in normal Bridge mode with an explicit port instead, so the app
+# installs cleanly and the core web UI + most integrations (anything
+# configured by IP/hostname, including Z-Wave JS UI in the companion stack
+# app) work out of the box — if you need LAN auto-discovery, switch this
+# container to Host network mode from the advanced install options
+# afterward (same trade-off as this catalog's Plex entry).
+requirements:
+  ram_min: 512MB
+  ram_recommended: 2GB
+  storage_min: 2GB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 8123
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+images:
+  - repository: ghcr.io/home-assistant/home-assistant
+    tag: "stable"
+
+ports:
+  - container: 8123
+    protocol: tcp
+
+volumes:
+  - container: /config
+    description: All Home Assistant configuration, automations, and history — this is your entire setup
+    name: config
+
+environment:
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC — used for automations/schedules and logged timestamps
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://www.home-assistant.io
+  documentation: https://www.home-assistant.io/docs/
+  repository: https://github.com/home-assistant/core

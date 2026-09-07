@@ -1,0 +1,103 @@
+id: automation.homeassistant-zwave
+name:
+  en: HomeAssistant + ZWave
+  tr: HomeAssistant + ZWave
+description:
+  en: Home Assistant paired with Z-Wave JS UI — everything needed to run a Z-Wave USB stick and control your Z-Wave devices from Home Assistant, as two containers on one internal network. Requires a Z-Wave USB controller passed through to the zwave-js-ui service (see its volume notes below).
+  tr: Z-Wave JS UI ile eşleştirilmiş Home Assistant — bir Z-Wave USB çubuğunu çalıştırıp Z-Wave cihazlarını Home Assistant üzerinden yönetmek için gereken her şey, tek bir iç ağda iki container olarak. zwave-js-ui servisine bir Z-Wave USB kontrolcüsü aktarılması gerekiyor (aşağıdaki volume notlarına bak).
+category: [Automation]
+tags: [home-automation, smart-home, iot, zwave]
+version: "stable"
+license: Apache-2.0
+website: https://www.home-assistant.io
+repository: https://github.com/home-assistant/core
+documentation: https://www.home-assistant.io/docs/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/homeassistant-zwave/icon.svg
+maintainer:
+  name: home-assistant
+  source: community
+
+architectures: [amd64, arm64]
+
+# Two containers sharing Dockly's own internal stack network — homeassistant
+# reaches zwave-js-ui's websocket server at ws://zwave-js-ui:3000 (the
+# service name resolves automatically, same DNS mechanism as Immich's
+# DB_HOSTNAME=database) once you add the Z-Wave JS integration from inside
+# Home Assistant's own UI (Settings > Devices & Services > Add Integration
+# > Z-Wave — this is a manual step inside the app itself, not something an
+# env var can pre-configure).
+#
+# The Z-Wave USB stick itself has NO manifest field to pre-fill (its host
+# path is different on every machine, and Dockly's schema has no "devices"
+# field) — add it yourself to the zwave-js-ui service's Devices section
+# during install. Use /dev/serial/by-id/<your-stick> rather than
+# /dev/ttyUSB0 — the upstream project explicitly warns ttyUSB numbering can
+# change across reboots, by-id is stable. Find yours with `ls -la
+# /dev/serial/by-id/` on the host.
+requirements:
+  ram_min: 768MB
+  ram_recommended: 2GB
+  storage_min: 2GB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 8123
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+services:
+  - name: homeassistant
+    primary: true
+    depends_on: [zwave-js-ui]
+    image:
+      repository: ghcr.io/home-assistant/home-assistant
+      tag: "stable"
+    ports:
+      - container: 8123
+        protocol: tcp
+    volumes:
+      - container: /config
+        description: All Home Assistant configuration, automations, and history
+        name: config
+    environment:
+      - name: TZ
+        description: Timezone, e.g. Etc/UTC
+        default: "Etc/UTC"
+
+  - name: zwave-js-ui
+    image:
+      repository: zwavejs/zwave-js-ui
+      tag: "latest"
+    ports:
+      - container: 8091
+        protocol: tcp
+      - container: 3000
+        protocol: tcp
+    volumes:
+      - container: /usr/src/app/store
+        description: Z-Wave network configuration and device database
+        name: store
+    environment:
+      - name: SESSION_SECRET
+        description: Used to sign the web UI's session cookies — set your own random string
+        secret: true
+        default: "##CREATE_PASSWORD##"
+      - name: TZ
+        description: Timezone, e.g. Etc/UTC — affects log timestamps only
+        default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://www.home-assistant.io
+  documentation: https://www.home-assistant.io/docs/
+  repository: https://github.com/home-assistant/core

@@ -265,6 +265,27 @@
       "installable": true,
       "image": "lscr.io/linuxserver/bookstack",
       "path": "apps/bookstack"
+    },
+    {
+      "id": "automation.homeassistant",
+      "name": "Home Assistant",
+      "category": "Automation",
+      "tags": ["home-automation", "smart-home", "iot"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/homeassistant/icon.svg",
+      "description": "Open-source home automation platform — connects and automates your smart home devices, keeping everything local and under your control.",
+      "image": "ghcr.io/home-assistant/home-assistant",
+      "path": "apps/homeassistant"
+    },
+    {
+      "id": "automation.homeassistant-zwave",
+      "name": "HomeAssistant + ZWave",
+      "category": "Automation",
+      "tags": ["home-automation", "smart-home", "iot", "zwave"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/homeassistant-zwave/icon.svg",
+      "description": "Home Assistant paired with Z-Wave JS UI — run a Z-Wave USB stick and control your Z-Wave devices from Home Assistant.",
+      "installable": true,
+      "image": "ghcr.io/home-assistant/home-assistant",
+      "path": "apps/homeassistant-zwave"
     }
   ]
 }

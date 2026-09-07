@@ -113,6 +113,16 @@
       "description": "Translates search queries from apps like Sonarr/Radarr into indexer-specific requests — one API for dozens of trackers.",
       "image": "lscr.io/linuxserver/jackett",
       "path": "apps/jackett"
+    },
+    {
+      "id": "networking.gotify",
+      "name": "Gotify",
+      "category": "Networking",
+      "tags": ["notifications", "push", "webhook", "self-hosted"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/gotify/icon.svg",
+      "description": "A simple server for sending and receiving push notifications via a REST API and WebSocket — self-hosted alternative to Pushover.",
+      "image": "gotify/server",
+      "path": "apps/gotify"
     }
   ]
 }

@@ -1,0 +1,70 @@
+id: networking.gotify
+name:
+  en: Gotify
+  tr: Gotify
+description:
+  en: A simple server for sending and receiving push notifications via a REST API and WebSocket — self-hosted alternative to Pushover.
+  tr: REST API ve WebSocket üzerinden anlık bildirim gönderip almak için basit bir sunucu — Pushover'a self-hosted alternatif.
+category: [Networking]
+tags: [notifications, push, webhook, self-hosted]
+version: "latest"
+license: MIT
+website: https://gotify.net
+repository: https://github.com/gotify/server
+documentation: https://gotify.net/docs/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/gotify/icon.svg
+maintainer:
+  name: gotify
+  source: community
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: gotify/server
+    tag: "latest"
+
+requirements:
+  ram_min: 64MB
+  ram_recommended: 128MB
+  storage_min: 200MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 80
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 80
+    protocol: tcp
+
+volumes:
+  - container: /app/data
+    description: Database, uploaded images, and plugin files
+    name: data
+
+environment:
+  - name: GOTIFY_DEFAULTUSER_NAME
+    description: Initial admin username (only applied when the database is first created)
+    secret: false
+    default: "admin"
+  - name: GOTIFY_DEFAULTUSER_PASS
+    description: Initial admin password (only applied when the database is first created; change it later from the WebUI)
+    secret: true
+    default: "##CREATE_PASSWORD##"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://gotify.net
+  documentation: https://gotify.net/docs/
+  repository: https://github.com/gotify/server

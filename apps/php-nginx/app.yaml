@@ -1,0 +1,90 @@
+id: development.php-nginx
+name:
+  en: PHP + Nginx
+  tr: PHP + Nginx
+description:
+  en: Ready-to-use PHP web hosting stack — Nginx and PHP-FPM in one container, with almost every common PHP extension (gd, curl, mysqli, pdo_mysql, zip, intl, opcache, and more) preinstalled. Drop your site's files into the volume and it's live.
+  tr: Kullanıma hazır PHP web hosting yığını — tek container içinde Nginx ve PHP-FPM, yaygın kullanılan neredeyse tüm PHP eklentileri (gd, curl, mysqli, pdo_mysql, zip, intl, opcache ve daha fazlası) önceden kurulu. Site dosyalarını volume'e koy, yayında.
+category: [Development]
+tags: [php, nginx, web, hosting, development, webserver]
+version: "8.3-alpine"
+license: MIT
+website: https://webdevops.io
+repository: https://github.com/webdevops/Dockerfile
+documentation: https://webdevops.gitbook.io/webdevops-docker-images/docker-images/dockerfiles/php-nginx
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/php-nginx/icon.svg
+maintainer:
+  name: webdevops
+  source: community
+
+architectures: [amd64, arm64]
+
+images:
+  - repository: webdevops/php-nginx
+    tag: "8.3-alpine"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 500MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 80
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 80
+    protocol: tcp
+
+volumes:
+  - container: /app
+    description: Web root — put your site's files (e.g. index.php) here, served immediately
+    name: www
+
+environment:
+  - name: WEB_DOCUMENT_INDEX
+    description: Index document served for /
+    secret: false
+    default: "index.php"
+  - name: PHP_DISPLAY_ERRORS
+    description: Show PHP errors in the response (turn on only while developing)
+    secret: false
+    default: "0"
+  - name: PHP_MEMORY_LIMIT
+    description: PHP memory_limit
+    secret: false
+    default: "512M"
+  - name: PHP_MAX_EXECUTION_TIME
+    description: PHP max_execution_time (seconds)
+    secret: false
+    default: "300"
+  - name: PHP_UPLOAD_MAX_FILESIZE
+    description: PHP upload_max_filesize
+    secret: false
+    default: "50M"
+  - name: PHP_POST_MAX_SIZE
+    description: PHP post_max_size
+    secret: false
+    default: "50M"
+  - name: PHP_DATE_TIMEZONE
+    description: PHP date.timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://webdevops.io
+  documentation: https://webdevops.gitbook.io/webdevops-docker-images/docker-images/dockerfiles/php-nginx
+  repository: https://github.com/webdevops/Dockerfile

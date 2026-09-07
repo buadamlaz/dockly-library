@@ -1,0 +1,30 @@
+services:
+  database:
+    image: lscr.io/linuxserver/mariadb:latest
+    container_name: bookstack-database
+    restart: unless-stopped
+    volumes:
+      - ./db:/config
+    environment:
+      MYSQL_ROOT_PASSWORD: "##CREATE_PASSWORD##"
+      MYSQL_DATABASE: "bookstackapp"
+      MYSQL_USER: "bookstack"
+      MYSQL_PASSWORD: "##CREATE_PASSWORD##"
+
+  bookstack:
+    image: lscr.io/linuxserver/bookstack:latest
+    container_name: bookstack
+    restart: unless-stopped
+    depends_on:
+      - database
+    ports:
+      - "6875:80"
+    volumes:
+      - ./config:/config
+    environment:
+      APP_URL: "http://localhost:6875"
+      DB_HOST: "database"
+      DB_DATABASE: "bookstackapp"
+      DB_USERNAME: "bookstack"
+      DB_PASSWORD: "##CREATE_PASSWORD##"
+      TZ: "Etc/UTC"

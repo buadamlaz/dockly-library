@@ -214,6 +214,57 @@
       "description": "Self-hosted uptime monitoring with a clean dashboard — pings your sites/services on a schedule and can notify you when something goes down.",
       "image": "louislam/uptime-kuma",
       "path": "apps/uptimekuma"
+    },
+    {
+      "id": "development.n8n",
+      "name": "n8n",
+      "category": "Development",
+      "tags": ["automation", "workflow", "integration", "low-code"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/n8n/icon.svg",
+      "description": "Self-hosted workflow automation — a visual, node-based builder for connecting apps and APIs (like Zapier/Make, but self-hosted).",
+      "image": "docker.n8n.io/n8nio/n8n",
+      "path": "apps/n8n"
+    },
+    {
+      "id": "productivity.freshrss",
+      "name": "FreshRSS",
+      "category": "Productivity",
+      "tags": ["rss", "feed-reader", "news", "productivity"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/freshrss/icon.svg",
+      "description": "A light, fast, self-hosted RSS/Atom feed reader with a clean web UI and multi-user support.",
+      "image": "freshrss/freshrss",
+      "path": "apps/freshrss"
+    },
+    {
+      "id": "development.forgejo",
+      "name": "Forgejo",
+      "category": "Development",
+      "tags": ["git", "ci", "source-control", "self-hosted"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/forgejo/icon.svg",
+      "description": "Self-hosted Git service — a community-driven, hard fork of Gitea. Host your own repositories, issues, pull requests, and CI actions.",
+      "image": "codeberg.org/forgejo/forgejo",
+      "path": "apps/forgejo"
+    },
+    {
+      "id": "productivity.firefly-iii",
+      "name": "Firefly III",
+      "category": "Productivity",
+      "tags": ["finance", "budgeting", "money", "productivity"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/firefly-iii/icon.svg",
+      "description": "Self-hosted personal finance manager — track income/expenses, budget, set financial goals, and see reports.",
+      "image": "fireflyiii/core",
+      "path": "apps/firefly-iii"
+    },
+    {
+      "id": "productivity.bookstack",
+      "name": "BookStack",
+      "category": "Productivity",
+      "tags": ["wiki", "documentation", "notes", "productivity"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/bookstack/icon.svg",
+      "description": "Self-hosted wiki/documentation platform, organized as books, chapters, and pages.",
+      "installable": true,
+      "image": "lscr.io/linuxserver/bookstack",
+      "path": "apps/bookstack"
     }
   ]
 }

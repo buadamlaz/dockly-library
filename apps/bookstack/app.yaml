@@ -1,0 +1,109 @@
+id: productivity.bookstack
+name:
+  en: BookStack
+  tr: BookStack
+description:
+  en: Self-hosted wiki/documentation platform, organized as books, chapters, and pages — a clean editor, search, and permissions for your home lab's or team's documentation.
+  tr: Self-hosted wiki/dokümantasyon platformu, kitap/bölüm/sayfa hiyerarşisiyle organize — home lab'ın veya ekibinin dokümantasyonu için sade bir editör, arama ve yetkilendirme.
+category: [Productivity]
+tags: [wiki, documentation, notes, productivity]
+version: "latest"
+license: MIT
+website: https://www.bookstackapp.com
+repository: https://github.com/BookStackApp/BookStack
+documentation: https://www.bookstackapp.com/docs
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/bookstack/icon.svg
+maintainer:
+  name: linuxserver
+  source: community
+
+architectures: [amd64, arm64]
+
+# BookStack requires a real MySQL/MariaDB database (no SQLite support,
+# unlike Firefly III/n8n above) — a genuine two-service stack, following
+# the same services[] shape as Immich.
+requirements:
+  ram_min: 512MB
+  ram_recommended: 1GB
+  storage_min: 1GB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 80
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+services:
+  - name: database
+    image:
+      repository: lscr.io/linuxserver/mariadb
+      tag: "latest"
+    volumes:
+      - container: /config
+        name: db
+        description: MariaDB data files
+    environment:
+      - name: MYSQL_ROOT_PASSWORD
+        description: Database root password. Must match nothing else — only used internally by MariaDB itself.
+        secret: true
+        default: "##CREATE_PASSWORD##"
+      - name: MYSQL_DATABASE
+        description: Database name. Must match the bookstack service's DB_DATABASE below.
+        default: "bookstackapp"
+      - name: MYSQL_USER
+        description: Database user. Must match the bookstack service's DB_USERNAME below.
+        default: "bookstack"
+      - name: MYSQL_PASSWORD
+        description: Database user password. Must match the bookstack service's DB_PASSWORD below.
+        secret: true
+        default: "##CREATE_PASSWORD##"
+
+  - name: bookstack
+    primary: true
+    depends_on: [database]
+    image:
+      repository: lscr.io/linuxserver/bookstack
+      tag: "latest"
+    ports:
+      - container: 80
+        protocol: tcp
+    volumes:
+      - container: /config
+        description: BookStack configuration and uploaded file storage
+        name: config
+    environment:
+      - name: APP_URL
+        description: The URL you'll access this at, e.g. http://192.168.1.10:6875
+        default: "http://localhost:6875"
+      - name: DB_HOST
+        description: Must match the database service's name above (Dockly resolves it automatically over the internal network)
+        default: "database"
+      - name: DB_DATABASE
+        description: Must match the database service's MYSQL_DATABASE above.
+        default: "bookstackapp"
+      - name: DB_USERNAME
+        description: Must match the database service's MYSQL_USER above.
+        default: "bookstack"
+      - name: DB_PASSWORD
+        description: Must match the database service's MYSQL_PASSWORD above — same password, typed in both places.
+        secret: true
+        default: "##CREATE_PASSWORD##"
+      - name: TZ
+        description: Timezone, e.g. Etc/UTC
+        default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://www.bookstackapp.com
+  documentation: https://www.bookstackapp.com/docs
+  repository: https://github.com/BookStackApp/BookStack

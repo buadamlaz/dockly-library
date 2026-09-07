@@ -1,0 +1,15 @@
+services:
+  firefly-iii:
+    image: fireflyiii/core:latest
+    container_name: firefly-iii
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - /home/firefly-iii/upload:/var/www/html/storage/upload
+      - /home/firefly-iii/database:/var/www/html/storage/database
+    environment:
+      APP_KEY: "##CREATE_PASSWORD##"
+      DB_CONNECTION: "sqlite"
+      APP_URL: "http://localhost:8080"
+      TZ: "Etc/UTC"

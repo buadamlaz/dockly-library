@@ -1,0 +1,73 @@
+id: productivity.freshrss
+name:
+  en: FreshRSS
+  tr: FreshRSS
+description:
+  en: A light, fast, self-hosted RSS/Atom feed reader with a clean web UI, multi-user support, and an API compatible with popular mobile RSS apps.
+  tr: Hafif, hızlı, self-hosted bir RSS/Atom besleme okuyucusu — sade bir web arayüzü, çoklu kullanıcı desteği ve popüler mobil RSS uygulamalarıyla uyumlu bir API.
+category: [Productivity]
+tags: [rss, feed-reader, news, productivity]
+version: "latest"
+license: AGPL-3.0
+website: https://freshrss.org
+repository: https://github.com/FreshRSS/FreshRSS
+documentation: https://freshrss.github.io/FreshRSS/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/freshrss/icon.svg
+maintainer:
+  name: FreshRSS
+  source: community
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: freshrss/freshrss
+    tag: "latest"
+
+requirements:
+  ram_min: 128MB
+  ram_recommended: 256MB
+  storage_min: 500MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 80
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 80
+    protocol: tcp
+
+volumes:
+  - container: /var/www/FreshRSS/data
+    description: Configuration, the bundled SQLite database, and cached feed data
+    name: data
+  - container: /var/www/FreshRSS/extensions
+    description: Optional third-party extensions
+    name: extensions
+
+environment:
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+  - name: CRON_MIN
+    description: Minutes (comma-separated) at which feeds are auto-refreshed each hour, e.g. "1,31" for twice an hour
+    secret: false
+    default: "1,31"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://freshrss.org
+  documentation: https://freshrss.github.io/FreshRSS/
+  repository: https://github.com/FreshRSS/FreshRSS

@@ -1,0 +1,85 @@
+id: productivity.firefly-iii
+name:
+  en: Firefly III
+  tr: Firefly III
+description:
+  en: Self-hosted personal finance manager — track income/expenses across accounts, budget, set financial goals, and see reports. Runs here on its built-in SQLite database, no separate DB service needed.
+  tr: Self-hosted kişisel finans yöneticisi — hesaplar arası gelir/gider takibi, bütçeleme, finansal hedefler ve raporlar. Burada gömülü SQLite veritabanıyla çalışır, ayrı bir DB servisi gerekmez.
+category: [Productivity]
+tags: [finance, budgeting, money, productivity]
+version: "latest"
+license: AGPL-3.0
+website: https://www.firefly-iii.org
+repository: https://github.com/firefly-iii/firefly-iii
+documentation: https://docs.firefly-iii.org
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/firefly-iii/icon.svg
+maintainer:
+  name: firefly-iii
+  source: community
+
+architectures: [amd64, arm64]
+
+# Firefly III's own official docker-compose.yml defaults to MariaDB, but the
+# app fully supports DB_CONNECTION=sqlite (config/database.php) for a
+# single-container setup — used here to match this catalog's default of
+# avoiding a second database container where the upstream app allows it.
+images:
+  - repository: fireflyiii/core
+    tag: "latest"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 500MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 8080
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 8080
+    protocol: tcp
+
+volumes:
+  - container: /var/www/html/storage/upload
+    description: Uploaded attachments (receipts, etc.)
+    name: upload
+  - container: /var/www/html/storage/database
+    description: The SQLite database file — this is where your actual financial data lives
+    name: database
+
+environment:
+  - name: APP_KEY
+    description: Required, must be EXACTLY 32 random characters (letters/numbers) — this encrypts your data, losing it means losing access to your data. Generate one and keep a backup of it somewhere safe.
+    secret: true
+    default: "##CREATE_PASSWORD##"
+  - name: DB_CONNECTION
+    description: Do not change — this app is configured for its built-in SQLite database
+    secret: false
+    default: "sqlite"
+  - name: APP_URL
+    description: The URL you'll access this at, e.g. http://192.168.1.10:8080
+    secret: false
+    default: "http://localhost:8080"
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://www.firefly-iii.org
+  documentation: https://docs.firefly-iii.org
+  repository: https://github.com/firefly-iii/firefly-iii

@@ -1,0 +1,76 @@
+id: development.forgejo
+name:
+  en: Forgejo
+  tr: Forgejo
+description:
+  en: Self-hosted Git service — a community-driven, hard fork of Gitea. Host your own repositories, issues, pull requests, and CI actions, with full control over your code.
+  tr: Self-hosted Git servisi — Gitea'nın topluluk odaklı hard fork'u. Kendi repository'lerini, issue/PR akışını ve CI action'larını, kodun üzerinde tam kontrol ile kendi sunucunda barındır.
+category: [Development]
+tags: [git, ci, source-control, self-hosted]
+version: "latest"
+license: MIT
+website: https://forgejo.org
+repository: https://codeberg.org/forgejo/forgejo
+documentation: https://forgejo.org/docs/latest/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/forgejo/icon.svg
+maintainer:
+  name: forgejo
+  source: community
+
+architectures: [amd64, arm64]
+
+images:
+  - repository: codeberg.org/forgejo/forgejo
+    tag: "latest"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 1GB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 3000
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 3000
+    protocol: tcp
+  - container: 22
+    protocol: tcp
+
+volumes:
+  - container: /data
+    description: Repositories, database (bundled SQLite by default), and configuration
+    name: data
+
+environment:
+  - name: USER_UID
+    description: User ID files are written as
+    secret: false
+    default: "1000"
+  - name: USER_GID
+    description: Group ID files are written as
+    secret: false
+    default: "1000"
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://forgejo.org
+  documentation: https://forgejo.org/docs/latest/
+  repository: https://codeberg.org/forgejo/forgejo

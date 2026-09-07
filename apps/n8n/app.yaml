@@ -1,0 +1,74 @@
+id: development.n8n
+name:
+  en: n8n
+  tr: n8n
+description:
+  en: Self-hosted workflow automation — a visual, node-based builder for connecting apps and APIs (like Zapier/Make, but self-hosted). Runs on its own bundled SQLite database, no separate DB service needed.
+  tr: Self-hosted iş akışı otomasyonu — uygulama ve API'leri birbirine bağlamak için görsel, node tabanlı bir editör (Zapier/Make'e benzer ama self-hosted). Kendi gömülü SQLite veritabanıyla çalışır, ayrı bir DB servisi gerekmez.
+category: [Development]
+tags: [automation, workflow, integration, low-code]
+version: "latest"
+license: "Sustainable Use License"
+website: https://n8n.io
+repository: https://github.com/n8n-io/n8n
+documentation: https://docs.n8n.io
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/n8n/icon.svg
+maintainer:
+  name: n8n-io
+  source: community
+
+architectures: [amd64, arm64]
+
+images:
+  - repository: docker.n8n.io/n8nio/n8n
+    tag: "latest"
+
+requirements:
+  ram_min: 512MB
+  ram_recommended: 1GB
+  storage_min: 1GB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 5678
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 5678
+    protocol: tcp
+
+volumes:
+  - container: /home/node/.n8n
+    description: Workflows, credentials (encrypted), and the bundled SQLite database
+    name: data
+
+environment:
+  - name: GENERIC_TIMEZONE
+    description: Timezone used by Schedule/Cron nodes, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+  - name: TZ
+    description: System timezone, should match GENERIC_TIMEZONE
+    secret: false
+    default: "Etc/UTC"
+  - name: N8N_SECURE_COOKIE
+    description: Set to false if you'll access n8n over plain HTTP (no TLS) instead of HTTPS — otherwise login redirects loop
+    secret: false
+    default: "false"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://n8n.io
+  documentation: https://docs.n8n.io
+  repository: https://github.com/n8n-io/n8n

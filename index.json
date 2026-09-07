@@ -130,8 +130,9 @@
       "category": "Development",
       "tags": ["php", "nginx", "web", "hosting", "development", "webserver"],
       "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/php-nginx/icon.svg",
-      "description": "Ready-to-use PHP web hosting stack — Nginx and PHP-FPM in one container, with almost every common PHP extension (gd, curl, mysqli, pdo_mysql, zip, intl, opcache, and more) preinstalled. Drop your site's files into the volume and it's live.",
-      "image": "webdevops/php-nginx",
+      "description": "Ready-to-use PHP web hosting stack — separate Nginx and PHP-FPM containers, with almost every common PHP extension (gd, curl, mysqli, pdo_mysql, zip, intl, opcache, and more) preinstalled. Drop your site's files into the shared volume and it's live.",
+      "installable": true,
+      "image": "webdevops/nginx",
       "path": "apps/php-nginx"
     }
   ]

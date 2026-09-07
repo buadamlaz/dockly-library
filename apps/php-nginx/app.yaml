@@ -3,11 +3,11 @@ name:
   en: PHP + Nginx
   tr: PHP + Nginx
 description:
-  en: Ready-to-use PHP web hosting stack — Nginx and PHP-FPM in one container, with almost every common PHP extension (gd, curl, mysqli, pdo_mysql, zip, intl, opcache, and more) preinstalled. Drop your site's files into the volume and it's live.
-  tr: Kullanıma hazır PHP web hosting yığını — tek container içinde Nginx ve PHP-FPM, yaygın kullanılan neredeyse tüm PHP eklentileri (gd, curl, mysqli, pdo_mysql, zip, intl, opcache ve daha fazlası) önceden kurulu. Site dosyalarını volume'e koy, yayında.
+  en: Ready-to-use PHP web hosting stack — separate Nginx and PHP-FPM containers (same split a real production setup uses), with almost every common PHP extension (gd, curl, mysqli, pdo_mysql, zip, intl, opcache, and more) preinstalled. Drop your site's files into the shared volume and it's live.
+  tr: Kullanıma hazır PHP web hosting yığını — gerçek bir production kurulumunun kullandığı aynı ayrım, Nginx ve PHP-FPM için ayrı container'lar, yaygın kullanılan neredeyse tüm PHP eklentileri (gd, curl, mysqli, pdo_mysql, zip, intl, opcache ve daha fazlası) önceden kurulu. Site dosyalarını paylaşılan volume'e koy, yayında.
 category: [Development]
 tags: [php, nginx, web, hosting, development, webserver]
-version: "8.3-alpine"
+version: "8.5-alpine"
 license: MIT
 website: https://webdevops.io
 repository: https://github.com/webdevops/Dockerfile
@@ -19,10 +19,15 @@ maintainer:
 
 architectures: [amd64, arm64]
 
-images:
-  - repository: webdevops/php-nginx
-    tag: "8.3-alpine"
-
+# Two containers instead of webdevops' own combined "php-nginx" image, so
+# each half can be reasoned about/restarted independently, matching how a
+# real production PHP deployment is split. webdevops/nginx and webdevops/php
+# are designed by the same maintainer specifically to pair this way: nginx's
+# WEB_PHP_SOCKET env var points at the php-fpm container's service name (our
+# stack's own docker-network DNS alias, exactly like Immich's DB_HOSTNAME
+# convention) on port 9000, and both containers share the same /app volume
+# (same volume `name: www` on both services => same host folder) so nginx
+# can serve static files directly while proxying *.php to php-fpm.
 requirements:
   ram_min: 256MB
   ram_recommended: 512MB
@@ -42,44 +47,63 @@ security:
   docker_socket: false
   capabilities_added: []
 
-ports:
-  - container: 80
-    protocol: tcp
+services:
+  - name: php
+    image:
+      repository: webdevops/php
+      tag: "8.5-alpine"
+    volumes:
+      - container: /app
+        name: www
+        description: Web root — your site's files (e.g. index.php), shared with the nginx container.
+    environment:
+      - name: PHP_DISPLAY_ERRORS
+        description: Show PHP errors in the response (turn on only while developing)
+        secret: false
+        default: "0"
+      - name: PHP_MEMORY_LIMIT
+        description: PHP memory_limit
+        secret: false
+        default: "512M"
+      - name: PHP_MAX_EXECUTION_TIME
+        description: PHP max_execution_time (seconds)
+        secret: false
+        default: "300"
+      - name: PHP_UPLOAD_MAX_FILESIZE
+        description: PHP upload_max_filesize
+        secret: false
+        default: "50M"
+      - name: PHP_POST_MAX_SIZE
+        description: PHP post_max_size
+        secret: false
+        default: "50M"
+      - name: PHP_DATE_TIMEZONE
+        description: PHP date.timezone, e.g. Etc/UTC
+        secret: false
+        default: "Etc/UTC"
 
-volumes:
-  - container: /app
-    description: Web root — put your site's files (e.g. index.php) here, served immediately
-    name: www
-
-environment:
-  - name: WEB_DOCUMENT_INDEX
-    description: Index document served for /
-    secret: false
-    default: "index.php"
-  - name: PHP_DISPLAY_ERRORS
-    description: Show PHP errors in the response (turn on only while developing)
-    secret: false
-    default: "0"
-  - name: PHP_MEMORY_LIMIT
-    description: PHP memory_limit
-    secret: false
-    default: "512M"
-  - name: PHP_MAX_EXECUTION_TIME
-    description: PHP max_execution_time (seconds)
-    secret: false
-    default: "300"
-  - name: PHP_UPLOAD_MAX_FILESIZE
-    description: PHP upload_max_filesize
-    secret: false
-    default: "50M"
-  - name: PHP_POST_MAX_SIZE
-    description: PHP post_max_size
-    secret: false
-    default: "50M"
-  - name: PHP_DATE_TIMEZONE
-    description: PHP date.timezone, e.g. Etc/UTC
-    secret: false
-    default: "Etc/UTC"
+  - name: nginx
+    primary: true
+    depends_on: [php]
+    image:
+      repository: webdevops/nginx
+      tag: "alpine"
+    ports:
+      - container: 80
+        protocol: tcp
+    volumes:
+      - container: /app
+        name: www
+        description: Web root — same folder as the php container's /app, so nginx can see and serve the same files.
+    environment:
+      - name: WEB_PHP_SOCKET
+        description: Address of the PHP-FPM container to proxy *.php requests to. Leave as-is — must match the php service's name above.
+        secret: false
+        default: "php:9000"
+      - name: WEB_DOCUMENT_INDEX
+        description: Index document served for /
+        secret: false
+        default: "index.php"
 
 compose:
   file: docker-compose.yml

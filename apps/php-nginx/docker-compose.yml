@@ -1,17 +1,32 @@
+#
+# Reference only — NOT parsed or used by Dockly's own install pipeline,
+# which reads this app's app.yaml `services:` list instead.
+#
 services:
-  php-nginx:
-    image: webdevops/php-nginx:8.3-alpine
-    container_name: php-nginx
+  php:
+    image: webdevops/php:8.5-alpine
+    container_name: php-nginx-php
     restart: unless-stopped
-    ports:
-      - "8080:80"
     volumes:
-      - /home/php-nginx/www:/app
+      - ./www:/app
     environment:
-      WEB_DOCUMENT_INDEX: "index.php"
       PHP_DISPLAY_ERRORS: "0"
       PHP_MEMORY_LIMIT: "512M"
       PHP_MAX_EXECUTION_TIME: "300"
       PHP_UPLOAD_MAX_FILESIZE: "50M"
       PHP_POST_MAX_SIZE: "50M"
       PHP_DATE_TIMEZONE: "Etc/UTC"
+
+  nginx:
+    image: webdevops/nginx:alpine
+    container_name: php-nginx-nginx
+    restart: unless-stopped
+    depends_on:
+      - php
+    ports:
+      - "8080:80"
+    volumes:
+      - ./www:/app
+    environment:
+      WEB_PHP_SOCKET: "php:9000"
+      WEB_DOCUMENT_INDEX: "index.php"

@@ -1,0 +1,80 @@
+id: downloads.radarr
+name:
+  en: Radarr
+  tr: Radarr
+description:
+  en: Movie collection manager — tracks your movie wishlist, finds releases via Prowlarr/Jackett, and sends them to your download client automatically.
+  tr: Film koleksiyon yöneticisi — istek listeni takip eder, Prowlarr/Jackett üzerinden uygun sürümleri bulur, otomatik olarak indirme istemcine gönderir.
+category: [Downloads]
+tags: [movies, downloads, automation, arr]
+version: "latest"
+license: GPL-3.0
+website: https://radarr.video
+repository: https://github.com/Radarr/Radarr
+documentation: https://wiki.servarr.com/radarr
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/radarr/icon.svg
+maintainer:
+  name: linuxserver
+  source: community
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: lscr.io/linuxserver/radarr
+    tag: "latest"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 500MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 7878
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 7878
+    protocol: tcp
+
+volumes:
+  - container: /config
+    description: Radarr database and settings
+    name: config
+  - container: /movies
+    description: Your movie library — where completed downloads get organized to
+    name: movies
+  - container: /downloads
+    description: Shared download client folder (must match the same path used by your download client, e.g. qBittorrent)
+    name: downloads
+
+environment:
+  - name: PUID
+    description: User ID files are written as
+    secret: false
+    default: "1000"
+  - name: PGID
+    description: Group ID files are written as
+    secret: false
+    default: "1000"
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://radarr.video
+  documentation: https://wiki.servarr.com/radarr
+  repository: https://github.com/Radarr/Radarr

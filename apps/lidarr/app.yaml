@@ -1,0 +1,80 @@
+id: downloads.lidarr
+name:
+  en: Lidarr
+  tr: Lidarr
+description:
+  en: Music collection manager — tracks artists and albums, finds releases via Prowlarr/Jackett, and sends them to your download client automatically.
+  tr: Müzik koleksiyon yöneticisi — sanatçı ve albümleri takip eder, Prowlarr/Jackett üzerinden uygun sürümleri bulur, otomatik olarak indirme istemcine gönderir.
+category: [Downloads]
+tags: [music, downloads, automation, arr]
+version: "latest"
+license: GPL-3.0
+website: https://lidarr.audio
+repository: https://github.com/Lidarr/Lidarr
+documentation: https://wiki.servarr.com/lidarr
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/lidarr/icon.svg
+maintainer:
+  name: linuxserver
+  source: community
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: lscr.io/linuxserver/lidarr
+    tag: "latest"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 500MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 8686
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 8686
+    protocol: tcp
+
+volumes:
+  - container: /config
+    description: Lidarr database and settings
+    name: config
+  - container: /music
+    description: Your music library — where completed downloads get organized to
+    name: music
+  - container: /downloads
+    description: Shared download client folder (must match the same path used by your download client, e.g. qBittorrent)
+    name: downloads
+
+environment:
+  - name: PUID
+    description: User ID files are written as
+    secret: false
+    default: "1000"
+  - name: PGID
+    description: Group ID files are written as
+    secret: false
+    default: "1000"
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://lidarr.audio
+  documentation: https://wiki.servarr.com/lidarr
+  repository: https://github.com/Lidarr/Lidarr

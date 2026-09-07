@@ -134,6 +134,86 @@
       "installable": true,
       "image": "webdevops/nginx",
       "path": "apps/php-nginx"
+    },
+    {
+      "id": "security.vaultwarden",
+      "name": "Vaultwarden",
+      "category": "Security",
+      "tags": ["passwords", "security", "bitwarden", "vault"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/vaultwarden/icon.svg",
+      "description": "Unofficial, lightweight self-hosted password manager server compatible with official Bitwarden clients — your own encrypted vault, no cloud subscription.",
+      "image": "vaultwarden/server",
+      "path": "apps/vaultwarden"
+    },
+    {
+      "id": "utilities.duplicati",
+      "name": "Duplicati",
+      "category": "Utilities",
+      "tags": ["backup", "utilities", "storage"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/duplicati/icon.svg",
+      "description": "Encrypted, incremental backup client with a web UI — schedule backups of any folder to local storage, network shares, or cloud destinations.",
+      "image": "duplicati/duplicati",
+      "path": "apps/duplicati"
+    },
+    {
+      "id": "downloads.sonarr",
+      "name": "Sonarr",
+      "category": "Downloads",
+      "tags": ["tv", "downloads", "automation", "arr"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/sonarr/icon.svg",
+      "description": "TV series collection manager — tracks your shows, finds new episodes via Prowlarr/Jackett, and sends them to your download client automatically.",
+      "image": "lscr.io/linuxserver/sonarr",
+      "path": "apps/sonarr"
+    },
+    {
+      "id": "downloads.radarr",
+      "name": "Radarr",
+      "category": "Downloads",
+      "tags": ["movies", "downloads", "automation", "arr"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/radarr/icon.svg",
+      "description": "Movie collection manager — tracks your movie wishlist, finds releases via Prowlarr/Jackett, and sends them to your download client automatically.",
+      "image": "lscr.io/linuxserver/radarr",
+      "path": "apps/radarr"
+    },
+    {
+      "id": "downloads.prowlarr",
+      "name": "Prowlarr",
+      "category": "Downloads",
+      "tags": ["indexer", "downloads", "automation", "arr"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/prowlarr/icon.svg",
+      "description": "Indexer manager for the *arr apps — configure your trackers once here, and Sonarr/Radarr/Lidarr all share the same indexer list automatically.",
+      "image": "lscr.io/linuxserver/prowlarr",
+      "path": "apps/prowlarr"
+    },
+    {
+      "id": "downloads.lidarr",
+      "name": "Lidarr",
+      "category": "Downloads",
+      "tags": ["music", "downloads", "automation", "arr"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/lidarr/icon.svg",
+      "description": "Music collection manager — tracks artists and albums, finds releases via Prowlarr/Jackett, and sends them to your download client automatically.",
+      "image": "lscr.io/linuxserver/lidarr",
+      "path": "apps/lidarr"
+    },
+    {
+      "id": "media.plex",
+      "name": "Plex",
+      "category": "Media",
+      "tags": ["media", "streaming", "video", "music"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/plex/icon.svg",
+      "description": "Media server for movies, TV, and music — organizes your library and streams it to apps on phones, TVs, and browsers.",
+      "image": "lscr.io/linuxserver/plex",
+      "path": "apps/plex"
+    },
+    {
+      "id": "utilities.uptime-kuma",
+      "name": "Uptime Kuma",
+      "category": "Utilities",
+      "tags": ["monitoring", "uptime", "status", "utilities"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/uptimekuma/icon.svg",
+      "description": "Self-hosted uptime monitoring with a clean dashboard — pings your sites/services on a schedule and can notify you when something goes down.",
+      "image": "louislam/uptime-kuma",
+      "path": "apps/uptimekuma"
     }
   ]
 }

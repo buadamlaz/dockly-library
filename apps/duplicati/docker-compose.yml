@@ -1,0 +1,13 @@
+services:
+  duplicati:
+    image: duplicati/duplicati:latest
+    container_name: duplicati
+    restart: unless-stopped
+    ports:
+      - "8200:8200"
+    volumes:
+      - /home/duplicati/data:/data
+      - /home/duplicati/source:/source
+      - /home/duplicati/backups:/backups
+    environment:
+      DUPLICATI__WEBSERVICE_PASSWORD: "##CREATE_PASSWORD##"

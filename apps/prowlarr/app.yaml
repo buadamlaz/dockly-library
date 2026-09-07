@@ -1,0 +1,74 @@
+id: downloads.prowlarr
+name:
+  en: Prowlarr
+  tr: Prowlarr
+description:
+  en: "Indexer manager for the *arr apps — configure your trackers once here, and Sonarr/Radarr/Lidarr all share the same indexer list automatically."
+  tr: "*arr uygulamaları için indexer yöneticisi — tracker'larını burada bir kez ayarla, Sonarr/Radarr/Lidarr aynı indexer listesini otomatik paylaşır."
+category: [Downloads]
+tags: [indexer, downloads, automation, arr]
+version: "latest"
+license: GPL-3.0
+website: https://prowlarr.com
+repository: https://github.com/Prowlarr/Prowlarr
+documentation: https://wiki.servarr.com/prowlarr
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/prowlarr/icon.svg
+maintainer:
+  name: linuxserver
+  source: community
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: lscr.io/linuxserver/prowlarr
+    tag: "latest"
+
+requirements:
+  ram_min: 128MB
+  ram_recommended: 256MB
+  storage_min: 200MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 9696
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 9696
+    protocol: tcp
+
+volumes:
+  - container: /config
+    description: Prowlarr database, settings, and indexer definitions
+    name: config
+
+environment:
+  - name: PUID
+    description: User ID files are written as
+    secret: false
+    default: "1000"
+  - name: PGID
+    description: Group ID files are written as
+    secret: false
+    default: "1000"
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://prowlarr.com
+  documentation: https://wiki.servarr.com/prowlarr
+  repository: https://github.com/Prowlarr/Prowlarr

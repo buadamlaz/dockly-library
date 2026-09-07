@@ -1,0 +1,72 @@
+id: utilities.duplicati
+name:
+  en: Duplicati
+  tr: Duplicati
+description:
+  en: Encrypted, incremental backup client with a web UI — schedule backups of any folder to local storage, network shares, or cloud destinations (S3, Backblaze, Google Drive, and more).
+  tr: Şifreli, artımlı yedekleme aracı, web arayüzlü — herhangi bir klasörü yerel depolamaya, ağ paylaşımına veya bulut hedeflerine (S3, Backblaze, Google Drive ve daha fazlası) zamanlanmış olarak yedekle.
+category: [Utilities]
+tags: [backup, utilities, storage]
+version: "latest"
+license: LGPL-2.1
+website: https://duplicati.com
+repository: https://github.com/duplicati/duplicati
+documentation: https://docs.duplicati.com
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/duplicati/icon.svg
+maintainer:
+  name: duplicati
+  source: community
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: duplicati/duplicati
+    tag: "latest"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 500MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 8200
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 8200
+    protocol: tcp
+
+volumes:
+  - container: /data
+    description: Duplicati's own config, job database, and logs — not your backed-up data
+    name: data
+  - container: /source
+    description: Folder(s) you want to back up — point Duplicati's jobs at paths under here
+    name: source
+  - container: /backups
+    description: Destination folder for local backups (skip this if you're backing up to a cloud destination instead)
+    name: backups
+
+environment:
+  - name: DUPLICATI__WEBSERVICE_PASSWORD
+    description: Password to log into the Duplicati web UI. Leave empty to disable login (not recommended).
+    secret: true
+    default: "##CREATE_PASSWORD##"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://duplicati.com
+  documentation: https://docs.duplicati.com
+  repository: https://github.com/duplicati/duplicati

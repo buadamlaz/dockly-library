@@ -1,0 +1,60 @@
+id: utilities.uptime-kuma
+name:
+  en: Uptime Kuma
+  tr: Uptime Kuma
+description:
+  en: Self-hosted uptime monitoring with a clean dashboard — pings your sites/services on a schedule, shows status history, and can notify you (Telegram, Discord, email, and dozens more) when something goes down.
+  tr: Self-hosted uptime izleme, sade bir panel ile — site/servislerini belirli aralıklarla kontrol eder, durum geçmişini gösterir, bir şey çöktüğünde seni bilgilendirebilir (Telegram, Discord, e-posta ve daha onlarcası).
+category: [Utilities]
+tags: [monitoring, uptime, status, utilities]
+version: "latest"
+license: MIT
+website: https://uptime.kuma.pet
+repository: https://github.com/louislam/uptime-kuma
+documentation: https://github.com/louislam/uptime-kuma/wiki
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/uptimekuma/icon.svg
+maintainer:
+  name: louislam
+  source: community
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: louislam/uptime-kuma
+    tag: "latest"
+
+requirements:
+  ram_min: 128MB
+  ram_recommended: 256MB
+  storage_min: 200MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 3001
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 3001
+    protocol: tcp
+
+volumes:
+  - container: /app/data
+    description: Monitor definitions, status history, and settings
+    name: data
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://uptime.kuma.pet
+  documentation: https://github.com/louislam/uptime-kuma/wiki
+  repository: https://github.com/louislam/uptime-kuma

@@ -1,0 +1,78 @@
+id: security.vaultwarden
+name:
+  en: Vaultwarden
+  tr: Vaultwarden
+description:
+  en: Unofficial, lightweight self-hosted password manager server compatible with official Bitwarden clients — your own encrypted vault, no cloud subscription.
+  tr: Resmi Bitwarden istemcileriyle uyumlu, hafif, self-hosted parola yöneticisi sunucusu — kendi şifreli kasan, bulut aboneliği gerekmez.
+category: [Security]
+tags: [passwords, security, bitwarden, vault]
+version: "latest"
+license: AGPL-3.0
+website: https://github.com/dani-garcia/vaultwarden
+repository: https://github.com/dani-garcia/vaultwarden
+documentation: https://github.com/dani-garcia/vaultwarden/wiki
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/vaultwarden/icon.svg
+maintainer:
+  name: dani-garcia
+  source: community
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: vaultwarden/server
+    tag: "latest"
+
+requirements:
+  ram_min: 128MB
+  ram_recommended: 256MB
+  storage_min: 500MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 80
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 80
+    protocol: tcp
+
+volumes:
+  - container: /data
+    description: Encrypted vault database, attachments, and config
+    name: data
+
+environment:
+  - name: DOMAIN
+    description: Public HTTPS URL you'll access this at (required for attachments/U2F to work correctly), e.g. https://vault.example.com. Leave empty for local-only testing.
+    secret: false
+    default: ""
+  - name: SIGNUPS_ALLOWED
+    description: Allow new account signups. Turn off (false) after creating your own account.
+    secret: false
+    default: "true"
+  - name: WEBSOCKET_ENABLED
+    description: Enables real-time sync notifications to clients
+    secret: false
+    default: "true"
+  - name: ADMIN_TOKEN
+    description: Token required to access the /admin panel. Set your own — leave empty to disable the admin panel entirely.
+    secret: true
+    default: "##CREATE_PASSWORD##"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://github.com/dani-garcia/vaultwarden
+  documentation: https://github.com/dani-garcia/vaultwarden/wiki
+  repository: https://github.com/dani-garcia/vaultwarden

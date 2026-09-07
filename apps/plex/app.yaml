@@ -1,0 +1,93 @@
+id: media.plex
+name:
+  en: Plex
+  tr: Plex
+description:
+  en: Media server for movies, TV, and music — organizes your library and streams it to apps on phones, TVs, and browsers. An alternative to Jellyfin with a polished, hosted-account experience.
+  tr: Film, dizi ve müzik için medya sunucusu — kütüphaneni düzenler, telefon/TV/tarayıcı uygulamalarına akış olarak sunar. Jellyfin'e alternatif, hesap tabanlı ve cilalı bir deneyim sunuyor.
+category: [Media]
+tags: [media, streaming, video, music]
+version: "latest"
+license: Proprietary
+website: https://www.plex.tv
+repository: https://github.com/plexinc/pms-docker
+documentation: https://support.plex.tv/articles/200288586-installation/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/plex/icon.svg
+maintainer:
+  name: linuxserver
+  source: community
+
+architectures: [amd64, arm64]
+
+images:
+  - repository: lscr.io/linuxserver/plex
+    tag: "latest"
+
+# Runs in bridge mode with an explicit port (simplest, works for browser/app
+# streaming). Plex's own docs recommend host networking instead for full LAN
+# auto-discovery (e.g. some smart TV apps finding the server without typing
+# an address) — switch network mode to Host in the advanced install options
+# if you need that, at the cost of Dockly's usual per-app port isolation.
+requirements:
+  ram_min: 512MB
+  ram_recommended: 2GB
+  storage_min: 1GB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 32400
+  path: /web
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 32400
+    protocol: tcp
+
+volumes:
+  - container: /config
+    description: Plex library database, metadata, and settings (can grow large)
+    name: config
+  - container: /movies
+    description: Your movie library
+    name: movies
+  - container: /tv
+    description: Your TV library
+    name: tv
+
+environment:
+  - name: PUID
+    description: User ID files are written as
+    secret: false
+    default: "1000"
+  - name: PGID
+    description: Group ID files are written as
+    secret: false
+    default: "1000"
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+  - name: VERSION
+    description: Update channel — "docker" lets the image manage Plex Media Server updates itself
+    secret: false
+    default: "docker"
+  - name: PLEX_CLAIM
+    description: One-time claim token from plex.tv/claim to link this server to your Plex account (expires 4 minutes after you copy it — get it right before installing). Leave empty to claim manually later from the web UI.
+    secret: true
+    default: ""
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://www.plex.tv
+  documentation: https://support.plex.tv/articles/200288586-installation/
+  repository: https://github.com/plexinc/pms-docker

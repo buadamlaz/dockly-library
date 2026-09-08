@@ -1,0 +1,74 @@
+id: utilities.grafana
+name:
+  en: Grafana
+  tr: Grafana
+description:
+  en: Open-source analytics and monitoring dashboards — visualize metrics, logs, and traces from Prometheus, InfluxDB, and dozens of other data sources in one place.
+  tr: Açık kaynak analiz ve izleme panelleri — Prometheus, InfluxDB ve onlarca başka veri kaynağından gelen metrik, log ve trace'leri tek yerde görselleştir.
+category: [Utilities]
+tags: [monitoring, dashboards, metrics, observability, utilities]
+version: "13"
+license: AGPL-3.0
+website: https://grafana.com
+repository: https://github.com/grafana/grafana
+documentation: https://grafana.com/docs/grafana/latest/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/grafana/icon.svg
+maintainer:
+  name: grafana
+  source: official
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: grafana/grafana
+    tag: "13.0.8"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 500MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 3000
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 3000
+    protocol: tcp
+
+volumes:
+  - container: /var/lib/grafana
+    description: Dashboards, data source configs, users, and the SQLite/session database
+    name: data
+
+environment:
+  - name: GF_SECURITY_ADMIN_USER
+    description: Initial admin username
+    secret: false
+    default: "admin"
+  - name: GF_SECURITY_ADMIN_PASSWORD
+    description: "Initial admin password — required (Grafana itself defaults this to the insecure \"admin\" if left unset, so Dockly always asks for a real one)"
+    secret: true
+    default: "##CREATE_PASSWORD##"
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://grafana.com
+  documentation: https://grafana.com/docs/grafana/latest/
+  repository: https://github.com/grafana/grafana

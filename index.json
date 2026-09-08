@@ -348,6 +348,16 @@
       "path": "apps/postgresql"
     },
     {
+      "id": "utilities.grafana",
+      "name": "Grafana",
+      "category": "Utilities",
+      "tags": ["monitoring", "dashboards", "metrics", "observability"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/grafana/icon.svg",
+      "description": "Open-source analytics and monitoring dashboards — visualize metrics, logs, and traces from Prometheus, InfluxDB, and dozens of other data sources in one place.",
+      "image": "grafana/grafana",
+      "path": "apps/grafana"
+    },
+    {
       "id": "development.phpmyadmin-mariadb",
       "name": "phpMyAdmin + MariaDB",
       "category": "Development",

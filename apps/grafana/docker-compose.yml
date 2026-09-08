@@ -1,0 +1,13 @@
+services:
+  grafana:
+    image: grafana/grafana:13.0.8
+    container_name: grafana
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=##CREATE_PASSWORD##
+      - TZ=Etc/UTC
+    volumes:
+      - /path/to/grafana/data:/var/lib/grafana
+    ports:
+      - 3000:3000

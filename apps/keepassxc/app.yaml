@@ -1,0 +1,90 @@
+id: security.keepassxc
+name:
+  en: KeePassXC
+  tr: KeePassXC
+description:
+  en: Cross-platform, offline password manager — runs as a full desktop session in your browser (KasmVNC-based), so you get the real KeePassXC app, not a web reimplementation. Open or create a .kdbx database from the container's own file browser.
+  tr: Çapraz-platform, çevrimdışı parola yöneticisi — tarayıcıda tam bir masaüstü oturumu olarak çalışır (KasmVNC tabanlı), yani web'e uyarlanmış bir versiyon değil, gerçek KeePassXC uygulamasıdır. Container'ın kendi dosya tarayıcısından bir .kdbx veritabanı aç ya da oluştur.
+category: [Security]
+tags: [passwords, security, vault, desktop, kdbx]
+version: "2.7.12"
+license: GPL-3.0
+website: https://keepassxc.org
+repository: https://github.com/keepassxreboot/keepassxc
+documentation: https://docs.linuxserver.io/images/docker-keepassxc/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/keepassxc/icon.svg
+maintainer:
+  name: linuxserver.io
+  source: community
+
+architectures: [amd64, arm64]
+
+images:
+  - repository: lscr.io/linuxserver/keepassxc
+    tag: "2.7.12"
+
+requirements:
+  ram_min: 512MB
+  ram_recommended: 1GB
+  storage_min: 500MB
+hardware:
+  gpu: { required: false }
+
+# This is a KasmVNC-based "webtop" image — the web UI is a full remote
+# desktop session (real KeePassXC GUI), not a native web app. LinuxServer
+# recommends a larger /dev/shm (shm_size: "1gb") for smooth desktop
+# rendering — Dockly's install pipeline has no field for that yet, so this
+# runs on Docker's small default shm size instead (still works, just may
+# feel sluggish under heavier use).
+web:
+  port: 3000
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 3000
+    protocol: tcp
+  - container: 3001
+    protocol: tcp
+
+volumes:
+  - container: /config
+    description: The desktop session's home directory — save or open your .kdbx database here
+    name: config
+
+environment:
+  - name: PUID
+    description: User ID files are written as
+    secret: false
+    default: "1000"
+  - name: PGID
+    description: Group ID files are written as
+    secret: false
+    default: "1000"
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+  - name: CUSTOM_USER
+    description: "Optional — HTTP basic auth username in front of the desktop session. Leave both this and PASSWORD empty to disable (a reverse proxy with real auth is recommended for internet exposure either way)"
+    secret: false
+    default: ""
+  - name: PASSWORD
+    description: "Optional — HTTP basic auth password. Leave both this and CUSTOM_USER empty to disable"
+    secret: true
+    default: ""
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://keepassxc.org
+  documentation: https://docs.linuxserver.io/images/docker-keepassxc/
+  repository: https://github.com/keepassxreboot/keepassxc

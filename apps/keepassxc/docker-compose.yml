@@ -1,0 +1,17 @@
+services:
+  keepassxc:
+    image: lscr.io/linuxserver/keepassxc:2.7.12
+    container_name: keepassxc
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - CUSTOM_USER= #optional
+      - PASSWORD= #optional
+    volumes:
+      - /path/to/keepassxc/config:/config
+    ports:
+      - 3000:3000
+      - 3001:3001
+    shm_size: "1gb"

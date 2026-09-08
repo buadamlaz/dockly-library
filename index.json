@@ -156,6 +156,16 @@
       "path": "apps/vaultwarden"
     },
     {
+      "id": "security.keepassxc",
+      "name": "KeePassXC",
+      "category": "Security",
+      "tags": ["passwords", "security", "vault", "desktop"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/keepassxc/icon.svg",
+      "description": "Cross-platform, offline password manager — runs as a full desktop session in your browser, the real KeePassXC app, not a web reimplementation.",
+      "image": "lscr.io/linuxserver/keepassxc",
+      "path": "apps/keepassxc"
+    },
+    {
       "id": "utilities.duplicati",
       "name": "Duplicati",
       "category": "Utilities",

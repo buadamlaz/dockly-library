@@ -59,7 +59,7 @@
       "name": "Transmission",
       "category": "Downloads",
       "tags": ["torrent", "downloads"],
-      "icon": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/transmission.svg",
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/transmission/icon.svg",
       "description": "Lightweight, cross-platform BitTorrent client with a web UI.",
       "image": "lscr.io/linuxserver/transmission",
       "path": "apps/transmission"

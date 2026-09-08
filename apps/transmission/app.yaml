@@ -12,7 +12,7 @@ license: MIT
 website: https://transmissionbt.com
 repository: https://github.com/transmission/transmission
 documentation: https://docs.linuxserver.io/images/docker-transmission/
-icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/transmission.svg
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/transmission/icon.svg
 maintainer:
   name: linuxserver.io
   source: community

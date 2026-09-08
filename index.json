@@ -55,6 +55,16 @@
       "path": "apps/qbittorrent"
     },
     {
+      "id": "downloads.transmission",
+      "name": "Transmission",
+      "category": "Downloads",
+      "tags": ["torrent", "downloads"],
+      "icon": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/transmission.svg",
+      "description": "Lightweight, cross-platform BitTorrent client with a web UI.",
+      "image": "lscr.io/linuxserver/transmission",
+      "path": "apps/transmission"
+    },
+    {
       "id": "productivity.nextcloud",
       "name": "Nextcloud",
       "category": "Productivity",

@@ -77,11 +77,11 @@ environment:
   - name: USER
     description: Web UI username — leave both User and Pass empty to disable Web UI authentication
     secret: false
-    default: ""
+    default: "dockly"
   - name: PASS
     description: Web UI password — leave both User and Pass empty to disable Web UI authentication
     secret: true
-    default: ""
+    default: "dockly"
   - name: TRANSMISSION_WEB_HOME
     description: "Optional — alternate web UI theme package path, leave blank for the default"
     secret: false

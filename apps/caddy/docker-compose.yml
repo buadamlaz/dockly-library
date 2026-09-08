@@ -1,0 +1,32 @@
+#
+# IMPORTANT: /etc/caddy must contain a Caddyfile or Caddy crash-loops on
+# start (the image's own default Caddyfile gets shadowed by the empty
+# bind-mounted directory). Create /path/to/caddy/config/Caddyfile with
+# something like this minimal reverse-proxy example before first boot:
+#
+#   example.com {
+#       reverse_proxy 192.168.1.50:8080
+#   }
+#
+#   :80 {
+#       respond "Caddy is running"
+#   }
+#
+services:
+  caddy:
+    image: caddy:2.11.4-alpine
+    container_name: caddy
+    restart: unless-stopped
+    # Optional: NET_ADMIN lets Caddy raise the UDP receive buffer for
+    # HTTP/3 — not required for normal operation, left out by default in
+    # Dockly's own manifest (security.capabilities_added: []).
+    # cap_add:
+    #   - NET_ADMIN
+    volumes:
+      - /path/to/caddy/config:/etc/caddy
+      - /path/to/caddy/data:/data
+      - /path/to/caddy/srv:/srv
+    ports:
+      - 80:80
+      - 443:443
+      - 443:443/udp

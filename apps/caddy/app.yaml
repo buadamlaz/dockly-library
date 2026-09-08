@@ -1,0 +1,73 @@
+id: networking.caddy
+name:
+  en: Caddy
+  tr: Caddy
+description:
+  en: Fast, extensible web server and reverse proxy — automatic HTTPS by default, simple text-based Caddyfile configuration, HTTP/3 support.
+  tr: Hızlı, genişletilebilir web sunucusu ve reverse proxy — varsayılan olarak otomatik HTTPS, sade metin tabanlı Caddyfile yapılandırması, HTTP/3 desteği.
+category: [Networking]
+tags: [proxy, webserver, ssl, https, networking]
+version: "2.11.4"
+license: Apache-2.0
+website: https://caddyserver.com
+repository: https://github.com/caddyserver/caddy
+documentation: https://caddyserver.com/docs/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/caddy/icon.svg
+maintainer:
+  name: caddyserver
+  source: official
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: caddy
+    tag: "2.11.4-alpine"
+
+requirements:
+  ram_min: 128MB
+  ram_recommended: 256MB
+  storage_min: 500MB
+hardware:
+  gpu: { required: false }
+
+# Real gotcha (same family as Dashy's conf.yml / PHP-Nginx's conf.d):
+# the image bakes in a default Caddyfile at /etc/caddy/Caddyfile, but
+# bind-mounting this volume over it shadows that default with an EMPTY
+# directory — Caddy then fails to find its config file and crash-loops
+# on first start. A Caddyfile MUST be created in the mounted volume
+# before (or immediately after) first boot — see the reference
+# docker-compose.yml for a minimal working example.
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 80
+    protocol: tcp
+  - container: 443
+    protocol: tcp
+  - container: 443
+    protocol: udp
+
+volumes:
+  - container: /etc/caddy
+    description: Must contain a Caddyfile — MISSING one crash-loops the container, see docker-compose.yml for a minimal example
+    name: config
+  - container: /data
+    description: TLS certificates and OCSP staples — losing this re-triggers cert issuance for every domain
+    name: data
+  - container: /srv
+    description: Optional — static site files, if your Caddyfile serves any directly instead of only reverse-proxying
+    name: srv
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://caddyserver.com
+  documentation: https://caddyserver.com/docs/
+  repository: https://github.com/caddyserver/caddy

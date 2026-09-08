@@ -1,0 +1,60 @@
+id: productivity.memos
+name:
+  en: Memos
+  tr: Memos
+description:
+  en: Privacy-first, lightweight note-taking service — quickly capture and organize your thoughts, tag and search them, and optionally share them, all self-hosted.
+  tr: Gizlilik odaklı, hafif not alma servisi — düşüncelerini hızlıca yaz, etiketle, ara, istersen paylaş, hepsi kendi sunucunda.
+category: [Productivity]
+tags: [notes, productivity, self-hosted]
+version: "0.30.0"
+license: MIT
+website: https://www.usememos.com
+repository: https://github.com/usememos/memos
+documentation: https://www.usememos.com/docs
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/memos/icon.svg
+maintainer:
+  name: usememos
+  source: official
+
+architectures: [amd64, arm64]
+
+images:
+  - repository: neosmemo/memos
+    tag: "0.30.0"
+
+requirements:
+  ram_min: 128MB
+  ram_recommended: 256MB
+  storage_min: 500MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 5230
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 5230
+    protocol: tcp
+
+volumes:
+  - container: /var/opt/memos
+    description: SQLite database and any uploaded attachments
+    name: data
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://www.usememos.com
+  documentation: https://www.usememos.com/docs
+  repository: https://github.com/usememos/memos

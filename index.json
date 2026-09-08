@@ -166,6 +166,36 @@
       "path": "apps/keepassxc"
     },
     {
+      "id": "utilities.syncthing",
+      "name": "Syncthing",
+      "category": "Utilities",
+      "tags": ["sync", "backup", "files", "p2p"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/syncthing/icon.svg",
+      "description": "Continuous, peer-to-peer file synchronization — keeps folders in sync across your devices directly, with no cloud middleman.",
+      "image": "syncthing/syncthing",
+      "path": "apps/syncthing"
+    },
+    {
+      "id": "productivity.memos",
+      "name": "Memos",
+      "category": "Productivity",
+      "tags": ["notes", "productivity", "self-hosted"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/memos/icon.svg",
+      "description": "Privacy-first, lightweight note-taking service — quickly capture, tag, search, and optionally share your notes.",
+      "image": "neosmemo/memos",
+      "path": "apps/memos"
+    },
+    {
+      "id": "networking.caddy",
+      "name": "Caddy",
+      "category": "Networking",
+      "tags": ["proxy", "webserver", "ssl", "https"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/caddy/icon.svg",
+      "description": "Fast, extensible web server and reverse proxy with automatic HTTPS and a simple text-based Caddyfile.",
+      "image": "caddy",
+      "path": "apps/caddy"
+    },
+    {
       "id": "utilities.duplicati",
       "name": "Duplicati",
       "category": "Utilities",

@@ -9,8 +9,7 @@ services:
       - TRANSMISSION_WEB_HOME= #optional
       - USER=dockly
       - PASS=dockly
-      - WHITELIST= #optional
-      - PEERPORT= #optional
+      - PEERPORT=51413
       - HOST_WHITELIST= #optional
     volumes:
       - /path/to/transmission/data:/config

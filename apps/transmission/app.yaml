@@ -87,13 +87,9 @@ environment:
     secret: false
     default: ""
   - name: PEERPORT
-    description: "Optional — fixed peer port, leave blank to use the default (51413)"
+    description: "Optional — fixed peer port"
     secret: false
-    default: ""
-  - name: WHITELIST
-    description: "Optional — comma-separated list of IPs allowed to access the daemon RPC"
-    secret: false
-    default: ""
+    default: "51413"
   - name: HOST_WHITELIST
     description: "Optional — comma-separated list of hostnames allowed in the Host header"
     secret: false

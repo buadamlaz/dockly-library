@@ -1,0 +1,76 @@
+id: development.postgresql
+name:
+  en: PostgreSQL
+  tr: PostgreSQL
+description:
+  en: Standalone PostgreSQL 18 database server — point your own apps at it, or use it for local development. No web UI of its own; manage it with a client like Adminer, pgAdmin, or the psql CLI.
+  tr: Bağımsız PostgreSQL 18 veritabanı sunucusu — kendi uygulamalarını buna bağla ya da yerel geliştirme için kullan. Kendi web arayüzü yok; Adminer, pgAdmin veya psql CLI gibi bir istemciyle yönet.
+category: [Development]
+tags: [database, postgresql, postgres, sql, development]
+version: "18"
+license: PostgreSQL
+website: https://www.postgresql.org
+repository: https://github.com/postgres/postgres
+documentation: https://www.postgresql.org/docs/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/postgresql/icon.svg
+maintainer:
+  name: postgres
+  source: community
+
+architectures: [amd64, arm64]
+
+images:
+  - repository: postgres
+    tag: "18"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 1GB
+hardware:
+  gpu: { required: false }
+
+# No `web:` block — PostgreSQL has no web UI (plain TCP protocol, not
+# HTTP), same reasoning as this catalog's MySQL/MariaDB entries.
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 5432
+    protocol: tcp
+
+volumes:
+  - container: /var/lib/postgresql/data
+    description: All databases and tables — this is your actual data
+    name: data
+
+environment:
+  - name: POSTGRES_PASSWORD
+    description: Superuser (postgres) account password — required
+    secret: true
+    default: "##CREATE_PASSWORD##"
+  - name: POSTGRES_USER
+    description: "Optional — superuser name, defaults to \"postgres\" if left blank"
+    secret: false
+    default: "postgres"
+  - name: POSTGRES_DB
+    description: "Optional — creates an empty database with this name on first startup, defaults to POSTGRES_USER's value if left blank"
+    secret: false
+    default: "app"
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://www.postgresql.org
+  documentation: https://www.postgresql.org/docs/
+  repository: https://github.com/postgres/postgres

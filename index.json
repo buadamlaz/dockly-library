@@ -338,6 +338,16 @@
       "path": "apps/mariadb"
     },
     {
+      "id": "development.postgresql",
+      "name": "PostgreSQL",
+      "category": "Development",
+      "tags": ["database", "postgresql", "postgres", "sql", "development"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/postgresql/icon.svg",
+      "description": "Standalone PostgreSQL 18 database server — point your own apps at it, or use it for local development. No web UI of its own.",
+      "image": "postgres",
+      "path": "apps/postgresql"
+    },
+    {
       "id": "development.phpmyadmin-mariadb",
       "name": "phpMyAdmin + MariaDB",
       "category": "Development",

@@ -131,7 +131,12 @@
                 "name": {
                   "type": "string",
                   "pattern": "^[a-z][a-z0-9-]*$",
-                  "description": "Folder name under this app's /DATA/dockly/<slug>/ data root. Defaults to the last path segment of `container` when omitted."
+                  "description": "Folder name under this app's /DATA/dockly/<slug>/ data root. Defaults to the last path segment of `container` when omitted. Mutually exclusive with `host_path` below."
+                },
+                "host_path": {
+                  "type": "string",
+                  "pattern": "^/",
+                  "description": "Optional — an exact, fixed host path to bind-mount (e.g. /var/run/docker.sock, /lib/modules) INSTEAD of the normal /DATA/dockly/<id>/<name> convention. Only for well-known system paths every install needs identically, verbatim — never for the app's own regular data (that always uses `name` above)."
                 }
               }
             }
@@ -152,6 +157,21 @@
                 }
               }
             }
+          },
+          "capabilities_added": {
+            "type": "array",
+            "description": "Linux capabilities this service's container needs (e.g. NET_ADMIN for a VPN service) — same meaning as the top-level security.capabilities_added, but per-service, since a stack's services often need different capabilities from each other.",
+            "items": { "type": "string" }
+          },
+          "sysctls": {
+            "type": "object",
+            "description": "Kernel parameters this service's container needs (e.g. {\"net.ipv4.ip_forward\": \"1\"} for a VPN/router service).",
+            "additionalProperties": { "type": "string" }
+          },
+          "command": {
+            "type": "array",
+            "description": "Overrides this service's image's default startup command, e.g. [\"server\", \"start\", \"--insecure\"]. Omit to use the image's own default.",
+            "items": { "type": "string" }
           }
         }
       }
@@ -202,6 +222,16 @@
         }
       }
     },
+    "sysctls": {
+      "type": "object",
+      "description": "Single-container apps only. Kernel parameters the container needs (e.g. {\"net.ipv4.ip_forward\": \"1\"} for a VPN/router app).",
+      "additionalProperties": { "type": "string" }
+    },
+    "command": {
+      "type": "array",
+      "description": "Single-container apps only. Overrides the image's default startup command. Omit to use the image's own default.",
+      "items": { "type": "string" }
+    },
     "ports": {
       "type": "array",
       "items": {
@@ -226,7 +256,12 @@
           "name": {
             "type": "string",
             "pattern": "^[a-z][a-z0-9-]*$",
-            "description": "Folder name under this app's /DATA/dockly/<slug>/ data root. Defaults to the last path segment of `container` when omitted."
+            "description": "Folder name under this app's /DATA/dockly/<slug>/ data root. Defaults to the last path segment of `container` when omitted. Mutually exclusive with `host_path` below."
+          },
+          "host_path": {
+            "type": "string",
+            "pattern": "^/",
+            "description": "Optional — an exact, fixed host path to bind-mount (e.g. /var/run/docker.sock, /lib/modules) INSTEAD of the normal /DATA/dockly/<id>/<name> convention. Only for well-known system paths every install needs identically, verbatim — never for the app's own regular data (that always uses `name` above)."
           }
         }
       }

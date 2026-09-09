@@ -77,23 +77,15 @@ environment:
   - name: USER
     description: Web UI username — leave both User and Pass empty to disable Web UI authentication
     secret: false
-    default: "dockly"
+    default: "Dockly"
   - name: PASS
     description: Web UI password — leave both User and Pass empty to disable Web UI authentication
     secret: true
-    default: "dockly"
-  - name: TRANSMISSION_WEB_HOME
-    description: "Optional — alternate web UI theme package path, leave blank for the default"
-    secret: false
-    default: ""
+    default: "Dockly"
   - name: PEERPORT
     description: "Optional — fixed peer port"
     secret: false
     default: "51413"
-  - name: HOST_WHITELIST
-    description: "Optional — comma-separated list of hostnames allowed in the Host header"
-    secret: false
-    default: ""
 
 compose:
   file: docker-compose.yml

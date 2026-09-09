@@ -93,11 +93,11 @@ services:
       - name: PAPERLESS_ADMIN_USER
         description: "Optional — if set, creates this superuser automatically on first start (requires PAPERLESS_ADMIN_PASSWORD too). Leave blank to create the admin account through the setup wizard instead"
         secret: false
-        default: ""
+        default: "Dockly"
       - name: PAPERLESS_ADMIN_PASSWORD
         description: Password for PAPERLESS_ADMIN_USER above — only used if that's set
         secret: true
-        default: ""
+        default: "Dockly"
 
 compose:
   file: docker-compose.yml

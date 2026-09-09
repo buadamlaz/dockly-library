@@ -24,8 +24,8 @@ services:
       PAPERLESS_SECRET_KEY: "##CREATE_PASSWORD##"
       PAPERLESS_TIME_ZONE: Etc/UTC
       PAPERLESS_OCR_LANGUAGE: eng
-      PAPERLESS_ADMIN_USER: "" #optional
-      PAPERLESS_ADMIN_PASSWORD: "" #optional
+      PAPERLESS_ADMIN_USER: Dockly
+      PAPERLESS_ADMIN_PASSWORD: Dockly
     volumes:
       - /path/to/paperless-ngx/data:/usr/src/paperless/data
       - /path/to/paperless-ngx/media:/usr/src/paperless/media

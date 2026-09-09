@@ -1,0 +1,33 @@
+#
+# Based on paperless-ngx's own official docker-compose.sqlite.yml
+# (https://github.com/paperless-ngx/paperless-ngx/blob/main/docker/compose/docker-compose.sqlite.yml)
+# — reference only, NOT parsed or used by Dockly's own install pipeline,
+# which reads this app's app.yaml `services:` list instead.
+#
+services:
+  broker:
+    image: docker.io/valkey/valkey:9-alpine
+    restart: unless-stopped
+    volumes:
+      - /path/to/paperless-ngx/broker-data:/data
+
+  webserver:
+    image: ghcr.io/paperless-ngx/paperless-ngx:3.1
+    restart: unless-stopped
+    depends_on:
+      - broker
+    ports:
+      - 8000:8000
+    environment:
+      PAPERLESS_REDIS: redis://broker:6379
+      PAPERLESS_DBENGINE: sqlite
+      PAPERLESS_SECRET_KEY: "##CREATE_PASSWORD##"
+      PAPERLESS_TIME_ZONE: Etc/UTC
+      PAPERLESS_OCR_LANGUAGE: eng
+      PAPERLESS_ADMIN_USER: "" #optional
+      PAPERLESS_ADMIN_PASSWORD: "" #optional
+    volumes:
+      - /path/to/paperless-ngx/data:/usr/src/paperless/data
+      - /path/to/paperless-ngx/media:/usr/src/paperless/media
+      - /path/to/paperless-ngx/export:/usr/src/paperless/export
+      - /path/to/paperless-ngx/consume:/usr/src/paperless/consume

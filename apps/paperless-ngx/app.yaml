@@ -1,0 +1,108 @@
+id: productivity.paperless-ngx
+name:
+  en: Paperless-ngx
+  tr: Paperless-ngx
+description:
+  en: Scan, OCR, index, and archive your paper documents — a searchable digital archive for receipts, letters, and contracts, with automatic tagging and full-text search.
+  tr: Kağıt belgelerini tara, OCR ile metne çevir, indeksle ve arşivle — fişler, mektuplar ve sözleşmeler için aranabilir bir dijital arşiv, otomatik etiketleme ve tam metin arama ile.
+category: [Productivity]
+tags: [documents, ocr, archive, scanning, productivity]
+version: "3.1"
+license: GPL-3.0
+website: https://paperless-ngx.com
+repository: https://github.com/paperless-ngx/paperless-ngx
+documentation: https://docs.paperless-ngx.com
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/paperless-ngx/icon.svg
+maintainer:
+  name: paperless-ngx
+  source: official
+
+architectures: [amd64, arm64]
+
+requirements:
+  ram_min: 1GB
+  ram_recommended: 2GB
+  storage_min: 2GB
+hardware:
+  gpu: { required: false }
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+# Official minimal ("sqlite") compose shape: a redis-compatible broker for
+# the task queue, plus the webserver itself — no separate Postgres
+# container needed, Paperless uses its built-in SQLite database.
+services:
+  - name: broker
+    image:
+      repository: docker.io/valkey/valkey
+      tag: "9-alpine"
+    volumes:
+      - container: /data
+        description: Task queue state — safe to lose (gets rebuilt), but keeping it avoids re-queuing on restart
+        name: broker-data
+
+  - name: webserver
+    primary: true
+    depends_on: [broker]
+    image:
+      repository: ghcr.io/paperless-ngx/paperless-ngx
+      tag: "3.1"
+    ports:
+      - container: 8000
+        protocol: tcp
+    volumes:
+      - container: /usr/src/paperless/data
+        description: Search index and other application state
+        name: data
+      - container: /usr/src/paperless/media
+        description: Your actual archived documents — this is the real data, back it up
+        name: media
+      - container: /usr/src/paperless/export
+        description: Destination for the built-in document exporter
+        name: export
+      - container: /usr/src/paperless/consume
+        description: Drop scanned files here (or point your scanner at it) — Paperless picks them up automatically
+        name: consume
+    environment:
+      - name: PAPERLESS_REDIS
+        description: Do not change — points at the broker service on the stack's internal network
+        secret: false
+        default: "redis://broker:6379"
+      - name: PAPERLESS_DBENGINE
+        description: Do not change — this app is configured for its built-in SQLite database
+        secret: false
+        default: "sqlite"
+      - name: PAPERLESS_SECRET_KEY
+        description: Required, a unique random string used to sign session tokens — losing/changing it invalidates existing sessions
+        secret: true
+        default: "##CREATE_PASSWORD##"
+      - name: PAPERLESS_TIME_ZONE
+        description: Timezone, e.g. Etc/UTC
+        secret: false
+        default: "Etc/UTC"
+      - name: PAPERLESS_OCR_LANGUAGE
+        description: Primary OCR language (Tesseract language code, e.g. eng, deu, tur)
+        secret: false
+        default: "eng"
+      - name: PAPERLESS_ADMIN_USER
+        description: "Optional — if set, creates this superuser automatically on first start (requires PAPERLESS_ADMIN_PASSWORD too). Leave blank to create the admin account through the setup wizard instead"
+        secret: false
+        default: ""
+      - name: PAPERLESS_ADMIN_PASSWORD
+        description: Password for PAPERLESS_ADMIN_USER above — only used if that's set
+        secret: true
+        default: ""
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://paperless-ngx.com
+  documentation: https://docs.paperless-ngx.com
+  repository: https://github.com/paperless-ngx/paperless-ngx

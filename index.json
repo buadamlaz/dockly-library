@@ -407,6 +407,17 @@
       "installable": true,
       "image": "phpmyadmin",
       "path": "apps/phpmyadmin-mariadb"
+    },
+    {
+      "id": "productivity.paperless-ngx",
+      "name": "Paperless-ngx",
+      "category": "Productivity",
+      "tags": ["documents", "ocr", "archive", "scanning"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/paperless-ngx/icon.svg",
+      "description": "Scan, OCR, index, and archive your paper documents — a searchable digital archive with automatic tagging and full-text search.",
+      "installable": true,
+      "image": "ghcr.io/paperless-ngx/paperless-ngx",
+      "path": "apps/paperless-ngx"
     }
   ]
 }

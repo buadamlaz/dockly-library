@@ -7,12 +7,20 @@
 # Username is always "admin" — no env var overrides it, only a config.yaml
 # field. FILEBROWSER_ADMIN_PASSWORD does override the password, see below.
 #
+# FILEBROWSER_CONFIG is pinned to /home/filebrowser/config.yaml (a second
+# copy the image bakes in for exactly this reason) instead of its default
+# /home/filebrowser/data/config.yaml — the latter sits inside the bind-mounted
+# data volume below, and an empty host directory bind-mounted there hides
+# the baked-in config.yaml instead of inheriting it, which makes the app
+# FATAL on startup ("config file ... does not exist").
+#
 services:
   filebrowser:
     image: gtstef/filebrowser:1.5.6-stable
     container_name: filebrowser
     environment:
       - FILEBROWSER_ADMIN_PASSWORD=Dockly
+      - FILEBROWSER_CONFIG=/home/filebrowser/config.yaml
     volumes:
       - /path/to/your/files:/srv
       - /path/to/filebrowser/data:/home/filebrowser/data

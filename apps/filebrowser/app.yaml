@@ -66,6 +66,21 @@ environment:
     description: "Password for the built-in \"admin\" account — this is the only way FileBrowser lets you set it at first start (the username itself can't be changed the same way, see the note above)"
     secret: true
     default: "Dockly"
+  # Real, confirmed gotcha: the image bakes its default config.yaml into
+  # BOTH /home/filebrowser/data/config.yaml AND /home/filebrowser/config.yaml
+  # ("copy config to two locations for compatibility", per the image's own
+  # Dockerfile comment). FILEBROWSER_CONFIG defaults to the FIRST path —
+  # which is exactly the path our "data" volume above bind-mounts a host
+  # directory onto. A bind mount to an empty host directory does not copy
+  # the image's file into it (unlike a named volume), so the baked config
+  # disappears and the app FATALs with "config file ... does not exist".
+  # Pointing FILEBROWSER_CONFIG at the second, un-mounted baked copy avoids
+  # this entirely — safe because config.yaml only holds static server
+  # settings (port, root), not accounts/state, which live in the sqlite
+  # database under /home/filebrowser/data (still persisted normally).
+  - name: FILEBROWSER_CONFIG
+    description: "Path to FileBrowser's config file — pinned outside the mounted data volume so it always exists at startup (see note above)"
+    default: "/home/filebrowser/config.yaml"
 
 compose:
   file: docker-compose.yml

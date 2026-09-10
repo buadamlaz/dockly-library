@@ -4,12 +4,15 @@
 # — reference only, NOT parsed or used by Dockly's own install pipeline,
 # which reads this app's app.yaml `images:`/`ports:`/`volumes:` instead.
 #
-# First login is admin/admin — change it immediately, see app.yaml.
+# Username is always "admin" — no env var overrides it, only a config.yaml
+# field. FILEBROWSER_ADMIN_PASSWORD does override the password, see below.
 #
 services:
   filebrowser:
     image: gtstef/filebrowser:1.5.6-stable
     container_name: filebrowser
+    environment:
+      - FILEBROWSER_ADMIN_PASSWORD=Dockly
     volumes:
       - /path/to/your/files:/srv
       - /path/to/filebrowser/data:/home/filebrowser/data

@@ -30,13 +30,13 @@ requirements:
 hardware:
   gpu: { required: false }
 
-# Real, unavoidable gotcha, documented rather than hidden: the image ships
-# with a baked-in default account, username "admin", password "admin" —
-# there is no confirmed environment variable to override this at first
-# start. CHANGE IT IMMEDIATELY after your first login (your user menu →
-# change password). This is the same class of default-credential issue
-# the now-archived original filebrowser/filebrowser project had — Quantum
-# just hasn't added an override for it yet.
+# Real, partially-fixable gotcha: the image bootstraps a first account
+# with username "admin". FILEBROWSER_ADMIN_PASSWORD (below) overrides its
+# password — confirmed straight from the app's own Go source
+# (backend/common/settings/config.go's loadEnvConfig). The username has
+# NO environment-variable override (only a config.yaml `auth.adminUsername`
+# field, which Dockly's install has no way to pre-seed into a fresh
+# volume) — it stays "admin" regardless.
 web:
   port: 80
   path: /
@@ -60,6 +60,12 @@ volumes:
   - container: /home/filebrowser/data
     description: FileBrowser's own database, config, and cache — this is where its account list and settings live
     name: data
+
+environment:
+  - name: FILEBROWSER_ADMIN_PASSWORD
+    description: "Password for the built-in \"admin\" account — this is the only way FileBrowser lets you set it at first start (the username itself can't be changed the same way, see the note above)"
+    secret: true
+    default: "Dockly"
 
 compose:
   file: docker-compose.yml

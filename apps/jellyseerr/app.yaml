@@ -1,0 +1,70 @@
+id: media.jellyseerr
+name:
+  en: Jellyseerr
+  tr: Jellyseerr
+description:
+  en: "Request and discovery hub for Jellyfin (an Overseerr fork) — friends and family browse a Netflix-like catalog and request movies/shows, which flow straight into Radarr/Sonarr. Setup wizard on first visit connects it to your Jellyfin (or Plex/Emby) and *arr apps."
+  tr: "Jellyfin için istek ve keşif merkezi (Overseerr'ın bir fork'u) — aile/arkadaşlar Netflix benzeri bir katalogda gezip film/dizi isteyebiliyor, istekler doğrudan Radarr/Sonarr'a düşüyor. İlk açılışta gelen kurulum sihirbazı Jellyfin'ini (ya da Plex/Emby) ve *arr uygulamalarını bağlıyor."
+category: [Media]
+tags: [media, requests, jellyfin, discovery]
+version: "2.7.3"
+license: MIT
+website: https://github.com/Fallenbagel/jellyseerr
+repository: https://github.com/Fallenbagel/jellyseerr
+documentation: https://docs.jellyseerr.dev/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/jellyseerr/icon.svg
+maintainer:
+  name: Fallenbagel
+  source: community
+
+architectures: [amd64, arm64]
+
+images:
+  - repository: fallenbagel/jellyseerr
+    tag: "2.7.3"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 300MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 5055
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 5055
+    protocol: tcp
+
+volumes:
+  - container: /app/config
+    description: Jellyseerr's own database and settings — this is where your Jellyfin/*arr connections and all requests live
+    name: config
+
+environment:
+  - name: TZ
+    description: Timezone used for scheduling and log timestamps, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+  - name: LOG_LEVEL
+    description: "Optional — Jellyseerr's own log verbosity"
+    secret: false
+    default: "info"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://github.com/Fallenbagel/jellyseerr
+  documentation: https://docs.jellyseerr.dev/
+  repository: https://github.com/Fallenbagel/jellyseerr

@@ -1,0 +1,17 @@
+#
+# Based on Jellyseerr's own official docker-compose example — reference
+# only, NOT parsed or used by Dockly's own install pipeline, which reads
+# this app's app.yaml `images:`/`ports:`/`volumes:` instead.
+#
+services:
+  jellyseerr:
+    image: fallenbagel/jellyseerr:2.7.3
+    container_name: jellyseerr
+    environment:
+      - TZ=Etc/UTC
+      - LOG_LEVEL=info
+    volumes:
+      - /path/to/jellyseerr/config:/app/config
+    ports:
+      - 5055:5055
+    restart: unless-stopped

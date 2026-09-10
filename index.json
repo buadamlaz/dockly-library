@@ -548,6 +548,20 @@
       "description": "Cloudflare's own Tunnel client - paste a tunnel token and connect this server to Cloudflare Tunnel, no config file needed.",
       "image": "cloudflare/cloudflared",
       "path": "apps/cloudflared"
+    },
+    {
+      "id": "media.jellyseerr",
+      "name": "Jellyseerr",
+      "category": "Media",
+      "tags": [
+        "media",
+        "requests",
+        "jellyfin"
+      ],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/jellyseerr/icon.svg",
+      "description": "Request and discovery hub for Jellyfin (an Overseerr fork) - browse a catalog and request movies/shows into Radarr/Sonarr.",
+      "image": "fallenbagel/jellyseerr",
+      "path": "apps/jellyseerr"
     }
   ]
 }

@@ -97,6 +97,19 @@ def main() -> int:
         if flagged:
             warn(f"{manifest_path}: security-sensitive settings enabled ({', '.join(flagged)}) — requires maintainer review before merge")
 
+        # Linux capabilities and sysctls aren't booleans, so they can't go
+        # through the DANGEROUS_FLAGS check above — but a capability like
+        # NET_ADMIN/SYS_MODULE (or a sysctl like net.ipv4.ip_forward) is just
+        # as worth a maintainer's attention as privileged/host_network,
+        # whether it's declared at the top level (images[] shape) or per
+        # service (services[] shape, e.g. a VPN service in a stack).
+        cap_sources = [("security.capabilities_added", security.get("capabilities_added") or [])]
+        for svc in data.get("services") or []:
+            cap_sources.append((f"services[{svc.get('name', '?')}].capabilities_added", svc.get("capabilities_added") or []))
+        for label, caps in cap_sources:
+            if caps:
+                warn(f"{manifest_path}: {label} requests {', '.join(caps)} — requires maintainer review before merge")
+
         # Every listed screenshot filename must actually exist in this app's
         # own screenshots/ folder — a typo here would otherwise ship a
         # broken <img> to every Dockly instance instead of failing the PR.

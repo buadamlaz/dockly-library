@@ -1,0 +1,93 @@
+id: networking.wg-easy
+name:
+  en: WireGuard Easy
+  tr: WireGuard Easy
+description:
+  en: The easiest way to run a WireGuard VPN — full web UI to create and manage peers (devices), QR codes for mobile clients, no config-file editing.
+  tr: WireGuard VPN çalıştırmanın en kolay yolu — peer (cihaz) oluşturup yönetmek için tam bir web arayüzü, mobil istemciler için QR kod, config dosyasıyla uğraşma yok.
+category: [Networking]
+tags: [vpn, wireguard, networking, security]
+version: "15"
+license: AGPL-3.0
+website: https://github.com/wg-easy/wg-easy
+repository: https://github.com/wg-easy/wg-easy
+documentation: https://wg-easy.github.io/wg-easy/latest/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/wg-easy/icon.svg
+maintainer:
+  name: wg-easy
+  source: official
+
+architectures: [amd64, arm64]
+
+images:
+  - repository: ghcr.io/wg-easy/wg-easy
+    tag: "15"
+
+requirements:
+  ram_min: 128MB
+  ram_recommended: 256MB
+  storage_min: 200MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 51821
+  path: /
+
+# Real platform requirement, not a mistake: WireGuard needs to route
+# packets and load its kernel module, which needs these two capabilities
+# and the sysctls below. Dockly flags both (capabilities_added AND
+# sysctls) with an explicit risk warning before install — see
+# internal/docker/security_analysis.go — this is expected, not a bug to
+# "fix" by removing them; WireGuard genuinely cannot function without them.
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: [NET_ADMIN, SYS_MODULE]
+
+sysctls:
+  net.ipv4.ip_forward: "1"
+  net.ipv4.conf.all.src_valid_mark: "1"
+  net.ipv6.conf.all.disable_ipv6: "0"
+  net.ipv6.conf.all.forwarding: "1"
+  net.ipv6.conf.default.forwarding: "1"
+
+ports:
+  - container: 51820
+    protocol: udp
+  - container: 51821
+    protocol: tcp
+
+volumes:
+  - container: /etc/wireguard
+    description: WireGuard config, peer definitions, and keys — this is your actual VPN setup, back it up
+    name: config
+  - container: /lib/modules
+    description: Host's kernel modules — WireGuard needs to load its own kernel module from here. Read-only, and only works if the module is actually present on the host kernel (mainline Linux 5.6+, or the wireguard-dkms/wireguard-modules package on older kernels).
+    host_path: /lib/modules
+    read_only: true
+
+environment:
+  - name: PORT
+    description: "Optional — Web UI TCP port, must match the published port above if changed"
+    secret: false
+    default: "51821"
+  - name: HOST
+    description: "Optional — IP address the web UI binds to inside the container"
+    secret: false
+    default: "0.0.0.0"
+  - name: INSECURE
+    description: "Set to true ONLY if you access the web UI over plain HTTP (no TLS reverse proxy) — otherwise the secure session cookie won't work and you'll be unable to log in. Leave false if Dockly/this app sits behind HTTPS."
+    secret: false
+    default: "false"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://github.com/wg-easy/wg-easy
+  documentation: https://wg-easy.github.io/wg-easy/latest/
+  repository: https://github.com/wg-easy/wg-easy

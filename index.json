@@ -418,6 +418,16 @@
       "installable": true,
       "image": "ghcr.io/paperless-ngx/paperless-ngx",
       "path": "apps/paperless-ngx"
+    },
+    {
+      "id": "networking.wg-easy",
+      "name": "WireGuard Easy",
+      "category": "Networking",
+      "tags": ["vpn", "wireguard", "networking", "security"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/wg-easy/icon.svg",
+      "description": "The easiest way to run a WireGuard VPN — full web UI to create and manage peers, QR codes for mobile clients.",
+      "image": "ghcr.io/wg-easy/wg-easy",
+      "path": "apps/wg-easy"
     }
   ]
 }

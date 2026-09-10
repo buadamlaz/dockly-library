@@ -1,0 +1,42 @@
+#
+# Straight from wg-easy's own official docker-compose.yml
+# (https://github.com/wg-easy/wg-easy/blob/master/docker-compose.yml) —
+# reference only, NOT parsed or used by Dockly's own install pipeline,
+# which reads this app's app.yaml `images:`/`ports:`/`volumes:` instead.
+#
+# Dockly's own install simplifies the networking: no dedicated "wg" bridge
+# network with a static container IP (Dockly doesn't support assigning a
+# static IP to a container yet) — plain bridge networking works fine here,
+# WireGuard peers connect via the published UDP port, not the container's
+# internal Docker IP.
+#
+volumes:
+  etc_wireguard:
+
+services:
+  wg-easy:
+    #environment:
+    #  Optional:
+    #  - PORT=51821
+    #  - HOST=0.0.0.0
+    #  - INSECURE=false
+
+    image: ghcr.io/wg-easy/wg-easy:15
+    container_name: wg-easy
+    volumes:
+      - etc_wireguard:/etc/wireguard
+      - /lib/modules:/lib/modules:ro
+    ports:
+      - "51820:51820/udp"
+      - "51821:51821/tcp"
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+      # - NET_RAW # Uncomment if using Podman
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=0
+      - net.ipv6.conf.all.forwarding=1
+      - net.ipv6.conf.default.forwarding=1

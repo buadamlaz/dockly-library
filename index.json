@@ -534,6 +534,20 @@
       "description": "Web UI for Cloudflare Tunnel - paste your tunnel token and start/stop it with one click, no config-file editing.",
       "image": "wisdomsky/cloudflared-web",
       "path": "apps/cloudflared-web"
+    },
+    {
+      "id": "networking.cloudflared",
+      "name": "Cloudflared",
+      "category": "Networking",
+      "tags": [
+        "tunnel",
+        "cloudflare",
+        "reverse-proxy"
+      ],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/cloudflared/icon.svg",
+      "description": "Cloudflare's own Tunnel client - paste a tunnel token and connect this server to Cloudflare Tunnel, no config file needed.",
+      "image": "cloudflare/cloudflared",
+      "path": "apps/cloudflared"
     }
   ]
 }

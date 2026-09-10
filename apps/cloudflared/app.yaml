@@ -1,0 +1,59 @@
+id: networking.cloudflared
+name:
+  en: Cloudflared
+  tr: Cloudflared
+description:
+  en: "Cloudflare's own Tunnel client — connects this server to a Cloudflare Tunnel using a token you create in the Cloudflare Zero Trust dashboard, exposing your services through Cloudflare without opening any ports on your router. Config-free: paste the token and it just runs."
+  tr: "Cloudflare'ın kendi Tunnel istemcisi — Cloudflare Zero Trust panelinde oluşturduğun bir token ile bu sunucuyu bir Cloudflare Tunnel'a bağlar, router'da hiçbir port açmadan servislerini Cloudflare üzerinden dışa açar. Config dosyası gerekmez: token'ı yapıştır, çalışsın."
+category: [Networking]
+tags: [tunnel, cloudflare, reverse-proxy, networking]
+version: "2026.9.0"
+license: Apache-2.0
+website: https://github.com/cloudflare/cloudflared
+repository: https://github.com/cloudflare/cloudflared
+documentation: https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/cloudflared/icon.svg
+maintainer:
+  name: cloudflare
+  source: official
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: cloudflare/cloudflared
+    tag: "2026.9.0"
+
+requirements:
+  ram_min: 32MB
+  ram_recommended: 64MB
+  storage_min: 50MB
+hardware:
+  gpu: { required: false }
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+command: [tunnel, --no-autoupdate, run]
+
+environment:
+  - name: TUNNEL_TOKEN
+    description: Tunnel token from the Cloudflare Zero Trust dashboard (Networks -> Tunnels -> your tunnel -> Install connector) — this is what tells cloudflared which tunnel to join, no other config needed
+    secret: true
+    default: "##CREATE_PASSWORD##"
+  - name: TZ
+    description: Timezone used for log timestamps, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://github.com/cloudflare/cloudflared
+  documentation: https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/
+  repository: https://github.com/cloudflare/cloudflared

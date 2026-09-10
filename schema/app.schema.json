@@ -137,6 +137,10 @@
                   "type": "string",
                   "pattern": "^/",
                   "description": "Optional — an exact, fixed host path to bind-mount (e.g. /var/run/docker.sock, /lib/modules) INSTEAD of the normal /DATA/dockly/<id>/<name> convention. Only for well-known system paths every install needs identically, verbatim — never for the app's own regular data (that always uses `name` above)."
+                },
+                "read_only": {
+                  "type": "boolean",
+                  "description": "Optional, defaults to false. Set true for a mount the container only ever needs to read (e.g. /lib/modules) — matches the upstream app's own :ro convention instead of silently granting write access it never asked for."
                 }
               }
             }
@@ -262,6 +266,10 @@
             "type": "string",
             "pattern": "^/",
             "description": "Optional — an exact, fixed host path to bind-mount (e.g. /var/run/docker.sock, /lib/modules) INSTEAD of the normal /DATA/dockly/<id>/<name> convention. Only for well-known system paths every install needs identically, verbatim — never for the app's own regular data (that always uses `name` above)."
+          },
+          "read_only": {
+            "type": "boolean",
+            "description": "Optional, defaults to false. Set true for a mount the container only ever needs to read (e.g. /lib/modules) — matches the upstream app's own :ro convention instead of silently granting write access it never asked for."
           }
         }
       }

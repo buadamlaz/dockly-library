@@ -468,6 +468,16 @@
       "description": "A fast, modern start page/dashboard for all your self-hosted services and bookmarks.",
       "image": "ghcr.io/gethomepage/homepage",
       "path": "apps/homepage"
+    },
+    {
+      "id": "utilities.filebrowser",
+      "name": "FileBrowser Quantum",
+      "category": "Utilities",
+      "tags": ["files", "file-manager"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/filebrowser/icon.svg",
+      "description": "Web-based file manager for a folder of your choosing — the actively-maintained fork of the now-archived filebrowser project.",
+      "image": "gtstef/filebrowser",
+      "path": "apps/filebrowser"
     }
   ]
 }

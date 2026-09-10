@@ -30,6 +30,10 @@ requirements:
 hardware:
   gpu: { required: false }
 
+# host_network is required so favonia/cloudflare-ddns can detect this
+# server's actual outbound IP directly, without Docker's NAT layer
+# rewriting/hiding it — the whole point of this app is keeping DNS pointed
+# at the real, current host IP.
 security:
   privileged: false
   host_network: true

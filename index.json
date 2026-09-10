@@ -438,6 +438,36 @@
       "description": "Raw WireGuard VPN server — no web UI, peer configs and QR codes appear as files/logs on first start.",
       "image": "lscr.io/linuxserver/wireguard",
       "path": "apps/wireguard"
+    },
+    {
+      "id": "networking.ntfy",
+      "name": "ntfy",
+      "category": "Networking",
+      "tags": ["notifications", "push", "webhook", "self-hosted"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/ntfy/icon.svg",
+      "description": "Simple pub-sub push notification service — send notifications with a single PUT/POST request.",
+      "image": "binwiederhier/ntfy",
+      "path": "apps/ntfy"
+    },
+    {
+      "id": "networking.pi-hole",
+      "name": "Pi-hole",
+      "category": "Networking",
+      "tags": ["dns", "adblock", "networking"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/pi-hole/icon.svg",
+      "description": "Network-wide ad and tracker blocking DNS server with a web dashboard.",
+      "image": "pihole/pihole",
+      "path": "apps/pi-hole"
+    },
+    {
+      "id": "utilities.homepage",
+      "name": "Homepage",
+      "category": "Utilities",
+      "tags": ["dashboard", "startpage", "bookmarks"],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/homepage/icon.svg",
+      "description": "A fast, modern start page/dashboard for all your self-hosted services and bookmarks.",
+      "image": "ghcr.io/gethomepage/homepage",
+      "path": "apps/homepage"
     }
   ]
 }

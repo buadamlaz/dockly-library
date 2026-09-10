@@ -1,0 +1,30 @@
+#
+# Based on pi-hole/docker-pi-hole's own official README example
+# (https://github.com/pi-hole/docker-pi-hole) — reference only, NOT parsed
+# or used by Dockly's own install pipeline, which reads this app's
+# app.yaml `images:`/`ports:`/`volumes:` instead.
+#
+# cap_add (NET_ADMIN/SYS_TIME/SYS_NICE) is commented out here to match
+# app.yaml — only needed if you use Pi-hole as your DHCP server or NTP
+# client, see https://docs.pi-hole.net/docker/configuration/#note-on-capabilities
+#
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:2026.07.2
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80/tcp"
+      - "443:443/tcp"
+    environment:
+      TZ: "Etc/UTC"
+      FTLCONF_webserver_api_password: "##CREATE_PASSWORD##"
+      FTLCONF_dns_listeningMode: "ALL"
+    volumes:
+      - /path/to/pihole/etc-pihole:/etc/pihole
+    # cap_add:
+    #   - NET_ADMIN
+    #   - SYS_TIME
+    #   - SYS_NICE
+    restart: unless-stopped

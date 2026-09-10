@@ -1,0 +1,76 @@
+id: networking.ntfy
+name:
+  en: ntfy
+  tr: ntfy
+description:
+  en: Simple pub-sub push notification service — send notifications to your phone or desktop with a single PUT/POST request, no account needed by default.
+  tr: Basit pub-sub push bildirim servisi — telefonuna ya da masaüstüne tek bir PUT/POST isteğiyle bildirim gönder, varsayılan olarak hesap gerekmiyor.
+category: [Networking]
+tags: [notifications, push, webhook, self-hosted]
+version: "2.28.0"
+license: Apache-2.0
+website: https://ntfy.sh
+repository: https://github.com/binwiederhier/ntfy
+documentation: https://docs.ntfy.sh
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/ntfy/icon.svg
+maintainer:
+  name: binwiederhier
+  source: official
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: binwiederhier/ntfy
+    tag: "v2.28.0"
+
+requirements:
+  ram_min: 64MB
+  ram_recommended: 128MB
+  storage_min: 200MB
+hardware:
+  gpu: { required: false }
+
+# Real requirement, not optional: the image's ENTRYPOINT is just the bare
+# `ntfy` binary — with no subcommand it prints its help text and exits,
+# which under a restart policy just restart-loops. `serve` is what
+# actually starts the server; this is straight from ntfy's own official
+# docker-compose.yml.
+command: [serve]
+
+web:
+  port: 80
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 80
+    protocol: tcp
+
+volumes:
+  - container: /var/cache/ntfy
+    description: Message cache — recent notifications, used for delivery to offline clients
+    name: cache
+  - container: /etc/ntfy
+    description: "Optional server.yml for advanced config (auth, ACLs, etc.) — empty is fine, ntfy runs with sane defaults (no auth, open to anyone who can reach it)"
+    name: config
+
+environment:
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://ntfy.sh
+  documentation: https://docs.ntfy.sh
+  repository: https://github.com/binwiederhier/ntfy

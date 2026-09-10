@@ -1,0 +1,91 @@
+id: networking.pi-hole
+name:
+  en: Pi-hole
+  tr: Pi-hole
+description:
+  en: Network-wide ad and tracker blocking DNS server with a web dashboard — point your devices' DNS at it and ads disappear network-wide, no per-device software needed.
+  tr: Ağ genelinde reklam ve takipçi engelleyen, web panelli DNS sunucusu — cihazlarının DNS'ini buna yönlendir, reklamlar tüm ağda kaybolsun, cihaz başına yazılıma gerek yok.
+category: [Networking]
+tags: [dns, adblock, networking]
+version: "2026.07.2"
+license: EUPL-1.2
+website: https://pi-hole.net
+repository: https://github.com/pi-hole/docker-pi-hole
+documentation: https://docs.pi-hole.net
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/pi-hole/icon.svg
+maintainer:
+  name: pi-hole
+  source: official
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: pihole/pihole
+    tag: "2026.07.2"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 500MB
+hardware:
+  gpu: { required: false }
+
+# Real gotcha, not a Dockly bug: port 53 is very commonly already bound by
+# systemd-resolved (or another DNS resolver) on the HOST itself — if
+# installation fails with a port-in-use error on 53, that's the host's own
+# resolver, not another container; see Pi-hole's own docs for how to free
+# it up (docs.pi-hole.net → FAQ → port 53).
+#
+# cap_add is deliberately empty here: NET_ADMIN/SYS_TIME/SYS_NICE are only
+# needed if you turn Pi-hole into your DHCP server or NTP client — neither
+# is required for its core job (DNS ad-blocking). Add them via this
+# container's Edit → Container Capabilities if you enable either feature
+# (docs.pi-hole.net/docker/configuration/#note-on-capabilities).
+web:
+  port: 80
+  path: /admin
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 53
+    protocol: tcp
+  - container: 53
+    protocol: udp
+  - container: 80
+    protocol: tcp
+  - container: 443
+    protocol: tcp
+
+volumes:
+  - container: /etc/pihole
+    description: Pi-hole's databases, block lists, and configuration — this is your actual setup, back it up
+    name: etc-pihole
+
+environment:
+  - name: TZ
+    description: Timezone, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+  - name: FTLCONF_webserver_api_password
+    description: Web dashboard password — required (leaving it unset makes Pi-hole generate and log a random one instead, which Dockly can't surface to you, so it's set explicitly here)
+    secret: true
+    default: "##CREATE_PASSWORD##"
+  - name: FTLCONF_dns_listeningMode
+    description: Do not change — required for DNS to work correctly over Docker's default bridge network
+    secret: false
+    default: "ALL"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://pi-hole.net
+  documentation: https://docs.pi-hole.net
+  repository: https://github.com/pi-hole/docker-pi-hole

@@ -1,0 +1,71 @@
+id: utilities.homepage
+name:
+  en: Homepage
+  tr: Homepage
+description:
+  en: A fast, modern start page/dashboard for all your self-hosted services and bookmarks — YAML-configured, with live service widgets (weather, stats, and more).
+  tr: Tüm self-hosted servislerin ve yer imlerin için hızlı, modern bir başlangıç sayfası/panel — YAML ile yapılandırılır, canlı servis widget'ları (hava durumu, istatistikler ve daha fazlası) destekler.
+category: [Utilities]
+tags: [dashboard, startpage, bookmarks, utilities]
+version: "2.3.0"
+license: GPL-3.0
+website: https://gethomepage.dev
+repository: https://github.com/gethomepage/homepage
+documentation: https://gethomepage.dev/installation/docker/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/homepage/icon.svg
+maintainer:
+  name: gethomepage
+  source: official
+
+architectures: [amd64, arm64]
+
+images:
+  - repository: ghcr.io/gethomepage/homepage
+    tag: "v2.3.0"
+
+requirements:
+  ram_min: 128MB
+  ram_recommended: 256MB
+  storage_min: 200MB
+hardware:
+  gpu: { required: false }
+
+# Docker socket deliberately NOT mounted — the official compose offers it
+# as an *optional* extra for auto-discovering other containers, but Dockly
+# never exposes /var/run/docker.sock to a catalog app (docs/SECURITY.md).
+# Homepage works fine fully YAML-configured without it — you list services
+# by hand in its config instead of auto-discovering them.
+web:
+  port: 3000
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 3000
+    protocol: tcp
+
+volumes:
+  - container: /app/config
+    description: All your dashboard's YAML config (services, bookmarks, widgets, settings) — this is your actual setup, back it up
+    name: config
+
+environment:
+  - name: HOMEPAGE_ALLOWED_HOSTS
+    description: "Required — the exact host(s) (and port, if not 80/443) you'll access this at, comma-separated, e.g. \"100.64.0.5:3000\" or \"homepage.example.com\". Get this wrong and Homepage will refuse the request with a host-validation error; check its logs for the exact value it expected."
+    secret: false
+    default: ""
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://gethomepage.dev
+  documentation: https://gethomepage.dev/installation/docker/
+  repository: https://github.com/gethomepage/homepage

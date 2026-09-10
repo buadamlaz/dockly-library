@@ -1,0 +1,21 @@
+#
+# Based on gethomepage/homepage's own official docs
+# (https://gethomepage.dev/installation/docker/) — reference only, NOT
+# parsed or used by Dockly's own install pipeline, which reads this app's
+# app.yaml `images:`/`ports:`/`volumes:` instead.
+#
+# The official example also offers an OPTIONAL /var/run/docker.sock mount
+# for auto-discovering other containers — deliberately left out here,
+# Dockly never exposes the Docker socket to a catalog app.
+#
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:v2.3.0
+    container_name: homepage
+    ports:
+      - 3000:3000
+    volumes:
+      - /path/to/homepage/config:/app/config
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: "" # required — see app.yaml's description
+    restart: unless-stopped

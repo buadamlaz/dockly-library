@@ -1,0 +1,40 @@
+#
+# Reference only, NOT parsed or used by Dockly's own install pipeline,
+# which reads this app's app.yaml `images:`/`command:`/`volumes:` instead.
+#
+# Kopia's official example (tools/docker/docker-compose.yml in the kopia/kopia
+# repo) uses --privileged + /dev/fuse for mounting snapshots as a filesystem
+# and backs up the whole host (/:/data:ro). This simplified version skips
+# FUSE mounting (advanced use — add /dev/fuse + SYS_ADMIN yourself via Edit
+# if you need it) and backs up only a folder you choose, not the whole host.
+#
+# KOPIA_PASSWORD is the repository encryption password (env var, hidden from
+# `docker inspect`). The web UI login (--server-username/--server-password)
+# has to be passed as command-line args instead — that's a Kopia CLI
+# limitation, not something this compose file can avoid; change the default
+# password below after first login.
+#
+services:
+  kopia:
+    image: kopia/kopia:0.23.1
+    container_name: kopia
+    command:
+      - server
+      - start
+      - --disable-csrf-token-checks
+      - --insecure
+      - --address=0.0.0.0:51515
+      - --server-username=admin
+      - --server-password=Dockly
+    environment:
+      - KOPIA_PASSWORD=changeme
+      - TZ=Etc/UTC
+    volumes:
+      - /path/to/kopia/config:/app/config
+      - /path/to/kopia/cache:/app/cache
+      - /path/to/kopia/logs:/app/logs
+      - /path/to/kopia/repository:/repository
+      - /path/to/folder/you/want/backed/up:/data
+    ports:
+      - 51515:51515
+    restart: unless-stopped

@@ -1,0 +1,19 @@
+#
+# Reference only, NOT parsed or used by Dockly's own install pipeline,
+# which reads this app's app.yaml `images:`/`volumes:` instead.
+#
+# network_mode: host is REQUIRED per the project's own README — without it
+# the cloudflared tunnel this manages can't reach services on the host.
+#
+services:
+  cloudflared-web:
+    image: wisdomsky/cloudflared-web:2026.9.0
+    container_name: cloudflared-web
+    network_mode: host
+    environment:
+      - BASIC_AUTH_USER=admin
+      - BASIC_AUTH_PASS=Dockly
+      - WEBUI_PORT=14333
+    volumes:
+      - /path/to/cloudflared-web/config:/config
+    restart: unless-stopped

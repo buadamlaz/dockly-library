@@ -1,0 +1,80 @@
+id: networking.cloudflared-web
+name:
+  en: Cloudflared Web
+  tr: Cloudflared Web
+description:
+  en: Web UI for Cloudflare Tunnel (cloudflared) — paste your tunnel token and start/stop it with one click, no config-file editing. This is a third-party wrapper around Cloudflare's own cloudflared CLI (community project, not published by Cloudflare itself).
+  tr: Cloudflare Tunnel (cloudflared) için web arayüzü — tünel token'ını yapıştır, tek tıkla başlat/durdur, config dosyasıyla uğraşma yok. Bu, Cloudflare'ın kendi cloudflared CLI'sini saran üçüncü taraf bir araç (topluluk projesi, Cloudflare tarafından yayınlanmıyor).
+category: [Networking]
+tags: [tunnel, cloudflare, reverse-proxy, networking]
+version: "2026.9.0"
+license: MIT
+website: https://github.com/WisdomSky/Cloudflared-web
+repository: https://github.com/WisdomSky/Cloudflared-web
+documentation: https://github.com/WisdomSky/Cloudflared-web#readme
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/cloudflared-web/icon.svg
+maintainer:
+  name: WisdomSky
+  source: community
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: wisdomsky/cloudflared-web
+    tag: "2026.9.0"
+
+requirements:
+  ram_min: 64MB
+  ram_recommended: 128MB
+  storage_min: 100MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 14333
+  path: /
+
+# Real, confirmed requirement (project's own README): cloudflared-web MUST
+# run with host networking, otherwise the cloudflared tunnel it manages
+# cannot reach services running on the host/other containers. Dockly flags
+# host_network with an explicit risk warning + required acknowledgement
+# before install (internal/docker/security_analysis.go) — this is expected
+# for this app, not a bug.
+#
+# Security note: the web UI has NO login by default (BASIC_AUTH_PASS below
+# is unset upstream) — set it during install, don't leave it open on a
+# host_network container.
+security:
+  privileged: false
+  host_network: true
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+volumes:
+  - container: /config
+    description: Stores config.json — your Cloudflare tunnel token and run state. Keep this, or you'll need to re-paste the token after every recreate.
+    name: config
+
+environment:
+  - name: BASIC_AUTH_USER
+    description: Username for the web UI's Basic Auth login
+    secret: false
+    default: "admin"
+  - name: BASIC_AUTH_PASS
+    description: Password for the web UI's Basic Auth login — the image ships with NO login at all unless this is set, so this is set by default here
+    secret: true
+    default: "Dockly"
+  - name: WEBUI_PORT
+    description: "Optional — web UI port, must match the port above if changed (host networking means this is the actual port on your server, not just inside the container)"
+    secret: false
+    default: "14333"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://github.com/WisdomSky/Cloudflared-web
+  documentation: https://github.com/WisdomSky/Cloudflared-web#readme
+  repository: https://github.com/WisdomSky/Cloudflared-web

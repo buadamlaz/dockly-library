@@ -1,0 +1,20 @@
+#
+# Reference only, NOT parsed or used by Dockly's own install pipeline,
+# which reads this app's app.yaml `images:`/`volumes:` instead.
+#
+# nicholas-fedor/watchtower is the actively-maintained fork of the original
+# containrrr/watchtower (unmaintained since 2023) — same image behavior,
+# same env vars, just kept up to date.
+#
+services:
+  watchtower:
+    image: nickfedor/watchtower:v1.22.1
+    container_name: watchtower
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_POLL_INTERVAL=86400
+      - WATCHTOWER_LABEL_ENABLE=false
+      - TZ=Etc/UTC
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped

@@ -1,0 +1,78 @@
+id: utilities.watchtower
+name:
+  en: Watchtower
+  tr: Watchtower
+description:
+  en: Watches your running containers and automatically pulls and restarts them when a new image version is published — set it and forget it. This is the actively-maintained community fork (nicholas-fedor/watchtower); the original containrrr/watchtower project stopped receiving updates in 2023.
+  tr: Çalışan container'larını izler, yeni bir imaj sürümü yayınlandığında otomatik olarak indirip yeniden başlatır — bir kere kur, unut. Bu, hâlâ aktif geliştirilen topluluk fork'u (nicholas-fedor/watchtower); orijinal containrrr/watchtower projesi 2023'ten beri güncellenmiyor.
+category: [Utilities]
+tags: [automation, updates, docker, utilities]
+version: "1.22.1"
+license: Apache-2.0
+website: https://github.com/nicholas-fedor/watchtower
+repository: https://github.com/nicholas-fedor/watchtower
+documentation: https://github.com/nicholas-fedor/watchtower#readme
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/watchtower/icon.svg
+maintainer:
+  name: nicholas-fedor
+  source: community
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: nickfedor/watchtower
+    tag: "v1.22.1"
+
+requirements:
+  ram_min: 32MB
+  ram_recommended: 64MB
+  storage_min: 50MB
+hardware:
+  gpu: { required: false }
+
+# Real platform requirement, not a mistake: Watchtower's entire job is to
+# list, pull images for, and recreate OTHER containers — it can only do
+# that by talking to the same Docker socket Dockly itself uses. Dockly
+# flags docker_socket with an explicit RiskCritical warning + required
+# acknowledgement before install (internal/docker/security_analysis.go) —
+# this is expected, a container with docker.sock access has root-equivalent
+# control over the whole host, same as Dockly itself.
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: true
+  capabilities_added: []
+
+volumes:
+  - container: /var/run/docker.sock
+    description: Docker's own control socket — required so Watchtower can see running containers and trigger updates. Read-only is safe and sufficient (Watchtower talks to the Docker API over this socket, it doesn't need to write to the socket file itself).
+    host_path: /var/run/docker.sock
+    read_only: true
+
+environment:
+  - name: WATCHTOWER_CLEANUP
+    description: Remove old images after a successful update, instead of leaving them on disk
+    secret: false
+    default: "true"
+  - name: WATCHTOWER_POLL_INTERVAL
+    description: How often (in seconds) to check for new image versions
+    secret: false
+    default: "86400"
+  - name: WATCHTOWER_LABEL_ENABLE
+    description: "Only update containers explicitly labeled com.centurylinklabs.watchtower.enable=true, instead of every container on the host — safer default so Watchtower doesn't touch things you don't want auto-updated"
+    secret: false
+    default: "false"
+  - name: TZ
+    description: Timezone used for log timestamps, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://github.com/nicholas-fedor/watchtower
+  documentation: https://github.com/nicholas-fedor/watchtower#readme
+  repository: https://github.com/nicholas-fedor/watchtower

@@ -1,0 +1,93 @@
+id: utilities.kopia
+name:
+  en: Kopia
+  tr: Kopia
+description:
+  en: Fast, secure, encrypted backup tool — snapshots any folder to local or cloud storage (S3, B2, SFTP, and more), with deduplication and compression. Runs here as a persistent server with a web UI for browsing snapshots and restoring files.
+  tr: Hızlı, güvenli, şifreli yedekleme aracı — herhangi bir klasörü yerel ya da bulut depolamaya (S3, B2, SFTP ve daha fazlası) anlık görüntü (snapshot) olarak yedekler, tekilleştirme ve sıkıştırma yapar. Burada, anlık görüntüleri tarayıp dosya geri yüklemek için web arayüzlü kalıcı bir sunucu olarak çalışır.
+category: [Utilities]
+tags: [backup, restore, snapshots, utilities]
+version: "0.23.1"
+license: Apache-2.0
+website: https://kopia.io
+repository: https://github.com/kopia/kopia
+documentation: https://kopia.io/docs/
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/kopia/icon.svg
+maintainer:
+  name: kopia
+  source: official
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: kopia/kopia
+    tag: "0.23.1"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 200MB
+hardware:
+  gpu: { required: false }
+
+web:
+  port: 51515
+  path: /
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+# Real, confirmed platform limitation: `kopia server` takes its web UI
+# login (--server-username/--server-password) as COMMAND-LINE ARGUMENTS,
+# not environment variables — Dockly's Command field is a single static
+# string (see internal/docker/spec.go), so these end up in plaintext,
+# visible via `docker inspect`/`docker top`. This is a limitation of
+# Kopia's own CLI, not something Dockly can hide. CHANGE THIS DEFAULT
+# after install via Edit -> Command. KOPIA_PASSWORD below (the repository
+# encryption passphrase — the actually sensitive secret) IS a proper env
+# var and stays out of `docker inspect`.
+command: [server, start, --disable-csrf-token-checks, --insecure, "--address=0.0.0.0:51515", --server-username=admin, --server-password=Dockly]
+
+ports:
+  - container: 51515
+    protocol: tcp
+
+volumes:
+  - container: /app/config
+    description: Kopia's own repository connection config
+    name: config
+  - container: /app/cache
+    description: Local cache for faster snapshot browsing and uploads
+    name: cache
+  - container: /app/logs
+    description: Kopia's own logs
+    name: logs
+  - container: /repository
+    description: Where Kopia stores backup data if you choose a local/filesystem repository (pick a cloud backend instead via the web UI and this can stay empty)
+    name: repository
+  - container: /data
+    description: The folder you want to back up — change this after install to point at whatever real directory you actually want Kopia to snapshot (defaults here to its own empty data folder, not any existing files)
+    name: source
+
+environment:
+  - name: KOPIA_PASSWORD
+    description: Repository encryption password — this is what actually protects your backup data. Write it down somewhere safe; Kopia cannot decrypt your backups without it, and there is no recovery option.
+    secret: true
+    default: "##CREATE_PASSWORD##"
+  - name: TZ
+    description: Timezone used for log timestamps, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://kopia.io
+  documentation: https://kopia.io/docs/
+  repository: https://github.com/kopia/kopia

@@ -478,6 +478,62 @@
       "description": "Web-based file manager for a folder of your choosing — the actively-maintained fork of the now-archived filebrowser project.",
       "image": "gtstef/filebrowser",
       "path": "apps/filebrowser"
+    },
+    {
+      "id": "utilities.kopia",
+      "name": "Kopia",
+      "category": "Utilities",
+      "tags": [
+        "backup",
+        "restore",
+        "snapshots"
+      ],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/kopia/icon.svg",
+      "description": "Fast, secure, encrypted backup tool - snapshots any folder to local or cloud storage, with a web UI to browse and restore.",
+      "image": "kopia/kopia",
+      "path": "apps/kopia"
+    },
+    {
+      "id": "utilities.watchtower",
+      "name": "Watchtower",
+      "category": "Utilities",
+      "tags": [
+        "automation",
+        "updates",
+        "docker"
+      ],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/watchtower/icon.svg",
+      "description": "Watches your running containers and automatically pulls/restarts them when a new image version is published.",
+      "image": "nickfedor/watchtower",
+      "path": "apps/watchtower"
+    },
+    {
+      "id": "networking.tailscale",
+      "name": "Tailscale",
+      "category": "Networking",
+      "tags": [
+        "vpn",
+        "mesh",
+        "networking"
+      ],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/tailscale/icon.svg",
+      "description": "Joins this server to your private Tailscale mesh VPN - access it securely from anywhere without opening router ports.",
+      "image": "tailscale/tailscale",
+      "path": "apps/tailscale"
+    },
+    {
+      "id": "networking.cloudflared-web",
+      "name": "Cloudflared Web",
+      "category": "Networking",
+      "tags": [
+        "tunnel",
+        "cloudflare",
+        "reverse-proxy"
+      ],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/cloudflared-web/icon.svg",
+      "description": "Web UI for Cloudflare Tunnel - paste your tunnel token and start/stop it with one click, no config-file editing.",
+      "image": "wisdomsky/cloudflared-web",
+      "path": "apps/cloudflared-web"
     }
   ]
 }

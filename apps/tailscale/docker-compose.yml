@@ -1,0 +1,25 @@
+#
+# Reference only, NOT parsed or used by Dockly's own install pipeline,
+# which reads this app's app.yaml `images:`/`volumes:` instead.
+#
+# Default here is safe "userspace networking" mode (Tailscale's own image
+# default) — no NET_ADMIN, no /dev/net/tun needed. For subnet router / exit
+# node use, uncomment the cap_add/devices/TS_USERSPACE lines below (see
+# https://tailscale.com/kb/1282/docker).
+#
+services:
+  tailscale:
+    image: tailscale/tailscale:v1.102.3
+    container_name: tailscale
+    environment:
+      - TS_AUTHKEY=
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_HOSTNAME=
+      # - TS_USERSPACE=false
+    volumes:
+      - /path/to/tailscale/state:/var/lib/tailscale
+      # - /dev/net/tun:/dev/net/tun
+    # cap_add:
+    #   - NET_ADMIN
+    #   - NET_RAW
+    restart: unless-stopped

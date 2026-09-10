@@ -1,0 +1,76 @@
+id: networking.tailscale
+name:
+  en: Tailscale
+  tr: Tailscale
+description:
+  en: Joins this server to your private Tailscale mesh VPN (tailnet) — access it securely from anywhere without opening any ports on your router. No web UI; runs quietly in the background once authenticated. Installs in safe "userspace networking" mode by default (no extra privileges) — see the notes below if you need this server to act as a subnet router or exit node.
+  tr: Bu sunucuyu kendi özel Tailscale mesh VPN ağına (tailnet) katar — router'da hiçbir port açmadan her yerden güvenle erişilebilir hale gelir. Web arayüzü yok, kimlik doğrulandıktan sonra arka planda sessizce çalışır. Varsayılan olarak güvenli "userspace networking" modunda kurulur (ekstra yetki gerekmez) — bu sunucunun subnet router veya exit node olarak çalışmasını istiyorsan aşağıdaki notlara bak.
+category: [Networking]
+tags: [vpn, mesh, networking, security]
+version: "1.102.3"
+license: BSD-3-Clause
+website: https://tailscale.com
+repository: https://github.com/tailscale/tailscale
+documentation: https://tailscale.com/kb/1282/docker
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/tailscale/icon.svg
+maintainer:
+  name: tailscale
+  source: official
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: tailscale/tailscale
+    tag: "v1.102.3"
+
+requirements:
+  ram_min: 32MB
+  ram_recommended: 64MB
+  storage_min: 50MB
+hardware:
+  gpu: { required: false }
+
+# No special privileges needed for the default use case (join the tailnet,
+# reach/be reached by other tailnet devices). Tailscale's own image runs in
+# "userspace networking" mode (TS_USERSPACE=true, its actual default) unless
+# told otherwise, which needs neither NET_ADMIN nor /dev/net/tun. If you
+# want this server to act as a SUBNET ROUTER or EXIT NODE (routing OTHER
+# devices' traffic through it, not just its own), edit this container after
+# install: add capabilities NET_ADMIN + NET_RAW, add device
+# /dev/net/tun:/dev/net/tun, and set env var TS_USERSPACE=false — that's
+# real kernel-mode networking Tailscale itself requires for that role,
+# confirmed from tailscale/tailscale's own Docker docs.
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+volumes:
+  - container: /var/lib/tailscale
+    description: Tailscale's own node identity and state — losing this means re-authenticating from scratch
+    name: state
+
+environment:
+  - name: TS_AUTHKEY
+    description: Auth key from https://login.tailscale.com/admin/settings/keys for unattended login — without it, check this container's logs after install for a one-time login link to open in your browser instead
+    secret: true
+    default: ""
+  - name: TS_STATE_DIR
+    description: "Must match the state volume's container path above — leave as-is unless you also change the volume"
+    secret: false
+    default: "/var/lib/tailscale"
+  - name: TS_HOSTNAME
+    description: "Optional — the name this device shows up as in your tailnet (defaults to the container's own hostname if left blank)"
+    secret: false
+    default: ""
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://tailscale.com
+  documentation: https://tailscale.com/kb/1282/docker
+  repository: https://github.com/tailscale/tailscale

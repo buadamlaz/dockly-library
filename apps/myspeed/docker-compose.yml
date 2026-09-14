@@ -1,6 +1,6 @@
 services:
   myspeed:
-    image: germannewsmaker/myspeed:latest
+    image: germannewsmaker/myspeed:1.0.9
     container_name: myspeed
     restart: unless-stopped
     ports:

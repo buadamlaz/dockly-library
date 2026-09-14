@@ -7,7 +7,7 @@ description:
   tr: REST API ve WebSocket üzerinden anlık bildirim gönderip almak için basit bir sunucu — Pushover'a self-hosted alternatif.
 category: [Networking]
 tags: [notifications, push, webhook, self-hosted]
-version: "latest"
+version: "3.1.0"
 license: MIT
 website: https://gotify.net
 repository: https://github.com/gotify/server
@@ -21,7 +21,7 @@ architectures: [amd64, arm64, arm/v7]
 
 images:
   - repository: gotify/server
-    tag: "latest"
+    tag: "3.1.0"
 
 requirements:
   ram_min: 64MB

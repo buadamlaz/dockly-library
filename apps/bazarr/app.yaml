@@ -7,7 +7,7 @@ description:
   tr: Sonarr ve Radarr için altyazı yöneticisi — dizi ve filmlerin için istediğin dillerde otomatik olarak altyazı bulur, indirir ve senkronize eder.
 category: [Downloads]
 tags: [subtitles, media, automation, arr]
-version: "latest"
+version: "1.6.0"
 license: GPL-3.0
 website: https://www.bazarr.media
 repository: https://github.com/morpheus65535/bazarr
@@ -21,7 +21,7 @@ architectures: [amd64, arm64, arm/v7]
 
 images:
   - repository: lscr.io/linuxserver/bazarr
-    tag: "latest"
+    tag: "1.6.0"
 
 requirements:
   ram_min: 256MB

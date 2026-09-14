@@ -7,7 +7,7 @@ description:
   tr: Film koleksiyon yöneticisi — istek listeni takip eder, Prowlarr/Jackett üzerinden uygun sürümleri bulur, otomatik olarak indirme istemcine gönderir.
 category: [Downloads]
 tags: [movies, downloads, automation, arr]
-version: "latest"
+version: "6.3.0.10514-ls316"
 license: GPL-3.0
 website: https://radarr.video
 repository: https://github.com/Radarr/Radarr
@@ -21,7 +21,7 @@ architectures: [amd64, arm64, arm/v7]
 
 images:
   - repository: lscr.io/linuxserver/radarr
-    tag: "latest"
+    tag: "6.3.0.10514-ls316"
 
 requirements:
   ram_min: 256MB

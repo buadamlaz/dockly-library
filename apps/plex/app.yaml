@@ -7,7 +7,7 @@ description:
   tr: Film, dizi ve müzik için medya sunucusu — kütüphaneni düzenler, telefon/TV/tarayıcı uygulamalarına akış olarak sunar. Jellyfin'e alternatif, hesap tabanlı ve cilalı bir deneyim sunuyor.
 category: [Media]
 tags: [media, streaming, video, music]
-version: "latest"
+version: "1.43.4.10903-e5521bd8c-ls324"
 license: Proprietary
 website: https://www.plex.tv
 repository: https://github.com/plexinc/pms-docker
@@ -21,7 +21,7 @@ architectures: [amd64, arm64]
 
 images:
   - repository: lscr.io/linuxserver/plex
-    tag: "latest"
+    tag: "1.43.4.10903-e5521bd8c-ls324"
 
 # Runs in bridge mode with an explicit port (simplest, works for browser/app
 # streaming). Plex's own docs recommend host networking instead for full LAN

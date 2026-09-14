@@ -7,7 +7,7 @@ description:
   tr: Self-hosted Git servisi — Gitea'nın topluluk odaklı hard fork'u. Kendi repository'lerini, issue/PR akışını ve CI action'larını, kodun üzerinde tam kontrol ile kendi sunucunda barındır.
 category: [Development]
 tags: [git, ci, source-control, self-hosted]
-version: "latest"
+version: "16.0.4"
 license: MIT
 website: https://forgejo.org
 repository: https://codeberg.org/forgejo/forgejo
@@ -21,7 +21,7 @@ architectures: [amd64, arm64]
 
 images:
   - repository: codeberg.org/forgejo/forgejo
-    tag: "latest"
+    tag: "16.0.4"
 
 requirements:
   ram_min: 256MB

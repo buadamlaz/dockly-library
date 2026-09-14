@@ -7,7 +7,7 @@ description:
   tr: Web arayüzlü, açık kaynak BitTorrent istemcisi — hotio taban imajı üzerine kurulu.
 category: [Downloads]
 tags: [torrent, downloads, webui]
-version: "latest"
+version: "release-v5.2.3"
 license: GPL-2.0
 website: https://www.qbittorrent.org
 repository: https://github.com/qbittorrent/qBittorrent
@@ -21,7 +21,7 @@ architectures: [amd64, arm64]
 
 images:
   - repository: ghcr.io/hotio/qbittorrent
-    tag: "latest"
+    tag: "release-v5.2.3"
 
 requirements:
   ram_min: 512MB

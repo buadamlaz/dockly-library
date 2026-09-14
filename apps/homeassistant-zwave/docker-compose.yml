@@ -8,7 +8,7 @@
 #
 services:
   zwave-js-ui:
-    image: zwavejs/zwave-js-ui:latest
+    image: zwavejs/zwave-js-ui:11.24.0
     container_name: homeassistant-zwave-zwave-js-ui
     restart: unless-stopped
     tty: true

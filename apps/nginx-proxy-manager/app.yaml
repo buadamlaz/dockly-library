@@ -7,7 +7,7 @@ description:
   tr: Domainlerini, ücretsiz Let's Encrypt SSL sertifikalarını ve erişim listelerini yöneten, web arayüzlü ters proxy — elle nginx config yazmana gerek yok. İlk girişte varsayılan admin@example.com / changeme kullanılır, hemen değiştirmen isteniyor.
 category: [Networking]
 tags: [proxy, ssl, nginx, networking, webui]
-version: "latest"
+version: "2.15.1"
 license: MIT
 website: https://nginxproxymanager.com
 repository: https://github.com/NginxProxyManager/nginx-proxy-manager
@@ -21,7 +21,7 @@ architectures: [amd64, arm64, arm/v7]
 
 images:
   - repository: jc21/nginx-proxy-manager
-    tag: "latest"
+    tag: "2.15.1"
 
 requirements:
   ram_min: 256MB

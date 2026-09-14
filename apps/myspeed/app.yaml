@@ -7,7 +7,7 @@ description:
   tr: İnternet hız testi analiz aracı — belirli aralıklarla otomatik hız testi çalıştırır, bağlantının gerçek performansını tek bir anlık ölçüm yerine 30 güne kadar geçmişiyle görebilmen için kaydeder.
 category: [Networking]
 tags: [speedtest, networking, monitoring]
-version: "latest"
+version: "1.0.9"
 license: MIT
 website: https://myspeed.dev
 repository: https://github.com/gnmyt/myspeed
@@ -21,7 +21,7 @@ architectures: [amd64, arm64, arm/v7]
 
 images:
   - repository: germannewsmaker/myspeed
-    tag: "latest"
+    tag: "1.0.9"
 
 requirements:
   ram_min: 128MB

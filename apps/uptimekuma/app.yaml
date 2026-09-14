@@ -7,7 +7,7 @@ description:
   tr: Self-hosted uptime izleme, sade bir panel ile — site/servislerini belirli aralıklarla kontrol eder, durum geçmişini gösterir, bir şey çöktüğünde seni bilgilendirebilir (Telegram, Discord, e-posta ve daha onlarcası).
 category: [Utilities]
 tags: [monitoring, uptime, status, utilities]
-version: "latest"
+version: "2.5.4"
 license: MIT
 website: https://uptime.kuma.pet
 repository: https://github.com/louislam/uptime-kuma
@@ -21,7 +21,7 @@ architectures: [amd64, arm64, arm/v7]
 
 images:
   - repository: louislam/uptime-kuma
-    tag: "latest"
+    tag: "2.5.4"
 
 requirements:
   ram_min: 128MB

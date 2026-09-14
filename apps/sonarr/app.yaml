@@ -7,7 +7,7 @@ description:
   tr: Dizi koleksiyon yöneticisi — dizilerini takip eder, Prowlarr/Jackett üzerinden yeni bölümleri bulur, otomatik olarak indirme istemcine gönderir.
 category: [Downloads]
 tags: [tv, downloads, automation, arr]
-version: "latest"
+version: "4.0.19.2979-ls324"
 license: GPL-3.0
 website: https://sonarr.tv
 repository: https://github.com/Sonarr/Sonarr
@@ -21,7 +21,7 @@ architectures: [amd64, arm64, arm/v7]
 
 images:
   - repository: lscr.io/linuxserver/sonarr
-    tag: "latest"
+    tag: "4.0.19.2979-ls324"
 
 requirements:
   ram_min: 256MB

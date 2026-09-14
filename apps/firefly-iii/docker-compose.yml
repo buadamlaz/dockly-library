@@ -1,6 +1,6 @@
 services:
   firefly-iii:
-    image: fireflyiii/core:latest
+    image: fireflyiii/core:version-6.6.6
     container_name: firefly-iii
     restart: unless-stopped
     ports:

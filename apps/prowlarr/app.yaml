@@ -7,7 +7,7 @@ description:
   tr: "*arr uygulamaları için indexer yöneticisi — tracker'larını burada bir kez ayarla, Sonarr/Radarr/Lidarr aynı indexer listesini otomatik paylaşır."
 category: [Downloads]
 tags: [indexer, downloads, automation, arr]
-version: "latest"
+version: "2.5.2.5491-ls159"
 license: GPL-3.0
 website: https://prowlarr.com
 repository: https://github.com/Prowlarr/Prowlarr
@@ -21,7 +21,7 @@ architectures: [amd64, arm64, arm/v7]
 
 images:
   - repository: lscr.io/linuxserver/prowlarr
-    tag: "latest"
+    tag: "2.5.2.5491-ls159"
 
 requirements:
   ram_min: 128MB

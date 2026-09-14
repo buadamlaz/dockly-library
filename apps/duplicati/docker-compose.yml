@@ -1,6 +1,6 @@
 services:
   duplicati:
-    image: duplicati/duplicati:latest
+    image: duplicati/duplicati:2.4.0.0-stable
     container_name: duplicati
     restart: unless-stopped
     ports:

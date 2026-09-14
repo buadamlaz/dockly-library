@@ -75,7 +75,7 @@ services:
   - name: zwave-js-ui
     image:
       repository: zwavejs/zwave-js-ui
-      tag: "latest"
+      tag: "11.24.0"
     ports:
       - container: 8091
         protocol: tcp

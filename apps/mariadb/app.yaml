@@ -7,7 +7,7 @@ description:
   tr: Bağımsız MariaDB veritabanı sunucusu — kendi uygulamalarını buna bağla ya da yerel geliştirme için kullan. Kendi web arayüzü yok.
 category: [Development]
 tags: [database, mariadb, mysql, sql, development]
-version: "latest"
+version: "12.3.3"
 license: GPL-2.0
 website: https://mariadb.org
 repository: https://github.com/MariaDB/server
@@ -21,7 +21,7 @@ architectures: [amd64, arm64]
 
 images:
   - repository: mariadb
-    tag: "latest"
+    tag: "12.3.3"
 
 requirements:
   ram_min: 256MB

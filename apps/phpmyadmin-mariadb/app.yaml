@@ -69,7 +69,7 @@ services:
     depends_on: [db]
     image:
       repository: phpmyadmin
-      tag: "latest"
+      tag: "5.2.3"
     ports:
       - container: 80
         protocol: tcp

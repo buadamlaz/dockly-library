@@ -1,6 +1,6 @@
 services:
   radarr:
-    image: lscr.io/linuxserver/radarr:latest
+    image: lscr.io/linuxserver/radarr:6.3.0.10514-ls316
     container_name: radarr
     restart: unless-stopped
     ports:

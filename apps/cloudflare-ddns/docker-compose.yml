@@ -1,6 +1,6 @@
 services:
   cloudflare-ddns:
-    image: favonia/cloudflare-ddns:latest
+    image: favonia/cloudflare-ddns:1.17.0
     container_name: cloudflare-ddns
     network_mode: host
     # Bypasses network isolation — simplest, most reliable way for the

@@ -7,7 +7,7 @@ description:
   tr: Self-hosted wiki/dokümantasyon platformu, kitap/bölüm/sayfa hiyerarşisiyle organize — home lab'ın veya ekibinin dokümantasyonu için sade bir editör, arama ve yetkilendirme.
 category: [Productivity]
 tags: [wiki, documentation, notes, productivity]
-version: "latest"
+version: "26.05.4-ls283"
 license: MIT
 website: https://www.bookstackapp.com
 repository: https://github.com/BookStackApp/BookStack
@@ -45,7 +45,7 @@ services:
   - name: database
     image:
       repository: lscr.io/linuxserver/mariadb
-      tag: "latest"
+      tag: "11.8.8-r0-ls230"
     volumes:
       - container: /config
         name: db
@@ -71,7 +71,7 @@ services:
     depends_on: [database]
     image:
       repository: lscr.io/linuxserver/bookstack
-      tag: "latest"
+      tag: "26.05.4-ls283"
     ports:
       - container: 80
         protocol: tcp

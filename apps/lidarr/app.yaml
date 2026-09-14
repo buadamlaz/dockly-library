@@ -7,7 +7,7 @@ description:
   tr: Müzik koleksiyon yöneticisi — sanatçı ve albümleri takip eder, Prowlarr/Jackett üzerinden uygun sürümleri bulur, otomatik olarak indirme istemcine gönderir.
 category: [Downloads]
 tags: [music, downloads, automation, arr]
-version: "latest"
+version: "3.1.0"
 license: GPL-3.0
 website: https://lidarr.audio
 repository: https://github.com/Lidarr/Lidarr
@@ -21,7 +21,7 @@ architectures: [amd64, arm64, arm/v7]
 
 images:
   - repository: lscr.io/linuxserver/lidarr
-    tag: "latest"
+    tag: "3.1.0"
 
 requirements:
   ram_min: 256MB

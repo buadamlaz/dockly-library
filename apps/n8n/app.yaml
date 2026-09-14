@@ -7,7 +7,7 @@ description:
   tr: Self-hosted iş akışı otomasyonu — uygulama ve API'leri birbirine bağlamak için görsel, node tabanlı bir editör (Zapier/Make'e benzer ama self-hosted). Kendi gömülü SQLite veritabanıyla çalışır, ayrı bir DB servisi gerekmez.
 category: [Development]
 tags: [automation, workflow, integration, low-code]
-version: "latest"
+version: "2.38.7"
 license: "Sustainable Use License"
 website: https://n8n.io
 repository: https://github.com/n8n-io/n8n
@@ -21,7 +21,7 @@ architectures: [amd64, arm64]
 
 images:
   - repository: docker.n8n.io/n8nio/n8n
-    tag: "latest"
+    tag: "2.38.7"
 
 requirements:
   ram_min: 512MB

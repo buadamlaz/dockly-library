@@ -7,7 +7,7 @@ description:
   tr: Kendi sunucundan dosya senkronizasyonu, paylaşım ve iş birliği platformu. Bu kayıt, SQLite ile çalışan hafif tek-konteyner sürümünü çalıştırır — kişisel/küçük kullanım için uygundur, Nextcloud'un büyük kurulumlar için önerdiği çok konteynerli production kurulumu değildir.
 category: [Productivity]
 tags: [files, sync, collaboration, webui]
-version: "latest"
+version: "34.0.4"
 license: AGPL-3.0
 website: https://nextcloud.com
 repository: https://github.com/nextcloud/server
@@ -21,7 +21,7 @@ architectures: [amd64, arm64]
 
 images:
   - repository: nextcloud
-    tag: "latest"
+    tag: "34.0.4"
 
 requirements:
   ram_min: 512MB

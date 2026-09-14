@@ -1,6 +1,6 @@
 services:
   nextcloud:
-    image: nextcloud:latest
+    image: nextcloud:34.0.4
     container_name: nextcloud
     restart: unless-stopped
     ports:

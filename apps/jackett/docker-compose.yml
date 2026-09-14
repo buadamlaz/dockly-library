@@ -1,6 +1,6 @@
 services:
   jackett:
-    image: lscr.io/linuxserver/jackett:latest
+    image: lscr.io/linuxserver/jackett:0.24.2586
     container_name: jackett
     restart: unless-stopped
     ports:

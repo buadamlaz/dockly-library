@@ -7,7 +7,7 @@ description:
   tr: Self-hosted ana sayfa/panel — diğer tüm self-hosted uygulama ve servislerine giden bağlantılar için özelleştirilebilir bir başlatıcı, durum kontrolü, arama ve tema desteğiyle.
 category: [Utilities]
 tags: [dashboard, homepage, launcher, utilities]
-version: "latest"
+version: "4.6.14"
 license: MIT
 website: https://dashy.to
 repository: https://github.com/Lissy93/dashy
@@ -32,7 +32,7 @@ architectures: [amd64, arm64]
 
 images:
   - repository: lissy93/dashy
-    tag: "latest"
+    tag: "4.6.14"
 
 requirements:
   ram_min: 256MB

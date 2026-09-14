@@ -7,7 +7,7 @@ description:
   tr: Sonarr/Radarr/Prowlarr gibi uygulamalardan gelen arama isteklerini torrent/usenet indexer'larına özel sorgulara çeviren proxy — onlarca tracker için tek bir API.
 category: [Downloads]
 tags: [torrent, indexer, downloads, webui]
-version: "latest"
+version: "0.24.2586"
 license: GPL-2.0
 website: https://github.com/Jackett/Jackett
 repository: https://github.com/linuxserver/docker-jackett
@@ -21,7 +21,7 @@ architectures: [amd64, arm64]
 
 images:
   - repository: lscr.io/linuxserver/jackett
-    tag: "latest"
+    tag: "0.24.2586"
 
 requirements:
   ram_min: 256MB

@@ -7,7 +7,7 @@ description:
   tr: Ağ genelinde reklam ve izleyici engelleyen DNS sunucusu. Ağındaki her cihazı, üzerlerine hiçbir şey kurmadan korur.
 category: [Networking]
 tags: [dns, adblock, networking, webui]
-version: "latest"
+version: "v0.107.79"
 license: GPL-3.0
 website: https://adguard.com/adguard-home
 repository: https://github.com/AdguardTeam/AdGuardHome
@@ -21,7 +21,7 @@ architectures: [amd64, arm64, arm/v7]
 
 images:
   - repository: adguard/adguardhome
-    tag: "latest"
+    tag: "v0.107.79"
 
 requirements:
   ram_min: 256MB

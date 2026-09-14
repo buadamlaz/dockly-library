@@ -7,7 +7,7 @@ description:
   tr: Hafif, hızlı, self-hosted bir RSS/Atom besleme okuyucusu — sade bir web arayüzü, çoklu kullanıcı desteği ve popüler mobil RSS uygulamalarıyla uyumlu bir API.
 category: [Productivity]
 tags: [rss, feed-reader, news, productivity]
-version: "latest"
+version: "1.30.0"
 license: AGPL-3.0
 website: https://freshrss.org
 repository: https://github.com/FreshRSS/FreshRSS
@@ -21,7 +21,7 @@ architectures: [amd64, arm64, arm/v7]
 
 images:
   - repository: freshrss/freshrss
-    tag: "latest"
+    tag: "1.30.0"
 
 requirements:
   ram_min: 128MB

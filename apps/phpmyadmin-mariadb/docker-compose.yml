@@ -18,7 +18,7 @@ services:
       MYSQL_ROOT_PASSWORD: notSecureChangeMe
 
   phpmyadmin:
-    image: phpmyadmin
+    image: phpmyadmin:5.2.3
     restart: always
     ports:
       - 8080:80

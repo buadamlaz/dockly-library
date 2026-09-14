@@ -7,7 +7,7 @@ description:
   tr: Cloudflare'daki DNS kayıtlarını sunucunun güncel IP adresine (IPv4 ve/veya IPv6) sabit tutar — belirli aralıklarla otomatik günceller, böylece internet bağlantısı kesilip yeni bir IP ile geri geldiğinde bile domainin çalışmaya devam eder. Web arayüzü yok, arka planda sessizce çalışır.
 category: [Networking]
 tags: [dns, ddns, cloudflare, networking]
-version: "latest"
+version: "1.17.0"
 license: Apache-2.0
 website: https://github.com/favonia/cloudflare-ddns
 repository: https://github.com/favonia/cloudflare-ddns
@@ -21,7 +21,7 @@ architectures: [amd64, arm64, arm/v7]
 
 images:
   - repository: favonia/cloudflare-ddns
-    tag: "latest"
+    tag: "1.17.0"
 
 requirements:
   ram_min: 32MB

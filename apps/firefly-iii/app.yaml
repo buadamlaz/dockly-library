@@ -7,7 +7,7 @@ description:
   tr: Self-hosted kişisel finans yöneticisi — hesaplar arası gelir/gider takibi, bütçeleme, finansal hedefler ve raporlar. Burada gömülü SQLite veritabanıyla çalışır, ayrı bir DB servisi gerekmez.
 category: [Productivity]
 tags: [finance, budgeting, money, productivity]
-version: "latest"
+version: "version-6.6.6"
 license: AGPL-3.0
 website: https://www.firefly-iii.org
 repository: https://github.com/firefly-iii/firefly-iii
@@ -25,7 +25,7 @@ architectures: [amd64, arm64]
 # avoiding a second database container where the upstream app allows it.
 images:
   - repository: fireflyiii/core
-    tag: "latest"
+    tag: "version-6.6.6"
 
 requirements:
   ram_min: 256MB

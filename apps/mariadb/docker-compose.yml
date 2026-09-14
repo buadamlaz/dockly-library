@@ -1,6 +1,6 @@
 services:
   mariadb:
-    image: mariadb:latest
+    image: mariadb:12.3.3
     container_name: mariadb
     restart: unless-stopped
     ports:

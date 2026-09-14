@@ -7,7 +7,7 @@ description:
   tr: Resmi Bitwarden istemcileriyle uyumlu, hafif, self-hosted parola yöneticisi sunucusu — kendi şifreli kasan, bulut aboneliği gerekmez.
 category: [Security]
 tags: [passwords, security, bitwarden, vault]
-version: "latest"
+version: "1.37.3"
 license: AGPL-3.0
 website: https://github.com/dani-garcia/vaultwarden
 repository: https://github.com/dani-garcia/vaultwarden
@@ -21,7 +21,7 @@ architectures: [amd64, arm64, arm/v7]
 
 images:
   - repository: vaultwarden/server
-    tag: "latest"
+    tag: "1.37.3"
 
 requirements:
   ram_min: 128MB

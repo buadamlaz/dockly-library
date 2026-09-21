@@ -34,12 +34,20 @@ web:
   port: 3001
   path: /
 
+# Docker socket access is optional in practice (Uptime Kuma works fine
+# monitoring plain HTTP(S)/TCP/ping targets without it), but it's what
+# powers the "Docker Container" monitor type — reading a container's
+# running state directly via the Docker API instead of an HTTP healthcheck.
+# Flagged docker_socket so Dockly's install-time RiskCritical warning +
+# required acknowledgement still applies (internal/docker/security_analysis.go)
+# — a container with docker.sock access is root-equivalent on the host,
+# same caveat as Watchtower.
 security:
   privileged: false
   host_network: false
   host_pid: false
   host_ipc: false
-  docker_socket: false
+  docker_socket: true
   capabilities_added: []
 
 ports:
@@ -50,6 +58,10 @@ volumes:
   - container: /app/data
     description: Monitor definitions, status history, and settings
     name: data
+  - container: /var/run/docker.sock
+    description: Docker's own control socket — optional, only needed for the "Docker Container" monitor type (checks a container's running state directly instead of pinging its HTTP endpoint). Read-only is safe and sufficient.
+    host_path: /var/run/docker.sock
+    read_only: true
 
 compose:
   file: docker-compose.yml

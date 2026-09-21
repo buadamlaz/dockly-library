@@ -51,7 +51,7 @@
       "tags": ["torrent", "downloads"],
       "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/qbittorrent/icon.svg",
       "description": "Open-source BitTorrent client with a web UI.",
-      "image": "ghcr.io/hotio/qbittorrent",
+      "image": "lscr.io/linuxserver/qbittorrent",
       "path": "apps/qbittorrent"
     },
     {

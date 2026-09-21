@@ -3,29 +3,29 @@ name:
   en: qBittorrent
   tr: qBittorrent
 description:
-  en: Open-source BitTorrent client with a web UI, built on the hotio base image.
-  tr: Web arayüzlü, açık kaynak BitTorrent istemcisi — hotio taban imajı üzerine kurulu.
+  en: Open-source BitTorrent client with a web UI, built on the linuxserver.io base image.
+  tr: Web arayüzlü, açık kaynak BitTorrent istemcisi — linuxserver.io taban imajı üzerine kurulu.
 category: [Downloads]
 tags: [torrent, downloads, webui]
-version: "release-v5.2.3"
+version: "5.2.3_v2.0.14-ls477"
 license: GPL-2.0
 website: https://www.qbittorrent.org
 repository: https://github.com/qbittorrent/qBittorrent
-documentation: https://hotio.dev/containers/qbittorrent/
+documentation: https://docs.linuxserver.io/images/docker-qbittorrent/
 icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/qbittorrent/icon.svg
 maintainer:
-  name: hotio
+  name: linuxserver
   source: community
 
-architectures: [amd64, arm64]
+architectures: [amd64, arm64, arm/v7]
 
 images:
-  - repository: ghcr.io/hotio/qbittorrent
-    tag: "release-v5.2.3"
+  - repository: lscr.io/linuxserver/qbittorrent
+    tag: "5.2.3_v2.0.14-ls477"
 
 requirements:
-  ram_min: 512MB
-  ram_recommended: 1GB
+  ram_min: 256MB
+  ram_recommended: 512MB
   storage_min: 1GB
 hardware:
   gpu: { required: false }
@@ -54,7 +54,7 @@ volumes:
   - container: /config
     description: qBittorrent configuration
     name: config
-  - container: /data
+  - container: /downloads
     description: Downloaded files
     name: downloads
 
@@ -67,25 +67,25 @@ environment:
     description: Group ID files are written as
     secret: false
     default: "1000"
-  - name: UMASK
-    description: File creation mask
-    secret: false
-    default: "002"
   - name: TZ
     description: Timezone, e.g. Etc/UTC
     secret: false
     default: "Etc/UTC"
-  - name: WEBUI_PORTS
-    description: Web UI port(s), protocol-qualified (must match the published port above if changed)
+  - name: WEBUI_PORT
+    description: Web UI port (must match the published port above if changed)
     secret: false
-    default: "8080/tcp,8080/udp"
+    default: "8080"
+  - name: TORRENTING_PORT
+    description: BitTorrent traffic port (must match the published port above if changed)
+    secret: false
+    default: "6881"
 
 compose:
   file: docker-compose.yml
 
 links:
   website: https://www.qbittorrent.org
-  documentation: https://hotio.dev/containers/qbittorrent/
+  documentation: https://docs.linuxserver.io/images/docker-qbittorrent/
   repository: https://github.com/qbittorrent/qBittorrent
 
 screenshots:

@@ -1,6 +1,6 @@
 services:
   qbittorrent:
-    image: ghcr.io/hotio/qbittorrent:release-v5.2.3
+    image: lscr.io/linuxserver/qbittorrent:5.2.3_v2.0.14-ls477
     container_name: qbittorrent
     restart: unless-stopped
     ports:
@@ -9,10 +9,10 @@ services:
       - "6881:6881/udp"
     volumes:
       - /home/qbittorrent/config:/config
-      - /home/downloads:/data
+      - /home/downloads:/downloads
     environment:
       PUID: "1000"
       PGID: "1000"
-      UMASK: "002"
       TZ: "Etc/UTC"
-      WEBUI_PORTS: "8080/tcp,8080/udp"
+      WEBUI_PORT: "8080"
+      TORRENTING_PORT: "6881"

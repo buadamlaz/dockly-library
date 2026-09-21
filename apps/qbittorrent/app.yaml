@@ -7,7 +7,7 @@ description:
   tr: Web arayüzlü, açık kaynak BitTorrent istemcisi — linuxserver.io taban imajı üzerine kurulu.
 category: [Downloads]
 tags: [torrent, downloads, webui]
-version: "5.2.3_v2.0.14-ls477"
+version: "5.2.3"
 license: GPL-2.0
 website: https://www.qbittorrent.org
 repository: https://github.com/qbittorrent/qBittorrent
@@ -21,7 +21,7 @@ architectures: [amd64, arm64, arm/v7]
 
 images:
   - repository: lscr.io/linuxserver/qbittorrent
-    tag: "5.2.3_v2.0.14-ls477"
+    tag: "5.2.3"
 
 requirements:
   ram_min: 256MB

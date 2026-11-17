@@ -1,0 +1,86 @@
+id: downloads.flaresolverr
+name:
+  en: FlareSolverr
+  tr: FlareSolverr
+description:
+  en: "Proxy server that bypasses Cloudflare and DDoS-GUARD protection using a headless Chromium browser — add it to Prowlarr or Jackett so indexers behind a Cloudflare challenge keep working. No web UI; it's an API on port 8191."
+  tr: "Cloudflare ve DDoS-GUARD korumasını arka planda çalışan bir Chromium tarayıcıyla aşan proxy sunucusu — Prowlarr ya da Jackett'e ekle, Cloudflare doğrulaması arkasındaki indexer'lar çalışmaya devam etsin. Web arayüzü yok; 8191 portunda bir API olarak çalışır."
+category: [Downloads]
+tags: [proxy, cloudflare, indexer, arr]
+version: "v3.5.2"
+license: MIT
+website: https://github.com/FlareSolverr/FlareSolverr
+repository: https://github.com/FlareSolverr/FlareSolverr
+documentation: https://github.com/FlareSolverr/FlareSolverr#readme
+icon: https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/flaresolverr/icon.svg
+maintainer:
+  name: FlareSolverr
+  source: community
+
+architectures: [amd64, arm64, arm/v7]
+
+images:
+  - repository: ghcr.io/flaresolverr/flaresolverr
+    tag: "v3.5.2"
+
+requirements:
+  ram_min: 256MB
+  ram_recommended: 512MB
+  storage_min: 500MB
+hardware:
+  gpu: { required: false }
+
+# No `web:` block on purpose — FlareSolverr has no web UI, only an HTTP API
+# (Prowlarr/Jackett point at http://<host>:8191). Same as MySQL/MariaDB.
+#
+# The upstream compose also mounts `tmpfs: /tmp:size=256M` for Chromium's
+# scratch files. Dockly's install pipeline has no tmpfs field, so /tmp lives
+# in the container's writable layer instead — it still works, just without
+# the RAM-backed size cap.
+
+security:
+  privileged: false
+  host_network: false
+  host_pid: false
+  host_ipc: false
+  docker_socket: false
+  capabilities_added: []
+
+ports:
+  - container: 8191
+    protocol: tcp
+
+volumes:
+  - container: /config
+    description: FlareSolverr's config directory (also where the log file goes if LOG_FILE is set)
+    name: config
+
+environment:
+  - name: LOG_LEVEL
+    description: "Log verbosity: info or debug"
+    secret: false
+    default: "info"
+  - name: LOG_FILE
+    description: "Optional — path to also write logs to a file (e.g. /config/flaresolverr.log), or none"
+    secret: false
+    default: "none"
+  - name: LOG_HTML
+    description: "Log the full HTML of solved pages (debug only, very noisy)"
+    secret: false
+    default: "false"
+  - name: CAPTCHA_SOLVER
+    description: "Captcha solver to use — none is the only option currently supported upstream"
+    secret: false
+    default: "none"
+  - name: TZ
+    description: Timezone used for log timestamps, e.g. Etc/UTC
+    secret: false
+    default: "Etc/UTC"
+
+compose:
+  file: docker-compose.yml
+
+links:
+  website: https://github.com/FlareSolverr/FlareSolverr
+  documentation: https://github.com/FlareSolverr/FlareSolverr#readme
+  repository: https://github.com/FlareSolverr/FlareSolverr

@@ -1,0 +1,26 @@
+#
+# Based on FlareSolverr's own official docker-compose example — reference
+# only, NOT parsed or used by Dockly's own install pipeline, which reads
+# this app's app.yaml `images:`/`ports:`/`volumes:` instead.
+#
+# Usage: in Prowlarr go to Settings > Indexers > + > FlareSolverr, set the
+# host to http://<your-server-ip>:8191 and give it a tag; then add that same
+# tag to every indexer that sits behind a Cloudflare challenge.
+#
+services:
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:v3.5.2
+    container_name: flaresolverr
+    environment:
+      - LOG_LEVEL=info
+      - LOG_FILE=none
+      - LOG_HTML=false
+      - CAPTCHA_SOLVER=none
+      - TZ=Etc/UTC
+    ports:
+      - 8191:8191
+    volumes:
+      - /path/to/flaresolverr/config:/config
+    tmpfs:
+      - /tmp:size=256M,mode=1777
+    restart: unless-stopped

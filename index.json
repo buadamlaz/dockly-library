@@ -562,6 +562,20 @@
       "description": "Request and discovery hub for Jellyfin (an Overseerr fork) - browse a catalog and request movies/shows into Radarr/Sonarr.",
       "image": "fallenbagel/jellyseerr",
       "path": "apps/jellyseerr"
+    },
+    {
+      "id": "downloads.flaresolverr",
+      "name": "FlareSolverr",
+      "category": "Downloads",
+      "tags": [
+        "proxy",
+        "cloudflare",
+        "indexer"
+      ],
+      "icon": "https://cdn.jsdelivr.net/gh/buadamlaz/dockly-library@main/apps/flaresolverr/icon.svg",
+      "description": "Proxy that bypasses Cloudflare/DDoS-GUARD challenges with headless Chromium - lets Prowlarr/Jackett indexers keep working.",
+      "image": "ghcr.io/flaresolverr/flaresolverr",
+      "path": "apps/flaresolverr"
     }
   ]
 }
